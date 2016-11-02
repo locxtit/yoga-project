@@ -1,0 +1,29 @@
+﻿@using Yoga.Web.Common
+@model Yoga.Entity.Province
+<form>
+    @Html.HiddenFor(x=>x.ProvinceId)
+    <div class="form-group" id="form-province">
+        <label for="ProvinceName">Tên tỉnh</label>
+        @Html.TextBoxFor(x => x.ProvinceName, new {@class = "form-control", @placeholder = "Tên tỉnh"})
+    </div>
+    <div class="form-group">
+        <label for="Status">Trạng thái</label>
+        @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces() ,new {@class = "form-control"})
+    </div>
+
+    <button type="button" onclick="submitUpdate();" class="btn btn-default">Cập nhật</button>
+</form>
+
+<script>
+    function submitUpdate() {
+        $.ajax({
+            url: '@Url.Action("Update","Province")',
+            data: $('#form-province').serialize(),
+            type: 'POST',
+            success: function (data) {
+            },
+            error: function () {
+            }
+        });
+    }
+</script>

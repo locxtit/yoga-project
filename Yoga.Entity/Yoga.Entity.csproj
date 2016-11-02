@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F98DC02F-EFF4-4361-BB43-5E2D67C58C50}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Yoga.Entity</RootNamespace>
+    <AssemblyName>Yoga.Entity</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Bank.cs" />
+    <Compile Include="BankInfo.cs" />
+    <Compile Include="ClassInfo.cs" />
+    <Compile Include="Customer.cs" />
+    <Compile Include="CustomerStatus.cs" />
+    <Compile Include="CustomerType.cs" />
+    <Compile Include="Enums\StatusEnum.cs" />
+    <Compile Include="Event.cs" />
+    <Compile Include="EventJoiner.cs" />
+    <Compile Include="EventType.cs" />
+    <Compile Include="Migrations\201610270843158_First Yoga DB.cs" />
+    <Compile Include="Migrations\201610270843158_First Yoga DB.Designer.cs">
+      <DependentUpon>201610270843158_First Yoga DB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610270847263_Update Foregin key for table provine.cs" />
+    <Compile Include="Migrations\201610270847263_Update Foregin key for table provine.Designer.cs">
+      <DependentUpon>201610270847263_Update Foregin key for table provine.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610270910198_Update Trainer table.cs" />
+    <Compile Include="Migrations\201610270910198_Update Trainer table.Designer.cs">
+      <DependentUpon>201610270910198_Update Trainer table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610270914380_Update StringLength.cs" />
+    <Compile Include="Migrations\201610270914380_Update StringLength.Designer.cs">
+      <DependentUpon>201610270914380_Update StringLength.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611011013210_Update Table Customet Type.cs" />
+    <Compile Include="Migrations\201611011013210_Update Table Customet Type.Designer.cs">
+      <DependentUpon>201611011013210_Update Table Customet Type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611011017279_update Customer Type.cs" />
+    <Compile Include="Migrations\201611011017279_update Customer Type.Designer.cs">
+      <DependentUpon>201611011017279_update Customer Type.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611011019229_Update Table BankInfo.cs" />
+    <Compile Include="Migrations\201611011019229_Update Table BankInfo.Designer.cs">
+      <DependentUpon>201611011019229_Update Table BankInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611011059356_Update Customer, Order.cs" />
+    <Compile Include="Migrations\201611011059356_Update Customer, Order.Designer.cs">
+      <DependentUpon>201611011059356_Update Customer, Order.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611011110265_Update Event.cs" />
+    <Compile Include="Migrations\201611011110265_Update Event.Designer.cs">
+      <DependentUpon>201611011110265_Update Event.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611011116591_Update Envent Joiner.cs" />
+    <Compile Include="Migrations\201611011116591_Update Envent Joiner.Designer.cs">
+      <DependentUpon>201611011116591_Update Envent Joiner.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611011120267_Update Table Event.cs" />
+    <Compile Include="Migrations\201611011120267_Update Table Event.Designer.cs">
+      <DependentUpon>201611011120267_Update Table Event.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ErrorMessage.cs" />
+    <Compile Include="Operator.cs" />
+    <Compile Include="OperatorType.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="OrderStatus.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Province.cs" />
+    <Compile Include="Status.cs" />
+    <Compile Include="Trainer.cs" />
+    <Compile Include="YogaContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201610270843158_First Yoga DB.resx">
+      <DependentUpon>201610270843158_First Yoga DB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610270847263_Update Foregin key for table provine.resx">
+      <DependentUpon>201610270847263_Update Foregin key for table provine.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610270910198_Update Trainer table.resx">
+      <DependentUpon>201610270910198_Update Trainer table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610270914380_Update StringLength.resx">
+      <DependentUpon>201610270914380_Update StringLength.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611011013210_Update Table Customet Type.resx">
+      <DependentUpon>201611011013210_Update Table Customet Type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611011017279_update Customer Type.resx">
+      <DependentUpon>201611011017279_update Customer Type.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611011019229_Update Table BankInfo.resx">
+      <DependentUpon>201611011019229_Update Table BankInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611011059356_Update Customer, Order.resx">
+      <DependentUpon>201611011059356_Update Customer, Order.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611011110265_Update Event.resx">
+      <DependentUpon>201611011110265_Update Event.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611011116591_Update Envent Joiner.resx">
+      <DependentUpon>201611011116591_Update Envent Joiner.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611011120267_Update Table Event.resx">
+      <DependentUpon>201611011120267_Update Table Event.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

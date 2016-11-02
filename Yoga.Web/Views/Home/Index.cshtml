@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1 class="page-title">Index</h1>
+
+<table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 1</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+        <tr>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 1</th>
+            <th>Column 2</th>
+            <th>Column 1</th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('#table_id').DataTable({
+            //serverSide: true,
+            //ajax: {
+            //    url: '/data-source',
+            //    type: 'POST'
+            //}
+        });
+    });
+</script>
