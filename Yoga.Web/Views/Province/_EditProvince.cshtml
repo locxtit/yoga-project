@@ -1,6 +1,6 @@
 ﻿@using Yoga.Web.Common
 @model Yoga.Entity.Province
-<form>
+<form id="form-province">
     @Html.HiddenFor(x=>x.ProvinceId)
     <div class="form-group" id="form-province">
         <label for="ProvinceName">Tên tỉnh</label>
@@ -21,8 +21,13 @@
             data: $('#form-province').serialize(),
             type: 'POST',
             success: function (data) {
+                if (data.Result)
+                    reloadTableProvince();
+                else
+                    showErrorMessage(data.ErrorString);
             },
             error: function () {
+                showErrorMessage();
             }
         });
     }

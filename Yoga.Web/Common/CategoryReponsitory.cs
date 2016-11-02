@@ -18,6 +18,12 @@ namespace Yoga.Web.Common
                 Text = StatusEnum.ACTIVE.ToString(),
                 Value = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.ACTIVE.ToString()).StatusName
             });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Text = StatusEnum.INACTIVE.ToString(),
+                Value = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.INACTIVE.ToString()).StatusName
+            });
             return new SelectList(selectListItems, "Value", "Text");
         }
     }

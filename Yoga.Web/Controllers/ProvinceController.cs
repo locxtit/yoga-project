@@ -33,9 +33,11 @@ namespace Yoga.Web.Controllers
             }
         }
 
-        public ActionResult Edit(int provinceId)
+        public ActionResult Edit(int? provinceId)
         {
-            var province = new ProvinceBll().GetById(provinceId);
+            var province = new Province();
+            if (provinceId.HasValue)
+                province = new ProvinceBll().GetById(provinceId.Value);
             return PartialView("_EditProvince", province);
         }
 

@@ -38,23 +38,46 @@
             fnDrawCallback: function (settings) {
             },
             fnRowCallback: function (nRow, aData) {
-                $('td:eq(0)', nRow).html(setIconVisibility(aData[0]));
+                $('td:eq(0)', nRow).html(setIconVisibility(aData.ProvinceId));
             },
         });
     });
 
+    function reloadTableProvince() {
+        $('#dataTable').DataTable().fnDraw();
+    }
+
     function setIconVisibility(id) {
-        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="update(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
-        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="delete(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
+        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateProvince(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteProvince(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
         return editString + delString;
     }
 
     function updateProvince(id) {
+        $.ajax({
+            url: '@Url.Action("Edit","Province")/?provinceId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Thông tin tỉnh", data);
+            },
+            error: function () {
 
+            }
+        });
     }
 
     function deleteProvince(id) {
+        $.ajax({
+            url: '@Url.Action("Delete","Province")?provinceId=' + id,
+            data: { provinceId: id },
+            type: 'POST',
+            success: function (data) {
+                reloadTableProvince();
+            },
+            error: function () {
 
+            }
+        });
     }
 
 </script>
