@@ -18,7 +18,7 @@ namespace Yoga.Bussiness
                 {
                     _statuses = new StatusBll().GetAll();
                 }
-                return _statuses;dfds
+                return _statuses;
             }
         }
     }
