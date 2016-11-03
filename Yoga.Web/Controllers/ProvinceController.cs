@@ -24,7 +24,7 @@ namespace Yoga.Web.Controllers
             try
             {
                 var provinceBll = new ProvinceBll();
-                var myList = provinceBll.GetAll();
+                var myList = provinceBll.GetAll().OrderBy(x=>x.ProvinceName);
                 return Json(myList, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

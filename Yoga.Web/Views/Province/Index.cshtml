@@ -44,8 +44,13 @@
         });
     });
 
+    function getAjaxSource() {
+        return '/Province/GetList';
+    }
+
     function reloadTableProvince() {
-        $('#dataTable').DataTable().draw();
+        var oTable = $('#dataTable').DataTable();
+        oTable.ajax.reload();
     }
 
     function setIconVisibility(id) {
@@ -83,8 +88,10 @@
                 url: '@Url.Action("Delete", "Province")?provinceId=' + id,
                 type: 'POST',
                 success: function (data) {
-                    if (data.Result)
+                    if (data.Result) {
+                        swal("Thông báo", 'Xóa thành công', "success");
                         reloadTableProvince();
+                    }
                     else {
                         swal("Thông báo", data.ErrorString, "error");
                     }

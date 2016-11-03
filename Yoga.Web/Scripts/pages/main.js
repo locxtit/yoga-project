@@ -14,3 +14,9 @@ function showErrorMessage(error) {
         error = 'Chưa xác định được lỗi';
     alert(error);
 }
+
+function isBlank(text) {
+    if (text == undefined || text == null || text == '')
+        return true;
+    return false;
+}

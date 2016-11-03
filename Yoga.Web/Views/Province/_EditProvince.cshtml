@@ -1,7 +1,7 @@
 ﻿@using Yoga.Web.Common
 @model Yoga.Entity.Province
 <form id="form-province">
-    @Html.HiddenFor(x=>x.ProvinceId)
+    <input type="hidden" name="ProvinceId" value="@Model.ProvinceId" />
     <div class="form-group">
         <label for="ProvinceName">Tên tỉnh</label>
         @Html.TextBoxFor(x => x.ProvinceName, new {@class = "form-control", @placeholder = "Tên tỉnh"})
@@ -16,6 +16,12 @@
 
 <script>
     function submitUpdate() {
+        var provinceName = $('#ProvinceName').val();
+        if (isBlank(provinceName)) {
+            swal("Thông báo", "Vui lòng nhập tên tỉnh", "warning");
+            return;
+        }
+
         $.ajax({
             url: '@Url.Action("Update","Province")',
             data: $('#form-province').serialize(),
