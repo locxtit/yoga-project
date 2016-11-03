@@ -59,5 +59,28 @@ namespace Yoga.Web.Controllers
             return Json(errorMessage, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Delete(int provinceId)
+        {
+            var response = new ErrorMessage()
+            {
+                Result = false,
+            };
+            var provinceBll = new ProvinceBll();
+            var province = provinceBll.GetById(provinceId);
+            if (province == null)
+            {
+                response.ErrorString = "Không tồn tại Tỉnh";
+            }
+            else
+            {
+                response.Result = provinceBll.Delete(provinceId);
+                if (!response.Result)
+                    response.ErrorString = "Xóa thất bại";
+
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+        }
+
     }
 }

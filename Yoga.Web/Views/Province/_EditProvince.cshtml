@@ -2,7 +2,7 @@
 @model Yoga.Entity.Province
 <form id="form-province">
     @Html.HiddenFor(x=>x.ProvinceId)
-    <div class="form-group" id="form-province">
+    <div class="form-group">
         <label for="ProvinceName">Tên tỉnh</label>
         @Html.TextBoxFor(x => x.ProvinceName, new {@class = "form-control", @placeholder = "Tên tỉnh"})
     </div>
@@ -21,13 +21,16 @@
             data: $('#form-province').serialize(),
             type: 'POST',
             success: function (data) {
-                if (data.Result)
+                if (data.Result) {
                     reloadTableProvince();
+                    swal("Thông báo", "Cập nhật thành công", "success");
+                    hideModalCommon();
+                }
                 else
-                    showErrorMessage(data.ErrorString);
+                    swal("Thông báo", data.ErrorString, "error");
             },
             error: function () {
-                showErrorMessage();
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
             }
         });
     }

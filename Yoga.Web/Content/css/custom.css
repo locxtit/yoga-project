@@ -80,3 +80,7 @@ table.dataTable tfoot th, table.dataTable tfoot td {
     border-top: 3px solid #c1c1c1;
     background: #ddd;
 }
+
+.dataTables_filter, .dataTables_length {
+    display: none;
+}

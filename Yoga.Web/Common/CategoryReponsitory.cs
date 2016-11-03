@@ -15,14 +15,14 @@ namespace Yoga.Web.Common
             var selectListItems = new List<SelectListItem>();
             selectListItems.Add(new SelectListItem()
             {
-                Text = StatusEnum.ACTIVE.ToString(),
-                Value = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.ACTIVE.ToString()).StatusName
+                Value = StatusEnum.ACTIVE.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.ACTIVE.ToString()).StatusName
             });
 
             selectListItems.Add(new SelectListItem()
             {
-                Text = StatusEnum.INACTIVE.ToString(),
-                Value = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.INACTIVE.ToString()).StatusName
+                Value = StatusEnum.INACTIVE.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.INACTIVE.ToString()).StatusName
             });
             return new SelectList(selectListItems, "Value", "Text");
         }

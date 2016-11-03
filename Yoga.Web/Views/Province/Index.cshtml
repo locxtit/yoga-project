@@ -4,7 +4,7 @@
 }
 
 <h2 class="page-title">@ViewBag.Title</h2>
-
+<button class="btn brn-primary" onclick="updateProvince();">Thêm tỉnh</button>
 <table id="dataTable" class="display">
     <thead>
         <tr>
@@ -23,6 +23,7 @@
 
 <script>
     $(document).ready(function () {
+
         $('#dataTable').DataTable({
             serverSide: false,
             ajax: {
@@ -44,7 +45,7 @@
     });
 
     function reloadTableProvince() {
-        $('#dataTable').DataTable().fnDraw();
+        $('#dataTable').DataTable().draw();
     }
 
     function setIconVisibility(id) {
@@ -55,29 +56,45 @@
 
     function updateProvince(id) {
         $.ajax({
-            url: '@Url.Action("Edit","Province")/?provinceId=' + id,
+            url: '@Url.Action("Edit", "Province")/?provinceId=' + id,
             type: 'POST',
             success: function (data) {
                 showModalCommon("Thông tin tỉnh", data);
             },
             error: function () {
-
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
             }
         });
     }
 
     function deleteProvince(id) {
-        $.ajax({
-            url: '@Url.Action("Delete","Province")?provinceId=' + id,
-            data: { provinceId: id },
-            type: 'POST',
-            success: function (data) {
-                reloadTableProvince();
-            },
-            error: function () {
-
-            }
+        swal({
+            title: "Bạn muốn xóa?",
+            text: "Bạn thực sự muốn xóa Thông tin này!",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Xóa!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            $.ajax({
+                url: '@Url.Action("Delete", "Province")?provinceId=' + id,
+                type: 'POST',
+                success: function (data) {
+                    if (data.Result)
+                        reloadTableProvince();
+                    else {
+                        swal("Thông báo", data.ErrorString, "error");
+                    }
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+                }
+            });
         });
-    }
+
+}
 
 </script>

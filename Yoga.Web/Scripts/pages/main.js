@@ -5,6 +5,10 @@
     $('#modal-common').modal('show');
 }
 
+function hideModalCommon() {
+    $('#modal-common').modal('hide');
+}
+
 function showErrorMessage(error) {
     if (error == null || error == undefined || error == '')
         error = 'Chưa xác định được lỗi';
