@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Yoga.Entity
 {
+    //test
     public class Bank
     {
         [StringLength(50)]
