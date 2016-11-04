@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Yoga.Bussiness;
+using Yoga.Entity;
 using Yoga.Entity.Models;
 using Yoga.Web.Models;
 
@@ -31,7 +32,8 @@ namespace Yoga.Web.Controllers
                     Phone = phone
                 };
                 var customerBll = new CustomerBll();
-                var customers = customerBll.Search(criteria).OrderBy(x => x.CreatedDate).Select(x => new CustomerViewModel
+                var customers = customerBll.Search(criteria).OrderByDescending(x => x.CreatedDate);
+                var response = customers.Select(x => new CustomerViewModel
                 {
                     CustomerId = x.CustomerId,
                     Email = x.Email,
@@ -43,12 +45,61 @@ namespace Yoga.Web.Controllers
                     Note = x.Note
                 })
                 .ToList();
-                return Json(customers, JsonRequestBehavior.AllowGet);
+                return Json(response, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        public ActionResult Edit(int? customerId)
+        {
+            var customer = new Customer();
+            if (customerId.HasValue)
+                customer = new CustomerBll().GetById(customerId.Value);
+            return PartialView("_EditCustomer", customer);
+        }
+
+        public ActionResult Update(Customer model)
+        {
+            var errorMessage = new ErrorMessage()
+            {
+                Result = false,
+                ErrorString = "Cập nhật thất bại"
+            };
+            if (ModelState.IsValid)
+            {
+                errorMessage.Result = new CustomerBll().SaveOrUpdate(model);
+                if (errorMessage.Result)
+                {
+                    errorMessage.ErrorString = "Cập nhật thành công";
+                }
+            }
+            return Json(errorMessage, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Delete(int customerId)
+        {
+            var response = new ErrorMessage()
+            {
+                Result = false,
+            };
+            var customerBll = new CustomerBll();
+            var customer = customerBll.GetById(customerId);
+            if (customer == null)
+            {
+                response.ErrorString = "Không tồn tại Khách hàng";
+            }
+            else
+            {
+                response.Result = customerBll.Delete(customerId);
+                if (!response.Result)
+                    response.ErrorString = "Xóa thất bại";
+
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+
         }
 
     }

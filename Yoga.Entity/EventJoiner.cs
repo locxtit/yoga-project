@@ -28,10 +28,10 @@ namespace Yoga.Entity
         [StringLength(50)]
         public string StatusId { get; set; }
 
-        public Event Event { get; set; }
+        public virtual Event Event { get; set; }
 
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
-        public Trainer Trainer { get; set; }
+        public virtual Trainer Trainer { get; set; }
     }
 }

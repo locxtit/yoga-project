@@ -32,8 +32,8 @@ namespace Yoga.Entity
 
         public DateTime? StartDate { get; set; }
 
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
-        public EventType EventType { get; set; }
+        public virtual EventType EventType { get; set; }
     }
 }

@@ -31,8 +31,12 @@ namespace Yoga.Entity
 
         public int CustomerId { get; set; }
 
-        public Status Status { get; set; }
+        public int TrainerId { get; set; }
 
-        public Customer Customer { get; set; }
+        public virtual Status Status { get; set; }
+
+        public virtual Customer Customer { get; set; }
+
+        public virtual Trainer Trainer { get; set; }
     }
 }

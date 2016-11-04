@@ -39,10 +39,10 @@ namespace Yoga.Entity
         [StringLength(200)]
         public string Note { get; set; }
 
-        public ClassInfo ClassInfo { get; set; }
+        public virtual ClassInfo ClassInfo { get; set; }
 
-        public Operator Operator { get; set; }
+        public virtual Operator Operator { get; set; }
 
-        public OrderStatus OrderStatus { get; set; }
+        public virtual OrderStatus OrderStatus { get; set; }
     }
 }

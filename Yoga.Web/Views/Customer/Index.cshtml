@@ -29,8 +29,8 @@
                     @Html.DropDownList("CustomerStatusId", CategoryReponsitory.GetCustomerStatusSelectList(null,"--- Chọn ---"), new { @class = "form-control" })
                 </div>
                 <div class="col-md-12">
-                    <button class="btn brn-default" onclick="searchCustomer();">Tìm kiếm</button>
-                    <button class="btn brn-primary" onclick="updateCustomer();">Thêm Khách hàng</button>
+                    <button type="button" class="btn brn-default" onclick="searchCustomer();">Tìm kiếm</button>
+                    <button type="button" class="btn brn-primary" onclick="updateCustomer();">Thêm Khách hàng</button>
                 </div>
             </div>
         </form>
@@ -100,7 +100,7 @@
 
     function reloadTableCustomer() {
         var oTable = $('#dataTable').DataTable();
-        oTable.ajax.url = getAjaxSource();
+        oTable.ajax.url(getAjaxSource());
         oTable.ajax.reload();
     }
 

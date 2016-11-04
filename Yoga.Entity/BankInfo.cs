@@ -34,8 +34,8 @@ namespace Yoga.Entity
 
         public int TrainerId { get; set; }
 
-        public Bank Bank { get; set; }
+        public virtual Bank Bank { get; set; }
 
-        public Trainer Trainer { get; set; }
+        public virtual Trainer Trainer { get; set; }
     }
 }

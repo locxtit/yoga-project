@@ -13,9 +13,11 @@ namespace Yoga.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CustomerId { get; set; }
 
+        [Required]
         [StringLength(100)]
         public string Email { get; set; }
 
+        [Required]
         [StringLength(12)]
         public string Phone { get; set; }
 
@@ -27,29 +29,34 @@ namespace Yoga.Entity
 
         public DateTime CreatedDate { get; set; }
 
+        [Required]
         [StringLength(100)]
         public string CustomerTypeId { get; set; }
 
+        [Required]
         [StringLength(100)]
         public string CustomerStatusId { get; set; }
 
         [StringLength(400)]
         public string Note { get; set; }
 
+        [Required]
         [StringLength(200)]
         public string Address { get; set; }
 
+        [Required]
         [StringLength(50)]
         public string StatusId { get; set; }
 
+        [Required]
         public int ProvinceId { get; set; }
 
-        public Province Province { get; set; }
+        public virtual Province Province { get; set; }
 
-        public CustomerStatus CustomerStatus { get; set; }
+        public virtual CustomerStatus CustomerStatus { get; set; }
 
-        public CustomerType CustomerType { get; set; }
+        public virtual CustomerType CustomerType { get; set; }
 
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
     }
 }

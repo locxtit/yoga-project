@@ -31,7 +31,8 @@ namespace Yoga.Entity
         [StringLength(50)]
         public string StatusId { get; set; }
 
-        public OperatorType OperatorType { get; set; }
-        public Status Status { get; set; }
+        public virtual OperatorType OperatorType { get; set; }
+
+        public virtual Status Status { get; set; }
     }
 }

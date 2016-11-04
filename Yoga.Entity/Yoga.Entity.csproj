@@ -112,6 +112,14 @@
     <Compile Include="Migrations\201611031040046_Add Address to Customer.Designer.cs">
       <DependentUpon>201611031040046_Add Address to Customer.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611040946250_Update Customer table.cs" />
+    <Compile Include="Migrations\201611040946250_Update Customer table.Designer.cs">
+      <DependentUpon>201611040946250_Update Customer table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611041030165_Update context.cs" />
+    <Compile Include="Migrations\201611041030165_Update context.Designer.cs">
+      <DependentUpon>201611041030165_Update context.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ErrorMessage.cs" />
     <Compile Include="Models\SearchCustomerCriteriaModel.cs" />
@@ -168,6 +176,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611031040046_Add Address to Customer.resx">
       <DependentUpon>201611031040046_Add Address to Customer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611040946250_Update Customer table.resx">
+      <DependentUpon>201611040946250_Update Customer table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611041030165_Update context.resx">
+      <DependentUpon>201611041030165_Update context.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

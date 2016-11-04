@@ -10,6 +10,9 @@
 
 .page-title {
     margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 .navbar.navbar-default {
@@ -84,4 +87,8 @@ table.dataTable tfoot th, table.dataTable tfoot td {
 
 .dataTables_filter, .dataTables_length {
     display: none;
+}
+
+span.required {
+    color:#f00;
 }

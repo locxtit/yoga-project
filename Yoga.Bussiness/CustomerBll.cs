@@ -20,29 +20,29 @@ namespace Yoga.Bussiness
 
         public IEnumerable<Customer> Search(SearchCustomerCriteriaModel criteria)
         {
-            var query = _context.Customers.AsEnumerable();
-            if (string.IsNullOrEmpty(criteria.CustomerName))
+            var query = _context.Customers.Where(x=>x.StatusId != StatusEnum.DELETED.ToString());
+            if (!string.IsNullOrEmpty(criteria.CustomerName))
             {
                 query = query.Where(x => x.Name.Contains(criteria.CustomerName));
             }
-            if (string.IsNullOrEmpty(criteria.Phone))
+            if (!string.IsNullOrEmpty(criteria.Phone))
             {
                 query = query.Where(x => x.Phone == criteria.Phone);
             }
-            if (string.IsNullOrEmpty(criteria.CustomerStatusId))
+            if (!string.IsNullOrEmpty(criteria.CustomerStatusId))
             {
                 query = query.Where(x => x.CustomerTypeId == criteria.CustomerStatusId);
             }
-            if (string.IsNullOrEmpty(criteria.CustomerTypeId))
+            if (!string.IsNullOrEmpty(criteria.CustomerTypeId))
             {
                 query = query.Where(x => x.CustomerTypeId == criteria.CustomerTypeId);
             }
             return query;
         }
 
-        public Province GetById(int provinceId)
+        public Customer GetById(int customerId)
         {
-            var province = _context.Provinces.SingleOrDefault(x => x.ProvinceId == provinceId);
+            var province = _context.Customers.SingleOrDefault(x => x.CustomerId == customerId);
             return province;
         }
 
@@ -72,7 +72,7 @@ namespace Yoga.Bussiness
                 Customer entity = _context.Customers.SingleOrDefault(x => x.CustomerId == customer.CustomerId);
                 if (entity == null)
                 {
-                    customer.StatusId = StatusEnum.ACTIVE.ToString();
+                    customer.CreatedDate = DateTime.Now;
                     _context.Customers.Add(customer);
                     
                 }

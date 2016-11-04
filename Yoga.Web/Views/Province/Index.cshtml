@@ -27,7 +27,7 @@
         $('#dataTable').DataTable({
             serverSide: false,
             ajax: {
-                "url": "/Province/GetList/",
+                "url": getAjaxSource(),
                 "dataSrc": ""
             },
             "pageLength": 25,
@@ -51,6 +51,7 @@
 
     function reloadTableProvince() {
         var oTable = $('#dataTable').DataTable();
+        oTable.ajax.url(getAjaxSource());
         oTable.ajax.reload();
     }
 

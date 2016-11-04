@@ -47,5 +47,19 @@ namespace Yoga.Bussiness
                 return _customerTypes;
             }
         }
+
+
+        private static List<Province> _provinces;
+        public static List<Province> Provinces
+        {
+            get
+            {
+                if (_provinces == null)
+                {
+                    _provinces = new ProvinceBll().GetAll();
+                }
+                return _provinces;
+            }
+        }
     }
 }

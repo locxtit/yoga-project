@@ -60,5 +60,22 @@ namespace Yoga.Web.Common
 
             return new SelectList(selectListItems, "Value", "Text", selectedValue);
         }
+
+        public static SelectList GetProvinceSelectList(object selectedValue, string defaultOption)
+        {
+            var selectListItems = new List<SelectListItem>();
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = "",
+                Text = defaultOption
+            });
+            selectListItems.AddRange(CategoryBll.Provinces.Select(x => new SelectListItem()
+            {
+                Value = x.ProvinceId.ToString(),
+                Text = x.ProvinceName
+            }));
+
+            return new SelectList(selectListItems, "Value", "Text", selectedValue);
+        }
     }
 }
