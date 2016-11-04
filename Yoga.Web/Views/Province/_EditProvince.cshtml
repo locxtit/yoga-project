@@ -11,7 +11,8 @@
         @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces() ,new {@class = "form-control"})
     </div>
 
-    <button type="button" onclick="submitUpdate();" class="btn btn-default">Cập nhật</button>
+    <button type="button" onclick="submitUpdate();" class="btn btn-primary">Lưu</button>
+    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
 </form>
 
 <script>

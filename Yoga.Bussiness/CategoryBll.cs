@@ -61,5 +61,18 @@ namespace Yoga.Bussiness
                 return _provinces;
             }
         }
+
+        private static List<OperatorType> _operatorTypes;
+        public static List<OperatorType> OperatorTypes
+        {
+            get
+            {
+                if (_operatorTypes == null)
+                {
+                    _operatorTypes = new OperatorTypeBll().GetAll();
+                }
+                return _operatorTypes;
+            }
+        }
     }
 }

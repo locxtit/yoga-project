@@ -56,6 +56,7 @@
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerStatus.cs" />
     <Compile Include="CustomerType.cs" />
+    <Compile Include="Enums\OperatorTypeEnum.cs" />
     <Compile Include="Enums\StatusEnum.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="EventJoiner.cs" />
@@ -120,6 +121,14 @@
     <Compile Include="Migrations\201611041030165_Update context.Designer.cs">
       <DependentUpon>201611041030165_Update context.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611041119339_Update Operator.cs" />
+    <Compile Include="Migrations\201611041119339_Update Operator.Designer.cs">
+      <DependentUpon>201611041119339_Update Operator.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611041120460_Update Order.cs" />
+    <Compile Include="Migrations\201611041120460_Update Order.Designer.cs">
+      <DependentUpon>201611041120460_Update Order.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ErrorMessage.cs" />
     <Compile Include="Models\SearchCustomerCriteriaModel.cs" />
@@ -182,6 +191,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611041030165_Update context.resx">
       <DependentUpon>201611041030165_Update context.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611041119339_Update Operator.resx">
+      <DependentUpon>201611041119339_Update Operator.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611041120460_Update Order.resx">
+      <DependentUpon>201611041120460_Update Order.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

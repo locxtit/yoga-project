@@ -40,6 +40,10 @@ namespace Yoga.Entity
 
         public DbSet<EventJoiner> EventJoiners { get; set; }
 
+        public DbSet<OperatorType> OperatorTypes { get; set; }
+
+        public DbSet<Operator> Operators { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -25,11 +25,16 @@ namespace Yoga.Entity
         [StringLength(200)]
         public string Email { get; set; }
 
+        [StringLength(12)]
+        public string Phone { get; set; }
+
         [StringLength(50)]
         public string OperatorTypeId { get; set; }
 
         [StringLength(50)]
         public string StatusId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
 
         public virtual OperatorType OperatorType { get; set; }
 
