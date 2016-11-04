@@ -33,6 +33,12 @@ namespace Yoga.Entity
         [StringLength(100)]
         public string CustomerStatusId { get; set; }
 
+        [StringLength(400)]
+        public string Note { get; set; }
+
+        [StringLength(200)]
+        public string Address { get; set; }
+
         [StringLength(50)]
         public string StatusId { get; set; }
 

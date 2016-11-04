@@ -104,8 +104,17 @@
     <Compile Include="Migrations\201611011120267_Update Table Event.Designer.cs">
       <DependentUpon>201611011120267_Update Table Event.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611031017387_Add Column Note for Customer Table.cs" />
+    <Compile Include="Migrations\201611031017387_Add Column Note for Customer Table.Designer.cs">
+      <DependentUpon>201611031017387_Add Column Note for Customer Table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611031040046_Add Address to Customer.cs" />
+    <Compile Include="Migrations\201611031040046_Add Address to Customer.Designer.cs">
+      <DependentUpon>201611031040046_Add Address to Customer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ErrorMessage.cs" />
+    <Compile Include="Models\SearchCustomerCriteriaModel.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="OperatorType.cs" />
     <Compile Include="Order.cs" />
@@ -153,6 +162,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611011120267_Update Table Event.resx">
       <DependentUpon>201611011120267_Update Table Event.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611031017387_Add Column Note for Customer Table.resx">
+      <DependentUpon>201611031017387_Add Column Note for Customer Table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611031040046_Add Address to Customer.resx">
+      <DependentUpon>201611031040046_Add Address to Customer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
