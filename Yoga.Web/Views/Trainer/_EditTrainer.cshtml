@@ -1,0 +1,63 @@
+﻿@using Yoga.Web.Common
+@model Yoga.Entity.Trainer
+<form id="form-Trainer">
+    <input type="hidden" name="TrainerId" value="@Model.TrainerId" />
+    <div class="form-group">
+        <label for="TrainerName">Họ và tên</label>
+        @Html.TextBoxFor(x => x.TrainerName, new {@class = "form-control", @placeholder = "Tên tỉnh"})
+    </div>
+    <div class="form-group">
+        <label for="Phone">Số điện thoại</label>
+        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+    </div>
+    <div class="form-group">
+        <label for="Email">Email</label>
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+    </div>
+    <div class="form-group">
+        <label for="Address">Địa chỉ</label>
+        @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+    </div>
+    <div class="form-group">
+        <label for="Experience">Kinh nghiệm</label>
+        @Html.TextBoxFor(x => x.Experience, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+    </div>
+    <div class="form-group">
+        <label for="Subject">Chuyên môn</label>
+        @Html.TextBoxFor(x => x.Subject, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+    </div>
+    <div class="form-group">
+        <label for="Status">Trạng thái</label>
+        @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForTrainers() ,new {@class = "form-control"})
+    </div>
+
+    <button type="button" onclick="submitUpdate();" class="btn btn-default">Cập nhật</button>
+</form>
+
+<script>
+    function submitUpdate() {
+        //var TrainerName = $('#TrainerName').val();
+        //if (isBlank(TrainerName)) {
+        //    swal("Thông báo", "Vui lòng nhập tên tỉnh", "warning");
+        //    return;
+        //}
+
+        $.ajax({
+            url: '@Url.Action("Update","Trainer")',
+            data: $('#form-Trainer').serialize(),
+            type: 'POST',
+            success: function (data) {
+                if (data.Result) {
+                    reloadTableTrainer();
+                    swal("Thông báo", "Cập nhật thành công", "success");
+                    hideModalCommon();
+                }
+                else
+                    swal("Thông báo", data.ErrorString, "error");
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+</script>
