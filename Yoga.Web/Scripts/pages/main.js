@@ -20,3 +20,15 @@ function isBlank(text) {
         return true;
     return false;
 }
+
+function formateDate(data) {
+    return kendo.toString(new Date(parseInt(data) + (new Date().getTimezoneOffset()) * 60 * 1000), "dd/MM/yyyy");
+}
+
+function formateDateTime(data) {
+    return kendo.toString(new Date(parseInt(data) + (new Date().getTimezoneOffset()) * 60 * 1000), "dd/MM/yyyy HH:mm");
+}
+
+function parseJsonDate(jsonDateString) {
+    return jsonDateString.replace('/Date(', '').replace(')/', '');
+}

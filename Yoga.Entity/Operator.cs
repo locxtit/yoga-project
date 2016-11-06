@@ -14,18 +14,22 @@ namespace Yoga.Entity
         public int OperatorId { get; set; }
 
         [StringLength(100)]
-        public string Username { get; set; }
-
-        [StringLength(100)]
+        [Required(ErrorMessage = "Vui lòng nhập thông tin Mật khẩu")]
         public string Password { get; set; }
 
         [StringLength(200)]
         public string OperatorName { get; set; }
 
         [StringLength(200)]
+        [Required(ErrorMessage = "Vui lòng nhập thông tin Email")]
+        [DataType(DataType.EmailAddress)]
+        [Index("IX_Email", 2, IsUnique = true)]
         public string Email { get; set; }
 
         [StringLength(12)]
+        [Required(ErrorMessage = "Vui lòng nhập thông tin số điên thoại")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^(\d{10})$|^(\d{11})$", ErrorMessage = "Số điện thoại không hợp lệ")]
         public string Phone { get; set; }
 
         [StringLength(50)]

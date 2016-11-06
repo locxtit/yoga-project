@@ -29,8 +29,8 @@
                     @Html.DropDownList("CustomerStatusId", CategoryReponsitory.GetCustomerStatusSelectList(null,"--- Chọn ---"), new { @class = "form-control" })
                 </div>
                 <div class="col-md-12">
-                    <button type="button" class="btn brn-default" onclick="searchCustomer();">Tìm kiếm</button>
-                    <button type="button" class="btn brn-primary" onclick="updateCustomer();">Thêm Khách hàng</button>
+                    <button type="button" class="btn brn-default" onclick="searchCustomer();"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    <button type="button" class="btn brn-primary" onclick="updateCustomer();"><i class="fa fa-plus-circle"></i> Thêm Khách hàng</button>
                 </div>
             </div>
         </form>

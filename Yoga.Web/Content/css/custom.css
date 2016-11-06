@@ -43,6 +43,19 @@ section#main {
         overflow-y:scroll;
     }
 
+        section#main .left-menu ul li {
+            margin-top: 0;
+        }
+
+        section#main .left-menu ul li.bar-menu a {
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+            section#main .left-menu ul li.bar-menu a:hover {
+                background:#5f5f5f;
+                color:#fff;
+            }
+
     section#main .right {
         height: 100%;
         overflow-y: scroll;
@@ -91,4 +104,12 @@ table.dataTable tfoot th, table.dataTable tfoot td {
 
 span.required {
     color:#f00;
+}
+
+.sweet-alert {
+    border: 3px solid rgba(245, 245, 245, 0.6);
+}
+
+.table-condensed > tbody > tr > td {
+    width: 35px;
 }

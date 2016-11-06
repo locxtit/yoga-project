@@ -23,6 +23,12 @@ namespace Yoga.Bussiness
             return oper;
         }
 
+        public Operator GetByEmail(string email)
+        {
+            var oper = _context.Operators.SingleOrDefault(x => x.Email == email);
+            return oper;
+        }
+
         public bool Delete(int operatorId)
         {
             try

@@ -10,7 +10,8 @@ namespace Yoga.Entity
     public class YogaContext : DbContext
     {
 
-        public YogaContext(): base("name=YogaContext")
+        public YogaContext()
+            : base("name=YogaContext")
         {
         }
 
@@ -37,6 +38,8 @@ namespace Yoga.Entity
         public DbSet<Customer> Customers { get; set; }
 
         public DbSet<Event> Events { get; set; }
+
+        public DbSet<EventType> EventTypes { get; set; }
 
         public DbSet<EventJoiner> EventJoiners { get; set; }
 

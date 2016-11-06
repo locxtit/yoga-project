@@ -14,7 +14,12 @@ namespace Yoga.Bussiness
 
         public List<Province> GetAll()
         {
-            return _context.Provinces.Where(x=>x.StatusId == StatusEnum.ACTIVE.ToString()).ToList();
+            return _context.Provinces.Where(x=>x.StatusId != StatusEnum.ACTIVE.ToString()).ToList();
+        }
+
+        public List<Province> GetProvinceActive()
+        {
+            return _context.Provinces.Where(x => x.StatusId == StatusEnum.ACTIVE.ToString()).ToList();
         }
 
         public Province GetById(int provinceId)

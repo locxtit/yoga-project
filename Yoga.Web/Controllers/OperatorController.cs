@@ -5,7 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
+using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
+using Yoga.Web.Helpers;
 
 namespace Yoga.Web.Controllers
 {
@@ -24,7 +26,7 @@ namespace Yoga.Web.Controllers
             try
             {
                 var operatorBll = new OperatorBll();
-                var myList = operatorBll.GetAll().OrderBy(x => x.Username);
+                var myList = operatorBll.GetAll().OrderBy(x => x.Email);
                 return Json(myList, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -48,13 +50,34 @@ namespace Yoga.Web.Controllers
                 Result = false,
                 ErrorString = "Cập nhật thất bại"
             };
+
+            var operatorBll = new OperatorBll();
             if (ModelState.IsValid)
             {
-                errorMessage.Result = new OperatorBll().SaveOrUpdate(model);
-                if (errorMessage.Result)
+                bool canSaveOrUpdate = false;
+                if (model.OperatorId <= 0)
                 {
-                    errorMessage.ErrorString = "Cập nhật thành công";
+                    var oper = operatorBll.GetByEmail(model.Email);
+                    if (oper != null && oper.StatusId == StatusEnum.DELETED.ToString())
+                        errorMessage.ErrorString = "Không cho phép tạo mới tài khoản đã bị xóa";
+                    else if (oper != null)
+                        errorMessage.ErrorString = "Email đã tồn tại trong hệ thống";
+                    else
+                        canSaveOrUpdate = true;
                 }
+
+                if (canSaveOrUpdate)
+                {
+                    errorMessage.Result = new OperatorBll().SaveOrUpdate(model);
+                    if (errorMessage.Result)
+                    {
+                        errorMessage.ErrorString = "Cập nhật thành công";
+                    }
+                }
+            }
+            else
+            {
+                errorMessage.ErrorString = Util.GetModelStateErrors(ModelState);
             }
             return Json(errorMessage, JsonRequestBehavior.AllowGet);
         }
@@ -80,6 +103,23 @@ namespace Yoga.Web.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult IsExistEmail(string email)
+        {
+            var response = new ErrorMessage()
+            {
+                Result = true,
+            };
+            var operatorBll = new OperatorBll();
+            var oper = operatorBll.GetByEmail(email);
+            if (oper != null)
+            {
+                response.Result = false;
+                response.ErrorString = "Email đã rồn tại. Vui lòng nhập email khác.";
+            }
+            
+            return Json(response, JsonRequestBehavior.AllowGet);
         }
 
     }

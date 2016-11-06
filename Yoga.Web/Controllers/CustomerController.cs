@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
 using Yoga.Entity.Models;
+using Yoga.Web.Helpers;
 using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
@@ -76,6 +77,8 @@ namespace Yoga.Web.Controllers
                     errorMessage.ErrorString = "Cập nhật thành công";
                 }
             }
+            else
+                errorMessage.ErrorString = Util.GetModelStateErrors(ModelState);
             return Json(errorMessage, JsonRequestBehavior.AllowGet);
         }
 

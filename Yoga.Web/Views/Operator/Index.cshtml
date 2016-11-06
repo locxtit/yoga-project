@@ -4,12 +4,11 @@
 }
 
 <h2 class="page-title">@ViewBag.Title</h2>
-<button class="btn brn-primary" onclick="updateOperator();">Thêm người dùng</button>
+<button class="btn brn-primary"  onclick="updateOperator();"><i class="fa fa-plus-circle"></i> Thêm người dùng</button>
 <table id="dataTable" class="display">
     <thead>
         <tr>
             <th width="100px;">#</th>
-            <th>Tên đăng nhập</th>
             <th>Email</th>
             <th>Số điện thoại</th>
             <th>Họ và tên</th>
@@ -21,7 +20,6 @@
     <tfoot>
         <tr>
             <th width="100px;">#</th>
-            <th>Tên đăng nhập</th>
             <th>Email</th>
             <th>Số điện thoại</th>
             <th>Họ và tên</th>
@@ -43,7 +41,6 @@
             "pageLength": 25,
             columns: [
                 { "data": "OperatorId" },
-                { "data": "Username" },
                 { "data": "Email" },
                 { "data": "Phone" },
                 { "data": "OperatorName" },

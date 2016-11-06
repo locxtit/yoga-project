@@ -3,22 +3,6 @@
 <form id="form-operator">
     <input type="hidden" name="OperatorId" value="@Model.OperatorId" />
     <div class="form-group">
-        <label for="Username">Tên Đăng nhập (<span class="required">*</span>)</label>
-        @if (Model.OperatorId == 0)
-        {
-            @Html.TextBoxFor(x => x.Username, new { @class = "form-control", @placeholder = "Tên đăng nhập" })
-        }
-        else
-        {
-            @Html.TextBoxFor(x => x.Username, new { @class = "form-control", @placeholder = "Tên đăng nhập", @readonly = "readonly" })
-        }
-
-    </div>
-    <div class="form-group">
-        <label for="Password">Mật khẩu (<span class="required">*</span>)</label>
-        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
-    </div>
-    <div class="form-group">
         <label for="Email">Email (<span class="required">*</span>)</label>
         @if (Model.OperatorId == 0)
         {
@@ -29,6 +13,11 @@
             @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email", @readonly = "readonly" })
         }
     </div>
+    <div class="form-group">
+        <label for="Password">Mật khẩu (<span class="required">*</span>)</label>
+        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+    </div>
+    
      
     <div class="form-group">
         <label for="Phone">Số điện thoại</label>
@@ -52,27 +41,36 @@
 </form>
 
 <script>
+    $(document).ready(function () {
+        $('#form-operator #Email').blur(function () {
+            $.ajax({
+                url: '@Url.Action("IsExistEmail", "Operator")?email=' + $('#form-operator #Email').val(),
+                type: 'POST',
+                success: function (data) {
+                    if (!data.Result) {
+                        swal("Thông báo", data.ErrorString, "error");
+                    } 
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "warning");
+                }
+            });
+        });
+    });
     function submitUpdateOperator() {
-        var username = $('#form-operator #Username').val();
         var email = $('#form-operator #Email').val();
         var phone = $('#form-operator #Phone').val();
         var password = $('#form-operator #Password').val();
 
-        if (isBlank(username)) {
-            swal("Thông báo", "Vui lòng nhập Tên đăng nhập", "warning");
-            $('#form-operator #Username').focus();
+        if (isBlank(email)) {
+            swal("Thông báo", "Vui lòng nhập Email", "warning");
+            $('#form-operator #Email').focus();
             return;
         }
 
         if ('@Model.OperatorId' == '0' && isBlank(password)) {
             swal("Thông báo", "Vui lòng nhập mật khẩu", "warning");
             $('#form-customer #Password').focus();
-            return;
-        }
-
-        if (isBlank(email)) {
-            swal("Thông báo", "Vui lòng nhập Email", "warning");
-            $('#form-operator #Email').focus();
             return;
         }
 

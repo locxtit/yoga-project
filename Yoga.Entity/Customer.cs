@@ -17,8 +17,10 @@ namespace Yoga.Entity
         [StringLength(100)]
         public string Email { get; set; }
 
-        [Required]
         [StringLength(12)]
+        [Required(ErrorMessage = "Vui lòng nhập thông tin số điên thoại")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^(\d{10})$|^(\d{11})$", ErrorMessage = "Số điện thoại không hợp lệ")]
         public string Phone { get; set; }
 
         [StringLength(12)]

@@ -56,7 +56,7 @@ namespace Yoga.Bussiness
             {
                 if (_provinces == null)
                 {
-                    _provinces = new ProvinceBll().GetAll();
+                    _provinces = new ProvinceBll().GetProvinceActive();
                 }
                 return _provinces;
             }
