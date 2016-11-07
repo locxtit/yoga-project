@@ -74,5 +74,31 @@ namespace Yoga.Bussiness
                 return _operatorTypes;
             }
         }
+
+        private static List<Trainer> _trainers;
+        public static List<Trainer> Trainers
+        {
+            get
+            {
+                if (_trainers == null)
+                {
+                    _trainers = new TrainerBll().GetAll();
+                }
+                return _trainers;
+            }
+        }
+
+        private static List<Customer> _customers;
+        public static List<Customer> Customers
+        {
+            get
+            {
+                if (_customers == null)
+                {
+                    _customers = new CustomerBll().GetAll();
+                }
+                return _customers;
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -19,6 +21,16 @@ namespace Yoga.Web
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+        }
+
+        void Application_BeginRequest(object sender, EventArgs e)
+        {
+            var info = new CultureInfo(Thread.CurrentThread.CurrentCulture.ToString())
+            {
+                DateTimeFormat = { ShortDatePattern = "dd/MM/yyyy" }
+            };
+
+            Thread.CurrentThread.CurrentCulture = info;
         }
     }
 }

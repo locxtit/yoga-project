@@ -113,3 +113,19 @@ span.required {
 .table-condensed > tbody > tr > td {
     width: 35px;
 }
+
+.select2-container--default .select2-selection--single {
+    border: 1px solid #ccc;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    height: 34px;
+    padding: 2px 12px;
+}
+
+.select2-container {
+    display: block;
+    width: 100% !important;
+}

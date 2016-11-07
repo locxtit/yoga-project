@@ -150,8 +150,13 @@
     <Compile Include="Migrations\201611051421443_Update Event 2.Designer.cs">
       <DependentUpon>201611051421443_Update Event 2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611060823427_Update ClassInfo 1.cs" />
+    <Compile Include="Migrations\201611060823427_Update ClassInfo 1.Designer.cs">
+      <DependentUpon>201611060823427_Update ClassInfo 1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ErrorMessage.cs" />
+    <Compile Include="Models\SearchClassInfoCriteriaModel.cs" />
     <Compile Include="Models\SearchCustomerCriteriaModel.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="OperatorType.cs" />
@@ -233,6 +238,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611051421443_Update Event 2.resx">
       <DependentUpon>201611051421443_Update Event 2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611060823427_Update ClassInfo 1.resx">
+      <DependentUpon>201611060823427_Update ClassInfo 1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

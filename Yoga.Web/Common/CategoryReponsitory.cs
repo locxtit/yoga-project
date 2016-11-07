@@ -97,5 +97,41 @@ namespace Yoga.Web.Common
             });
             return new SelectList(selectListItems, "Value", "Text");
         }
+
+        public static SelectList GetTrainerSelectList(object selectedValue, string defaultOption)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (!string.IsNullOrEmpty(defaultOption))
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+            selectListItems.AddRange(CategoryBll.Trainers.Select(x => new SelectListItem()
+            {
+                Value = x.TrainerId.ToString(),
+                Text = x.TrainerName
+            }));
+
+            return new SelectList(selectListItems, "Value", "Text", selectedValue);
+        }
+
+        public static SelectList GetCustomerSelectList(object selectedValue, string defaultOption)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (!string.IsNullOrEmpty(defaultOption))
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+            selectListItems.AddRange(CategoryBll.Customers.Select(x => new SelectListItem()
+            {
+                Value = x.CustomerId.ToString(),
+                Text = x.Name + " (" + x.Email + ")"
+            }));
+
+            return new SelectList(selectListItems, "Value", "Text", selectedValue);
+        }
     }
 }

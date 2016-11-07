@@ -23,11 +23,15 @@ namespace Yoga.Entity
 
         public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+
+        public DateTime? EndDate { get; set; }
 
         public DateTime? PaymentDate { get; set; }
 
         public int NumDaysOfWeek { get; set; }
+
+        public int TotalDays { get; set; }
 
         public int CustomerId { get; set; }
 

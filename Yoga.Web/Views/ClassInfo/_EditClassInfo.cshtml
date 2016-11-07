@@ -1,0 +1,131 @@
+﻿@using Yoga.Web.Common
+@model Yoga.Entity.ClassInfo
+<form id="form-classinfo">
+    <input type="hidden" id="ClassInfoId" name="ClassInfoId" value="@Model.ClassInfoId" />
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Email">Tên lớp (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.ClassName, new { @class = "form-control", @placeholder = "Tên lớp" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Phone">Học viên (<span class="required">*</span>)</label>
+            @Html.DropDownListFor(x => x.CustomerId,CategoryReponsitory.GetCustomerSelectList(Model.CustomerId,"--- Chọn ---"), new { @class = "form-control" })
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Phone">Huấn luận viên (<span class="required">*</span>)</label>
+            @Html.DropDownListFor(x => x.TrainerId ,CategoryReponsitory.GetTrainerSelectList(Model.TrainerId,"--- Chọn huấn luận viên ---"), new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Email">Ngày bắt đầu (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control", @placeholder = "Ngày bắt đầu", @value=Model.StartDate == DateTime.MinValue? "" : Model.StartDate.ToString("dd/MM/yyyy") })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Phone">Số buổi/tuần (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.NumDaysOfWeek, new { @class = "form-control",@type="number", @placeholder = "Số điện thoại" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Email">Tổng số buổi (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.TotalDays, new { @class = "form-control", @type="number", @placeholder = "Tên lớp" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Name">Học phí/buổi học (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Học phí" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Name">Phí huấn luận viên/buổi học (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.TrainerPrice, new { @class = "form-control", @placeholder = "Phí huấn luận viên" })
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="StatusId">Trạng thái</label>
+            @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <button type="button" onclick="submitUpdateCustomer();" class="btn btn-primary">Lưu</button>
+    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $("#TrainerId").select2();
+        $("#CustomerId").select2();
+
+        $("#StartDate").datepicker({
+            format: 'dd/mm/yyyy'
+        });
+    });
+    
+    function submitUpdateCustomer() {
+        var className = $('#form-classinfo #ClassName').val();
+        var customerId = $('#form-classinfo #CustomerId').val();
+        var trainerId = $('#form-classinfo #TrainerId').val();
+        var numDaysOfWeek = $('#form-classinfo #NumDaysOfWeek').val();
+        var totalDays = $('#form-classinfo #TotalDays').val();
+        var price = $('#form-classinfo #Price').val();
+        var trainerPrice = $('#form-classinfo #TrainerPrice').val();
+
+        if (isBlank(className)) {
+            swal("Thông báo", "Vui lòng nhập Tên lớp", "warning");
+            return;
+        }
+
+        if (isBlank(customerId)) {
+            swal("Thông báo", "Vui lòng nhập Học viên", "warning");
+            return;
+        }
+
+        if (isBlank(trainerId)) {
+            swal("Thông báo", "Vui lòng nhập Huấn luận viên", "warning");
+            return;
+        }
+
+        if (isBlank(numDaysOfWeek)) {
+            swal("Thông báo", "Vui lòng nhập số buổi trên tuần", "warning");
+            return;
+        }
+
+        if (isBlank(totalDays)) {
+            swal("Thông báo", "Vui lòng nhập tổng số buổi", "warning");
+            return;
+        }
+
+        if (isBlank(price)) {
+            swal("Thông báo", "Vui lòng nhập Học phí", "warning");
+            return;
+        }
+
+        if (isBlank(trainerPrice)) {
+            swal("Thông báo", "Vui lòng nhập nhập phí Huấn luận viên", "warning");
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("Update", "ClassInfo")',
+            data: $('#form-classinfo').serialize(),
+            type: 'POST',
+            success: function (data) {
+                if (data.Result) {
+                    reloadTableClassInfo();
+                    swal("Thông báo", "Cập nhật thành công", "success");
+                    hideModalCommon();
+                }
+                else
+                    swal("Thông báo", data.ErrorString, "error");
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+</script>
