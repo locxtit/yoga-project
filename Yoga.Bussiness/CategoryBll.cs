@@ -33,6 +33,10 @@ namespace Yoga.Bussiness
                 }
                 return _customerStatuses;
             }
+            set
+            {
+                _customerStatuses = value;
+            }
         }
 
         private static List<CustomerType> _customerTypes;
@@ -60,6 +64,10 @@ namespace Yoga.Bussiness
                 }
                 return _provinces;
             }
+            set
+            {
+                _provinces = value;
+            }
         }
 
         private static List<OperatorType> _operatorTypes;
@@ -86,6 +94,10 @@ namespace Yoga.Bussiness
                 }
                 return _trainers;
             }
+            set
+            {
+                _trainers = value;
+            }
         }
 
         private static List<Customer> _customers;
@@ -98,6 +110,40 @@ namespace Yoga.Bussiness
                     _customers = new CustomerBll().GetAll();
                 }
                 return _customers;
+            }
+            set
+            {
+                _customers = value;
+            }
+        }
+
+        private static List<Service> _services;
+        public static List<Service> Services
+        {
+            get
+            {
+                if (_services == null)
+                {
+                    _services = new ServiceBll().GetServiceActive();
+                }
+                return _services;
+            }
+            set
+            {
+                _services = value;
+            }
+        }
+
+        private static List<PaymentStatus> _paymentStatuses;
+        public static List<PaymentStatus> PaymentStatuses
+        {
+            get
+            {
+                if (_paymentStatuses == null)
+                {
+                    _paymentStatuses = new PaymentStatusBll().GetAll();
+                }
+                return _paymentStatuses;
             }
         }
     }

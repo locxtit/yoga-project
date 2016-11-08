@@ -9,10 +9,10 @@ using Yoga.Entity.Models;
 
 namespace Yoga.Web.Controllers
 {
-    public class ProvinceController : Controller
+    public class ServiceController : Controller
     {
         //
-        // GET: /Province/
+        // GET: /Service/
 
         public ActionResult Index()
         {
@@ -23,8 +23,8 @@ namespace Yoga.Web.Controllers
         {
             try
             {
-                var provinceBll = new ProvinceBll();
-                var myList = provinceBll.GetAll().OrderBy(x=>x.ProvinceName);
+                var serviceBll = new ServiceBll();
+                var myList = serviceBll.GetAll().OrderBy(x => x.ServiceName);
                 return Json(myList, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
@@ -33,15 +33,15 @@ namespace Yoga.Web.Controllers
             }
         }
 
-        public ActionResult Edit(int? provinceId)
+        public ActionResult Edit(int? serviceId)
         {
-            var province = new Province();
-            if (provinceId.HasValue)
-                province = new ProvinceBll().GetById(provinceId.Value);
-            return PartialView("_EditProvince", province);
+            var service = new Service();
+            if (serviceId.HasValue)
+                service = new ServiceBll().GetById(serviceId.Value);
+            return PartialView("_EditService", service);
         }
 
-        public ActionResult Update(Province model)
+        public ActionResult Update(Service model)
         {
             var errorMessage = new ErrorMessage()
             {
@@ -50,31 +50,34 @@ namespace Yoga.Web.Controllers
             };
             if (ModelState.IsValid)
             {
-                errorMessage.Result = new ProvinceBll().SaveOrUpdate(model);
+                errorMessage.Result = new ServiceBll().SaveOrUpdate(model);
                 if (errorMessage.Result)
                 {
                     errorMessage.ErrorString = "Cập nhật thành công";
-                    CategoryBll.Provinces = null;
+                    CategoryBll.Services = null;
                 }
             }
+
+            
+
             return Json(errorMessage, JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult Delete(int provinceId)
+        public ActionResult Delete(int serviceId)
         {
             var response = new ErrorMessage()
             {
                 Result = false,
             };
-            var provinceBll = new ProvinceBll();
-            var province = provinceBll.GetById(provinceId);
-            if (province == null)
+            var serviceBll = new ServiceBll();
+            var service = serviceBll.GetById(serviceId);
+            if (service == null)
             {
-                response.ErrorString = "Không tồn tại Tỉnh";
+                response.ErrorString = "Không tồn tại Dịch vụ";
             }
             else
             {
-                response.Result = provinceBll.Delete(provinceId);
+                response.Result = serviceBll.Delete(serviceId);
                 if (!response.Result)
                     response.ErrorString = "Xóa thất bại";
 

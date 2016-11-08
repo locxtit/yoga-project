@@ -1,0 +1,144 @@
+﻿@using Yoga.Web.Common
+@model Yoga.Entity.OrderService
+<form id="form-orderservice">
+    <input type="hidden" id="OrderServiceId" name="OrderServiceId" value="@Model.OrderServiceId" />
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="StatusId">Học viên (<span class="required">*</span>)</label>
+            @Html.DropDownListFor(x => x.CustomerId, CategoryReponsitory.GetCustomerSelectList(Model.CustomerId, "--- Chọn ---"), new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Phone">Dịch vụ (<span class="required">*</span>)</label>
+            @Html.DropDownListFor(x=>x.ServiceId, CategoryReponsitory.GetServiceSelectList("", "--- Chọn ---"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Name">Số lượng (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.Quantity, new { @class = "form-control", @placeholder = "Số lượng", @type = "number", @min="1" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="StatusId">Giá</label>
+            @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Name">Tổng tiền (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.Total, new { @class = "form-control", @placeholder = "Tổng", @readonly="readony" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="CustomerStatusId">Trạng thái thanh toán (<span class="required">*</span>)</label>
+            @Html.DropDownListFor(x => x.PaymentStatusId, CategoryReponsitory.GetPaymentStatus(), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Note">Ghi chú</label>
+        @Html.TextAreaFor(x => x.Note, new { @class = "form-control", @placeholder = "", @rows=3 })
+    </div>
+
+    <button type="button" onclick="submitUpdateOrderService();" class="btn btn-primary">Lưu</button>
+    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+</form>
+
+<script>
+
+    $(document).ready(function () {
+        $("#form-orderservice #CustomerId").select2();
+        $("#form-orderservice #ServiceId").select2();
+
+        $('#form-orderservice #ServiceId').change(function () {
+            if ($(this).val() == '') {
+                $('#form-orderservice #Price').val(0)
+            }
+            else {
+                getServiceInfo(parseInt($(this).val()));
+            }
+            
+        });
+
+        $('#form-orderservice #Quantity').bind('input', function () {
+            updateTotalPrice();
+        });
+
+        $('#form-orderservice #Price').bind('input', function () {
+            updateTotalPrice();
+        });
+    });
+
+    function getServiceInfo(serviceId) {
+        $.ajax({
+            url: '@Url.Action("GetServiceById", "Popular")?serviceId=' + serviceId,
+            type: 'POST',
+            success: function (data) {
+                if (data != null) {
+                    var price = data.Price;
+                    $('#form-orderservice #Price').val(price);
+                    //updateTotalPrice();
+                }
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function updateTotalPrice() {
+        var quantity = parseInt($('#Quantity').val());
+        var price = parseFloat($('#Price').val());
+        $('#Total').val(price * quantity);
+    }
+
+    function submitUpdateOrderService() {
+        var customerId = $('#form-orderservice #CustomerId').val();
+        var serviceId = $('#form-orderservice #ServiceId').val();
+        var quantity = $('#form-orderservice #Quantity').val();
+        var price = $('#form-orderservice #Price').val();
+        var total = $('#form-orderservice #Total').val();
+
+        if (isBlank(customerId)) {
+            swal("Thông báo", "Vui lòng nhập Học viên", "warning");
+            return;
+        }
+
+        if (isBlank(serviceId)) {
+            swal("Thông báo", "Vui lòng nhập Dịch vụ", "warning");
+            return;
+        }
+
+        if (isBlank(quantity)) {
+            swal("Thông báo", "Vui lòng nhập Số lượng", "warning");
+            return;
+        }
+
+        if (isBlank(price)) {
+            swal("Thông báo", "Vui lòng nhập Giá", "warning");
+            return;
+        }
+
+        if (isBlank(total)) {
+            swal("Thông báo", "Vui lòng nhập Tổng", "warning");
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("Update", "OrderService")',
+            data: $('#form-orderservice').serialize(),
+            type: 'POST',
+            success: function (data) {
+                if (data.Result) {
+                    reloadTableOrderService();
+                    swal("Thông báo", "Cập nhật thành công", "success");
+                    hideModalCommon();
+                }
+                else
+                    swal("Thông báo", data.ErrorString, "error");
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+</script>

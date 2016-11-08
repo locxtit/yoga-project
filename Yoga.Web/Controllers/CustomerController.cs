@@ -75,6 +75,7 @@ namespace Yoga.Web.Controllers
                 if (errorMessage.Result)
                 {
                     errorMessage.ErrorString = "Cập nhật thành công";
+                    CategoryBll.Customers = null;
                 }
             }
             else

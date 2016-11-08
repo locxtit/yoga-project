@@ -133,5 +133,40 @@ namespace Yoga.Web.Common
 
             return new SelectList(selectListItems, "Value", "Text", selectedValue);
         }
+
+        public static SelectList GetServiceSelectList(object selectedValue, string defaultOption)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (!string.IsNullOrEmpty(defaultOption))
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+            selectListItems.AddRange(CategoryBll.Services.Select(x => new SelectListItem()
+            {
+                Value = x.ServiceId.ToString(),
+                Text = x.ServiceName
+            }));
+
+            return new SelectList(selectListItems, "Value", "Text", selectedValue);
+        }
+
+        public static SelectList GetPaymentStatus()
+        {
+            var selectListItems = new List<SelectListItem>();
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = PaymentStatusEnum.PAID.ToString(),
+                Text = CategoryBll.PaymentStatuses.SingleOrDefault(x => x.PaymentStatusId == PaymentStatusEnum.PAID.ToString()).PaymentStatusName
+            });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = PaymentStatusEnum.NOPAID.ToString(),
+                Text = CategoryBll.PaymentStatuses.SingleOrDefault(x => x.PaymentStatusId == PaymentStatusEnum.NOPAID.ToString()).PaymentStatusName
+            });
+            return new SelectList(selectListItems, "Value", "Text");
+        }
     }
 }

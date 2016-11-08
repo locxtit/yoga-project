@@ -52,6 +52,9 @@
   <ItemGroup>
     <Compile Include="CategoryBll.cs" />
     <Compile Include="ClassInfoBll.cs" />
+    <Compile Include="PaymentStatusBll.cs" />
+    <Compile Include="OrderServiceBll.cs" />
+    <Compile Include="ServiceBll.cs" />
     <Compile Include="EventJoinerBll.cs" />
     <Compile Include="EventBll.cs" />
     <Compile Include="EventTypeBll.cs" />

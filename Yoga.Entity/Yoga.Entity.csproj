@@ -53,9 +53,11 @@
     <Compile Include="Bank.cs" />
     <Compile Include="BankInfo.cs" />
     <Compile Include="ClassInfo.cs" />
+    <Compile Include="OrderInternal.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerStatus.cs" />
     <Compile Include="CustomerType.cs" />
+    <Compile Include="Enums\PaymentStatusEnum.cs" />
     <Compile Include="Enums\EventTypeEnum.cs" />
     <Compile Include="Enums\OperatorTypeEnum.cs" />
     <Compile Include="Enums\StatusEnum.cs" />
@@ -154,16 +156,40 @@
     <Compile Include="Migrations\201611060823427_Update ClassInfo 1.Designer.cs">
       <DependentUpon>201611060823427_Update ClassInfo 1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611071236037_Update Service.cs" />
+    <Compile Include="Migrations\201611071236037_Update Service.Designer.cs">
+      <DependentUpon>201611071236037_Update Service.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611071239195_Update Order Service.cs" />
+    <Compile Include="Migrations\201611071239195_Update Order Service.Designer.cs">
+      <DependentUpon>201611071239195_Update Order Service.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611071313373_Update Order Service 1.cs" />
+    <Compile Include="Migrations\201611071313373_Update Order Service 1.Designer.cs">
+      <DependentUpon>201611071313373_Update Order Service 1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611071351518_Update Order Service 2.cs" />
+    <Compile Include="Migrations\201611071351518_Update Order Service 2.Designer.cs">
+      <DependentUpon>201611071351518_Update Order Service 2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611081135107_Update Order Service 4.cs" />
+    <Compile Include="Migrations\201611081135107_Update Order Service 4.Designer.cs">
+      <DependentUpon>201611081135107_Update Order Service 4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\SearchOrderServiceCriteriaModel.cs" />
     <Compile Include="Models\ErrorMessage.cs" />
     <Compile Include="Models\SearchClassInfoCriteriaModel.cs" />
     <Compile Include="Models\SearchCustomerCriteriaModel.cs" />
     <Compile Include="Operator.cs" />
     <Compile Include="OperatorType.cs" />
     <Compile Include="Order.cs" />
+    <Compile Include="OrderService.cs" />
     <Compile Include="OrderStatus.cs" />
+    <Compile Include="PaymentStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Province.cs" />
+    <Compile Include="Service.cs" />
     <Compile Include="Status.cs" />
     <Compile Include="Trainer.cs" />
     <Compile Include="YogaContext.cs" />
@@ -241,6 +267,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611060823427_Update ClassInfo 1.resx">
       <DependentUpon>201611060823427_Update ClassInfo 1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611071236037_Update Service.resx">
+      <DependentUpon>201611071236037_Update Service.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611071239195_Update Order Service.resx">
+      <DependentUpon>201611071239195_Update Order Service.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611071313373_Update Order Service 1.resx">
+      <DependentUpon>201611071313373_Update Order Service 1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611071351518_Update Order Service 2.resx">
+      <DependentUpon>201611071351518_Update Order Service 2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611081135107_Update Order Service 4.resx">
+      <DependentUpon>201611081135107_Update Order Service 4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

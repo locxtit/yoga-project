@@ -128,7 +128,10 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\OperatorController.cs" />
+    <Compile Include="Controllers\OrderServiceController.cs" />
+    <Compile Include="Controllers\PopularController.cs" />
     <Compile Include="Controllers\ProvinceController.cs" />
+    <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\TrainerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -796,6 +799,10 @@
     <Content Include="Views\Event\Joiners.cshtml" />
     <Content Include="Views\ClassInfo\Index.cshtml" />
     <Content Include="Views\ClassInfo\_EditClassInfo.cshtml" />
+    <Content Include="Views\Service\Index.cshtml" />
+    <Content Include="Views\Service\_EditService.cshtml" />
+    <Content Include="Views\OrderService\Index.cshtml" />
+    <Content Include="Views\OrderService\_EditOrderService.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

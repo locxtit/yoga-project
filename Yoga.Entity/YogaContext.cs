@@ -47,6 +47,14 @@ namespace Yoga.Entity
 
         public DbSet<Operator> Operators { get; set; }
 
+        public DbSet<Service> Services { get; set; }
+
+        public DbSet<PaymentStatus> PaymentStatuses { get; set; }
+
+        public DbSet<OrderService> OrderServices { get; set; }
+
+        public DbSet<OrderInternal> OrderInternals { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

@@ -1,0 +1,164 @@
+﻿@using Yoga.Web.Common
+@{
+    ViewBag.Title = "Quản lý Sử dụng dịch vụ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-title">@ViewBag.Title</h2>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Thông tin tìm kiếm</h3>
+    </div>
+    <div class="panel-body">
+        <form>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="OrderServiceName">Khách hàng</label>
+                    @Html.DropDownList("CustomerId", CategoryReponsitory.GetCustomerSelectList("", "--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="OrderServiceTypeId">Dịch vụ</label>
+                    @Html.DropDownList("ServiceId", CategoryReponsitory.GetServiceSelectList("", "--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn brn-default" onclick="searchOrderService();"><i class="fa fa-search"></i>Tìm kiếm</button>
+                    <button type="button" class="btn brn-primary" onclick="updateOrderService();"><i class="fa fa-plus-circle"></i>Thêm hóa đơn dịch vụ</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<table id="dataTable" class="display">
+    <thead>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Học viên</th>
+            <th>Số điện thoại</th>
+            <th>Ngày tạo</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+            <th>Trạng thái thanh toán</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Học viên</th>
+            <th>Số điện thoại</th>
+            <th>Ngày tạo</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+            <th>Trạng thái thanh toán</th>
+            <th>Ghi chú</th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+
+    $(document).ready(function () {
+        $("#CustomerId").select2();
+        $("#ServiceId").select2();
+    });
+
+    $(document).ready(function () {
+
+        $('#dataTable').DataTable({
+            serverSide: false,
+            ajax: {
+                "url": getAjaxSource(),
+                "dataSrc": ""
+            },
+            "pageLength": 25,
+            columns: [
+                { "data": "OrderServiceId" },
+                { "data": "Customer.Name" },
+                { "data": "Customer.Phone" },
+                { "data": "CreatedDate" },
+                { "data": "Quantity" },
+                { "data": "Price" },
+                { "data": "Total" },
+                { "data": "PaymentStatus.PaymentStatusName" },
+                { "data": "Note" },
+            ],
+            fnPreDrawCallback: function (settings) {
+            },
+            fnDrawCallback: function (settings) {
+            },
+            fnRowCallback: function (nRow, aData) {
+                $('td:eq(0)', nRow).html(setIconVisibility(aData.OrderServiceId));
+                $('td:eq(3)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+            },
+        });
+    });
+
+    function getAjaxSource() {
+        return '/OrderService/GetList?customerId =' + $('#CustomerId').val() + '&serviceId=' + $('#ServiceId').val();
+    }
+
+    function reloadTableOrderService() {
+        var oTable = $('#dataTable').DataTable();
+        oTable.ajax.url(getAjaxSource());
+        oTable.ajax.reload();
+    }
+
+    function setIconVisibility(id) {
+        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateOrderService(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteOrderService(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
+        return editString + delString;
+    }
+
+    function searchOrderService() {
+        reloadTableOrderService();
+    }
+
+    function updateOrderService(id) {
+        $.ajax({
+            url: '@Url.Action("Edit", "OrderService")/?orderServiceId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Thông tin Hóa đơn dịch vụ", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function deleteOrderService(id) {
+        swal({
+            title: "Bạn muốn xóa?",
+            text: "Bạn thực sự muốn xóa Thông tin này!",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Xóa!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            $.ajax({
+                url: '@Url.Action("Delete", "OrderService")?orderServiceId=' + id,
+                type: 'POST',
+                success: function (data) {
+                    if (data.Result) {
+                        swal("Thông báo", 'Xóa thành công', "success");
+                        reloadTableOrderService();
+                    }
+                    else {
+                        swal("Thông báo", data.ErrorString, "error");
+                    }
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+                }
+            });
+        });
+
+    }
+
+</script>
