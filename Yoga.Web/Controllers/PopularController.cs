@@ -8,7 +8,7 @@ using Yoga.Web.Common;
 
 namespace Yoga.Web.Controllers
 {
-    public class PopularController : Controller
+    public class PopularController : BaseController
     {
         //
         // GET: /Popular/

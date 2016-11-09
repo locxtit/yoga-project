@@ -6,15 +6,13 @@ using System.Web.Mvc;
 
 namespace Yoga.Web.Controllers
 {
-    public class HomeController : BaseController
+    public class NotifyController : Controller
     {
         //
-        // GET: /Home/
+        // GET: /Notify/
 
         public ActionResult Index()
         {
-            if (CurrentOperator == null)
-                return RedirectToAction("Login", "Login");
             return View();
         }
 

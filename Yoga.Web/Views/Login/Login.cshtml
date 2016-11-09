@@ -46,7 +46,10 @@
                             $('.message').html(data.ErrorString);
                         }
                         else {
-                            location.href = '/Home/Index';
+                            if ('@ViewBag.RedirectUrl' != 'null' && '@ViewBag.RedirectUrl' != '')
+                                location.href = '@ViewBag.RedirectUrl';
+                            else
+                                location.href = '/Home/Index';
                         }
                     },
                     error: function () {

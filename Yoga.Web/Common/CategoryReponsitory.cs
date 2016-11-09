@@ -168,5 +168,23 @@ namespace Yoga.Web.Common
             });
             return new SelectList(selectListItems, "Value", "Text");
         }
+
+        public static SelectList GetOperatorSelectList(object selectedValue, string defaultOption)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (!string.IsNullOrEmpty(defaultOption))
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+            selectListItems.AddRange(CategoryBll.Operators.Select(x => new SelectListItem()
+            {
+                Value = x.OperatorId.ToString(),
+                Text = x.OperatorName ?? x.Email
+            }));
+
+            return new SelectList(selectListItems, "Value", "Text", selectedValue);
+        }
     }
 }

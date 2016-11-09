@@ -53,6 +53,20 @@
     <Compile Include="Bank.cs" />
     <Compile Include="BankInfo.cs" />
     <Compile Include="ClassInfo.cs" />
+    <Compile Include="Migrations\201611090659310_Update Order Internal.cs" />
+    <Compile Include="Migrations\201611090659310_Update Order Internal.Designer.cs">
+      <DependentUpon>201611090659310_Update Order Internal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611090829234_Add Table Notify.cs" />
+    <Compile Include="Migrations\201611090829234_Add Table Notify.Designer.cs">
+      <DependentUpon>201611090829234_Add Table Notify.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611090833424_Add Table Notify 1.cs" />
+    <Compile Include="Migrations\201611090833424_Add Table Notify 1.Designer.cs">
+      <DependentUpon>201611090833424_Add Table Notify 1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchOrderInternalCriteriaModel.cs" />
+    <Compile Include="Notify.cs" />
     <Compile Include="OrderInternal.cs" />
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerStatus.cs" />
@@ -282,6 +296,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611081135107_Update Order Service 4.resx">
       <DependentUpon>201611081135107_Update Order Service 4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611090659310_Update Order Internal.resx">
+      <DependentUpon>201611090659310_Update Order Internal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611090829234_Add Table Notify.resx">
+      <DependentUpon>201611090829234_Add Table Notify.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611090833424_Add Table Notify 1.resx">
+      <DependentUpon>201611090833424_Add Table Notify 1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

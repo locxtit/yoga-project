@@ -55,6 +55,8 @@ namespace Yoga.Entity
 
         public DbSet<OrderInternal> OrderInternals { get; set; }
 
+        public DbSet<Notify> Notifies { get; set; }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

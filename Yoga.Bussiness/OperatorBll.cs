@@ -14,7 +14,12 @@ namespace Yoga.Bussiness
 
         public List<Operator> GetAll()
         {
-            return _context.Operators.Where(x=>x.StatusId == StatusEnum.ACTIVE.ToString()).ToList();
+            return _context.Operators.Where(x=>x.StatusId != StatusEnum.DELETED.ToString()).ToList();
+        }
+
+        public List<Operator> GetServiceActive()
+        {
+            return _context.Operators.Where(x => x.StatusId == StatusEnum.ACTIVE.ToString()).ToList();
         }
 
         public Operator GetById(int operatorId)

@@ -16,12 +16,14 @@ namespace Yoga.Web.Controllers
         //
         // GET: /Login/
 
-        public ActionResult Login()
+        public ActionResult Login(string redirectUrl)
         {
             if (Session[SessionConstant.SESSION_OPERATOR] != null)
             {
                return RedirectToAction("Index", "Home");
             }
+
+            ViewBag.RedirectUrl = redirectUrl;
             return View();
         }
 

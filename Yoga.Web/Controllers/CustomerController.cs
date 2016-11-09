@@ -11,7 +11,7 @@ using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
 {
-    public class CustomerController : Controller
+    public class CustomerController : BaseController
     {
         //
         // GET: /Customer/

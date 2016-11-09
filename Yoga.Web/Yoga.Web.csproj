@@ -127,7 +127,9 @@
     <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\NotifyController.cs" />
     <Compile Include="Controllers\OperatorController.cs" />
+    <Compile Include="Controllers\OrderInternalController.cs" />
     <Compile Include="Controllers\OrderServiceController.cs" />
     <Compile Include="Controllers\PopularController.cs" />
     <Compile Include="Controllers\ProvinceController.cs" />
@@ -803,6 +805,9 @@
     <Content Include="Views\Service\_EditService.cshtml" />
     <Content Include="Views\OrderService\Index.cshtml" />
     <Content Include="Views\OrderService\_EditOrderService.cshtml" />
+    <Content Include="Views\OrderInternal\Index.cshtml" />
+    <Content Include="Views\OrderInternal\_EditOrderInternal.cshtml" />
+    <Content Include="Views\Notify\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

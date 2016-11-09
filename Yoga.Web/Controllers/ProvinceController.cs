@@ -9,7 +9,7 @@ using Yoga.Entity.Models;
 
 namespace Yoga.Web.Controllers
 {
-    public class ProvinceController : Controller
+    public class ProvinceController : BaseController
     {
         //
         // GET: /Province/

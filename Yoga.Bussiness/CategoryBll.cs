@@ -146,5 +146,22 @@ namespace Yoga.Bussiness
                 return _paymentStatuses;
             }
         }
+
+        private static List<Operator> _operators;
+        public static List<Operator> Operators
+        {
+            get
+            {
+                if (_operators == null)
+                {
+                    _operators = new OperatorBll().GetServiceActive();
+                }
+                return _operators;
+            }
+            set
+            {
+                _operators = value;
+            }
+        }
     }
 }

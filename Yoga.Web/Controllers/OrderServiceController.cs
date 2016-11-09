@@ -10,7 +10,7 @@ using Yoga.Web.Helpers;
 
 namespace Yoga.Web.Controllers
 {
-    public class OrderServiceController : Controller
+    public class OrderServiceController : BaseController
     {
         //
         // GET: /OrderService/

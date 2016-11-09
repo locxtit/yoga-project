@@ -9,7 +9,7 @@ using Yoga.Entity.Models;
 
 namespace Yoga.Web.Controllers
 {
-    public class ServiceController : Controller
+    public class ServiceController : BaseController
     {
         //
         // GET: /Service/

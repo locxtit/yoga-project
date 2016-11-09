@@ -10,7 +10,7 @@ using Yoga.Entity.Models;
 
 namespace Yoga.Web.Controllers
 {
-    public class EventController : Controller
+    public class EventController : BaseController
     {
         //
         // GET: /Event/

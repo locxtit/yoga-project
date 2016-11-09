@@ -11,7 +11,7 @@ using Yoga.Web.Helpers;
 
 namespace Yoga.Web.Controllers
 {
-    public class OperatorController : Controller
+    public class OperatorController : BaseController
     {
         //
         // GET: /Operator/
@@ -65,6 +65,8 @@ namespace Yoga.Web.Controllers
                     else
                         canSaveOrUpdate = true;
                 }
+                else
+                    canSaveOrUpdate = true;
 
                 if (canSaveOrUpdate)
                 {
@@ -72,6 +74,7 @@ namespace Yoga.Web.Controllers
                     if (errorMessage.Result)
                     {
                         errorMessage.ErrorString = "Cập nhật thành công";
+                        CategoryBll.Operators = null;
                     }
                 }
             }

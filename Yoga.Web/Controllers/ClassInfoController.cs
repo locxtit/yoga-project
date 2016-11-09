@@ -10,7 +10,7 @@ using Yoga.Web.Helpers;
 
 namespace Yoga.Web.Controllers
 {
-    public class ClassInfoController : Controller
+    public class ClassInfoController : BaseController
     {
         //
         // GET: /ClassInfo/
