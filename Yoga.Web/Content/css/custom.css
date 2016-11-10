@@ -129,3 +129,8 @@ span.required {
     display: block;
     width: 100% !important;
 }
+
+.navbar-default .navbar-nav > .open > a {
+    color: #fff !important;
+    background-color: #337ab7 !important;
+}

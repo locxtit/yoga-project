@@ -1,0 +1,49 @@
+﻿@using Yoga.Entity.Models
+@model Yoga.Entity.Operator
+@{
+    ViewBag.Title = "Thông tin người dùng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var message = (ErrorMessage)ViewBag.Message;
+}
+
+<h2 class="page-title">@ViewBag.Title</h2>
+
+<form class="form-horizontal" method="post">
+    @*@Html.Partial("_ShowMessage",null)*@
+    @if (message != null)
+    {
+        <div class="alert alert-@(message.Result ? "success" : "error") alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>@message.ErrorString</strong>
+        </div>
+    }
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+        <div class="col-sm-4">
+            <input type="email" class="form-control" id="Email" name="Email" placeholder="Email" value="@Model.Email" readonly">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-2 control-label">Mật khẩu</label>
+        <div class="col-sm-4">
+            <input type="password" class="form-control" id="Password" name="Password" placeholder="Password">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Số điện thoại</label>
+        <div class="col-sm-4">
+            <input type="tel" class="form-control" id="Phone" name="Phone" placeholder="Số điện thoại" value="@Model.Phone">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputEmail3" class="col-sm-2 control-label">Tên</label>
+        <div class="col-sm-4">
+            <input type="text" class="form-control" id="OperatorName" name="OperatorName" placeholder="Họ và tên" value="@Model.OperatorName">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-default">Cập nhật</button>
+        </div>
+    </div>
+</form>

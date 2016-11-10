@@ -91,5 +91,12 @@ namespace Yoga.Web.Controllers
 
         }
 
+        public ActionResult PaymentList(int classInfoId)
+        {
+            var classInfo = new ClassInfoBll().GetById(classInfoId);
+            var orders = new OrderBll().GetByClassInfoId(classInfoId);
+            ViewBag.ClassInfo = classInfo;
+            return View(orders);
+        }
     }
 }

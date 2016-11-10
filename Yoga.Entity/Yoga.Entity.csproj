@@ -65,6 +65,11 @@
     <Compile Include="Migrations\201611090833424_Add Table Notify 1.Designer.cs">
       <DependentUpon>201611090833424_Add Table Notify 1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611090856555_Update Notify 2.cs" />
+    <Compile Include="Migrations\201611090856555_Update Notify 2.Designer.cs">
+      <DependentUpon>201611090856555_Update Notify 2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SearchNotifyCriteriaModel.cs" />
     <Compile Include="Models\SearchOrderInternalCriteriaModel.cs" />
     <Compile Include="Notify.cs" />
     <Compile Include="OrderInternal.cs" />
@@ -305,6 +310,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611090833424_Add Table Notify 1.resx">
       <DependentUpon>201611090833424_Add Table Notify 1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611090856555_Update Notify 2.resx">
+      <DependentUpon>201611090856555_Update Notify 2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

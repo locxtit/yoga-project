@@ -12,7 +12,7 @@ namespace Yoga.Entity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
-        public int NotityId { get; set; }
+        public int NotifyId { get; set; }
 
         [StringLength(100)]
         [Required]
@@ -41,5 +41,10 @@ namespace Yoga.Entity
         public virtual Operator OperatorReciept { get; set; }
 
         public virtual Status Status {get;set;}
+
+        public Notify()
+        {
+            StartDate = DateTime.Now;
+        }
     }
 }

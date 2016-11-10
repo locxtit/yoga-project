@@ -1,6 +1,6 @@
 ﻿@using Yoga.Web.Common
 @{
-    ViewBag.Title = "Quản lý Khách hàng";
+    ViewBag.Title = "Quản lý Danh sách lớp";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -32,13 +32,13 @@
     <thead>
         <tr>
             <th width="50px;">#</th>
-            <th>Họ học viên</th>
+            <th>Học viên</th>
             <th>Điện thoại</th>
             <th>Học phí</th>
             <th>Phí HLV</th>
             <th>Ngày bất đầu</th>
             <th>Tổng số buổi</th>
-            <th>Huấn luận viên</th>
+            <th>HLV</th>
             <th>Thanh toán</th>
         </tr>
     </thead>
@@ -46,13 +46,13 @@
     <tfoot>
         <tr>
             <th width="50px;">#</th>
-            <th>Họ học viên</th>
+            <th>Học viên</th>
             <th>Điện thoại</th>
             <th>Học phí</th>
             <th>Phí HLV</th>
             <th>Ngày bất đầu</th>
             <th>Tổng số buổi</th>
-            <th>Huấn luận viên</th>
+            <th>HLV</th>
             <th>Thanh toán</th>
         </tr>
     </tfoot>
@@ -88,6 +88,7 @@
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId));
                 $('td:eq(5)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
+                $('td:eq(8)', nRow).html(setIconShowPaymentList(aData.ClassInfoId));
             },
         });
     });
@@ -100,6 +101,11 @@
         var oTable = $('#dataTable').DataTable();
         oTable.ajax.url(getAjaxSource());
         oTable.ajax.reload();
+    }
+
+    function setIconShowPaymentList(id) {
+        var editString = '<a class="action-icon" href= "javascript:void(0)" onclick="showPopupPayment(' + id + ')">Thanh toán</a>  ';
+        return editString;
     }
 
     function setIconVisibility(id) {
@@ -118,6 +124,19 @@
             type: 'POST',
             success: function (data) {
                 showModalCommon("Thông tin Khách hàng", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function showPopupPayment(id) {
+        $.ajax({
+            url: '@Url.Action("PaymentList", "ClassInfo")/?classInfoId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Thông tin thanh toán", data);
             },
             error: function () {
                 swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");

@@ -52,6 +52,8 @@
   <ItemGroup>
     <Compile Include="CategoryBll.cs" />
     <Compile Include="ClassInfoBll.cs" />
+    <Compile Include="OrderBll.cs" />
+    <Compile Include="NotifyBll.cs" />
     <Compile Include="OrderInternalBll.cs" />
     <Compile Include="PaymentStatusBll.cs" />
     <Compile Include="OrderServiceBll.cs" />

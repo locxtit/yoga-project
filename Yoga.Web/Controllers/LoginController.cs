@@ -27,7 +27,7 @@ namespace Yoga.Web.Controllers
             return View();
         }
 
-        public ActionResult DoLogout()
+        public ActionResult Logout()
         {
             Session[SessionConstant.SESSION_OPERATOR] = null;
             return RedirectToAction("Login");
