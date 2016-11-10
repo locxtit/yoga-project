@@ -1,34 +1,34 @@
 ﻿@using Yoga.Web.Common
 @model Yoga.Entity.Trainer
-<form id="form-Trainer">
+<form id="form-trainer">
     <input type="hidden" name="TrainerId" value="@Model.TrainerId" />
     <div class="form-group">
-        <label for="TrainerName">Họ và tên</label>
-        @Html.TextBoxFor(x => x.TrainerName, new {@class = "form-control", @placeholder = "Tên tỉnh"})
+        <label for="TrainerName">Họ và tên (<span class="required">*</span>)</label>
+        @Html.TextBoxFor(x => x.TrainerName, new {@class = "form-control", @placeholder = "Tên Huấn luận viên"})
     </div>
     <div class="form-group">
-        <label for="Phone">Số điện thoại</label>
-        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+        <label for="Phone">Số điện thoại (<span class="required">*</span>)</label>
+        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Số điện thoại" })
     </div>
     <div class="form-group">
-        <label for="Email">Email</label>
-        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+        <label for="Email">Email (<span class="required">*</span>)</label>
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
     </div>
     <div class="form-group">
         <label for="Address">Địa chỉ</label>
-        @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+        @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Địa chỉ" })
     </div>
     <div class="form-group">
         <label for="Experience">Kinh nghiệm</label>
-        @Html.TextBoxFor(x => x.Experience, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+        @Html.TextBoxFor(x => x.Experience, new { @class = "form-control", @placeholder = "Kinh nghiệm" })
     </div>
     <div class="form-group">
         <label for="Subject">Chuyên môn</label>
-        @Html.TextBoxFor(x => x.Subject, new { @class = "form-control", @placeholder = "Tên tỉnh" })
+        @Html.TextBoxFor(x => x.Subject, new { @class = "form-control", @placeholder = "Chuyên môn" })
     </div>
     <div class="form-group">
         <label for="Status">Trạng thái</label>
-        @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForTrainers() ,new {@class = "form-control"})
+        @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces() ,new {@class = "form-control"})
     </div>
 
     <button type="button" onclick="submitUpdate();" class="btn btn-default">Cập nhật</button>
@@ -36,15 +36,27 @@
 
 <script>
     function submitUpdate() {
-        //var TrainerName = $('#TrainerName').val();
-        //if (isBlank(TrainerName)) {
-        //    swal("Thông báo", "Vui lòng nhập tên tỉnh", "warning");
-        //    return;
-        //}
+        var trainerName = $('#TrainerName').val();
+        var email = $('#Email').val();
+        var phone = $('#Phone').val();
+        if (isBlank(trainerName)) {
+            swal("Thông báo", "Vui lòng nhập tên Huấn luận viên", "warning");
+            return;
+        }
+
+        if (isBlank(email)) {
+            swal("Thông báo", "Vui lòng nhập Email", "warning");
+            return;
+        }
+
+        if (isBlank(phone)) {
+            swal("Thông báo", "Vui lòng nhập Số điện thoại", "warning");
+            return;
+        }
 
         $.ajax({
             url: '@Url.Action("Update","Trainer")',
-            data: $('#form-Trainer').serialize(),
+            data: $('#form-trainer').serialize(),
             type: 'POST',
             success: function (data) {
                 if (data.Result) {

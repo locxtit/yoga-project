@@ -18,12 +18,18 @@ namespace Yoga.Web.Controllers
         {
             return View();
         }
-        public ActionResult GetList()
+        public ActionResult GetList(string email, string phone, string trainerName)
         {
             try
             {
+                var criteria = new SearchTrainerCriteriaModel()
+                {
+                    Email = email,
+                    Phone = phone,
+                    TrainerName = phone,
+                };
                 var trainerBll = new TrainerBll();
-                var trainners = trainerBll.GetAll().OrderBy(x => x.TrainerName);
+                var trainners = trainerBll.Search(criteria).OrderByDescending(x => x.CreatedDate);
                 return Json(trainners, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

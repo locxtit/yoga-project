@@ -71,6 +71,7 @@
     </Compile>
     <Compile Include="Models\SearchNotifyCriteriaModel.cs" />
     <Compile Include="Models\SearchOrderInternalCriteriaModel.cs" />
+    <Compile Include="Models\SearchTrainerCriteriaModel.cs" />
     <Compile Include="Notify.cs" />
     <Compile Include="OrderInternal.cs" />
     <Compile Include="Customer.cs" />

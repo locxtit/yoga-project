@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Yoga.Entity;
 using Yoga.Entity.Enums;
+using Yoga.Entity.Models;
 
 namespace Yoga.Bussiness
 {
@@ -21,6 +22,24 @@ namespace Yoga.Bussiness
         {
             var trainer = _context.Trainers.SingleOrDefault(x => x.TrainerId == trainerId);
             return trainer;
+        }
+
+        public IEnumerable<Trainer> Search(SearchTrainerCriteriaModel criteria)
+        {
+            var query = _context.Trainers.Where(x => x.StatusId != StatusEnum.DELETED.ToString());
+            if (!string.IsNullOrEmpty(criteria.TrainerName))
+            {
+                query = query.Where(x => x.TrainerName.Contains(criteria.TrainerName));
+            }
+            if (!string.IsNullOrEmpty(criteria.Phone))
+            {
+                query = query.Where(x => x.Phone == criteria.Phone);
+            }
+            if (!string.IsNullOrEmpty(criteria.Email))
+            {
+                query = query.Where(x => x.Email == criteria.Email);
+            }
+            return query;
         }
 
         public bool Delete(int trainerId)

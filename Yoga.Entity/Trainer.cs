@@ -34,6 +34,8 @@ namespace Yoga.Entity
         [StringLength(50)]
         public string StatusId { get; set; }
 
+        public DateTime CreatedDate { get; set; }
+
         public virtual Status Status { get; set; }
     }
 }
