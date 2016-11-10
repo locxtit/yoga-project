@@ -144,6 +144,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\Support.cs" />
     <Compile Include="Helpers\Util.cs" />
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
@@ -814,6 +815,10 @@
     <Content Include="Views\OrderInternal\Index.cshtml" />
     <Content Include="Views\OrderInternal\_EditOrderInternal.cshtml" />
     <Content Include="Views\Notify\Index.cshtml" />
+    <Content Include="Views\Notify\_EditNotify.cshtml" />
+    <Content Include="Views\Operator\Profile.cshtml" />
+    <Content Include="Views\Shared\_ShowMessage.cshtml" />
+    <Content Include="Views\ClassInfo\PaymentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -125,5 +125,46 @@ namespace Yoga.Web.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult Profile()
+        {
+            if (CurrentOperator != null)
+            {
+                ViewBag.Messag = null;
+                return View(CurrentOperator);
+            }
+
+            return Redirect("/");
+        }
+
+        [HttpPost]
+        public ActionResult Profile(Operator model)
+        {
+            if (CurrentOperator != null)
+            {
+                model.Email = CurrentOperator.Email;
+                model.StatusId = CurrentOperator.StatusId;
+                model.OperatorTypeId = CurrentOperator.OperatorTypeId;
+                model.OperatorId = CurrentOperator.OperatorId;
+
+                var message = new ErrorMessage()
+                {
+                    Result = false,
+                    ErrorString = "Cập nhật thất bại"
+                };
+
+                if (new OperatorBll().SaveOrUpdate(model))
+                {
+                    message.Result = true;
+                    message.ErrorString = "Cập nhật thành công";
+                }
+
+                ViewBag.Message = message;
+
+                return View(CurrentOperator);
+            }
+
+            return Redirect("/");
+        }
+
     }
 }

@@ -10,9 +10,16 @@ namespace Yoga.Web.Common
 {
     public class CategoryReponsitory
     {
-        public static SelectList GetStatusForProvinces()
+        public static SelectList GetStatusForProvinces(object selectedValue = null, string defaultOption = null)
         {
             var selectListItems = new List<SelectListItem>();
+            if(defaultOption != null)
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+
             selectListItems.Add(new SelectListItem()
             {
                 Value = StatusEnum.ACTIVE.ToString(),

@@ -1,0 +1,35 @@
+﻿@using Yoga.Entity
+@model IEnumerable<Order>
+
+@{
+    var classInfo = (ClassInfo)ViewBag.ClassInfo;
+    var index = 0;
+}
+
+<table id="dataTablePayment" class="display">
+    <thead>
+        <tr>
+            <th width=20px;">#</th>
+            <th>Mã hóa đơn</th>
+            <th>Ngày tạo</th>
+            <th>Email</th>
+            <th>Tổng tiền phải trả</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            index++;
+            <td>@index</td>
+            <td>@item.OrderCode</td>
+            <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+            <td>@item.ContactEmail</td>
+            <td>@item.TotalPaid</td>
+            <td>@item.OrderStatus.OrderStatusName</td>
+        }
+    </tbody>
+</table>
+<script>
+    $('#dataTablePayment').DataTable();
+</script>

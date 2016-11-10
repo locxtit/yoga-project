@@ -23,12 +23,6 @@
     $(document).ready(function () {
     });
 
-    function updateTotalPrice() {
-        var quantity = parseInt($('#Quantity').val());
-        var price = parseFloat($('#Price').val());
-        $('#Total').val(price * quantity);
-    }
-
     function submitUpdateOrderInternal() {
         var note = $('#form-orderinternal #Note').val();
         var total = $('#form-orderinternal #Total').val();
