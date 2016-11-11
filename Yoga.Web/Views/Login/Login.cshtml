@@ -32,6 +32,14 @@
 
     <script>
         $(document).ready(function () {
+
+            $("#password, #email").keyup(function (e) {
+                var code = e.which;
+                if (code == 13) {
+                    $('#btnLogin').click();
+                }
+            });
+
             $('#btnLogin').click(function () {
 
                 var email = $('#email').val();

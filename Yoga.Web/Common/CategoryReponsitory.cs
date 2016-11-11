@@ -193,5 +193,89 @@ namespace Yoga.Web.Common
 
             return new SelectList(selectListItems, "Value", "Text", selectedValue);
         }
+
+        public static SelectList GetOrderStatusSelectList(object selectedValue = null, string defaultOption = null)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (defaultOption != null)
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = OrderStatusEnum.PAID.ToString(),
+                Text = CategoryBll.OrderStatus.SingleOrDefault(x => x.OrderStatusId == OrderStatusEnum.PAID.ToString()).OrderStatusName
+            });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = OrderStatusEnum.WAITING.ToString(),
+                Text = CategoryBll.OrderStatus.SingleOrDefault(x => x.OrderStatusId == OrderStatusEnum.WAITING.ToString()).OrderStatusName
+            });
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = OrderStatusEnum.CANCEL.ToString(),
+                Text = CategoryBll.OrderStatus.SingleOrDefault(x => x.OrderStatusId == OrderStatusEnum.CANCEL.ToString()).OrderStatusName
+            });
+            return new SelectList(selectListItems, "Value", "Text");
+        }
+
+        public static SelectList GetStatusForClassInfo(object selectedValue = null, string defaultOption = null)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (defaultOption != null)
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.ACTIVE.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.ACTIVE.ToString()).StatusName
+            });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.INACTIVE.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.INACTIVE.ToString()).StatusName
+            });
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.FINISHED.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.FINISHED.ToString()).StatusName
+            });
+            return new SelectList(selectListItems, "Value", "Text");
+        }
+
+        public static SelectList GetYearReportSelectList()
+        {
+            var selectListItems = new List<SelectListItem>();
+            var year = 2016;
+            for (int i = 0; i < 100; i++ )
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = (year + i).ToString(),
+                    Text = (year + i).ToString()
+                });
+            return new SelectList(selectListItems, "Value", "Text");
+        }
+
+        public static SelectList GetMonthReportSelectList()
+        {
+            var selectListItems = new List<SelectListItem>();
+            var month = 1;
+            for (int i = 0; i < 12; i++)
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = (month + i).ToString(),
+                    Text = (month + i).ToString()
+                });
+            return new SelectList(selectListItems, "Value", "Text");
+        }
     }
 }

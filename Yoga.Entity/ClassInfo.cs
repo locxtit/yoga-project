@@ -21,26 +21,37 @@ namespace Yoga.Entity
 
         public double Price { get; set; }
 
+        public DateTime? TryLearnDate { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
         public DateTime? EndDate { get; set; }
 
-        public DateTime? PaymentDate { get; set; }
+        public DateTime? LastestPaymentDate { get; set; }
 
         public int NumDaysOfWeek { get; set; }
 
         public int TotalDays { get; set; }
 
+        public int NumOfPaidDays { get; set; }
+
         public int CustomerId { get; set; }
 
         public int TrainerId { get; set; }
+
+        public bool CompletedPayment { get; set; }
 
         public virtual Status Status { get; set; }
 
         public virtual Customer Customer { get; set; }
 
         public virtual Trainer Trainer { get; set; }
+
+        public ClassInfo()
+        {
+            StartDate = DateTime.Now;
+        }
     }
 }

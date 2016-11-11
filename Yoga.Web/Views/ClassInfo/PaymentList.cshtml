@@ -1,5 +1,5 @@
 ﻿@using Yoga.Entity
-@model IEnumerable<Order>
+@model List<Order>
 
 @{
     var classInfo = (ClassInfo)ViewBag.ClassInfo;
@@ -9,7 +9,7 @@
 <table id="dataTablePayment" class="display">
     <thead>
         <tr>
-            <th width=20px;">#</th>
+            <th width="20px;">#</th>
             <th>Mã hóa đơn</th>
             <th>Ngày tạo</th>
             <th>Email</th>
@@ -21,12 +21,14 @@
         @foreach (var item in Model)
         {
             index++;
-            <td>@index</td>
-            <td>@item.OrderCode</td>
-            <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
-            <td>@item.ContactEmail</td>
-            <td>@item.TotalPaid</td>
-            <td>@item.OrderStatus.OrderStatusName</td>
+            <tr>
+                <td>@index</td>
+                <td>@item.OrderCode</td>
+                <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.ContactEmail</td>
+                <td>@item.TotalPaid.ToString("N0")</td>
+                <td>@item.OrderStatus.OrderStatusName</td>
+            </tr>
         }
     </tbody>
 </table>

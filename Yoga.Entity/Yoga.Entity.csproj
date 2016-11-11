@@ -54,6 +54,7 @@
     <Compile Include="Bank.cs" />
     <Compile Include="BankInfo.cs" />
     <Compile Include="ClassInfo.cs" />
+    <Compile Include="Enums\OrderStatusEnum.cs" />
     <Compile Include="Migrations\201611090659310_Update Order Internal.cs" />
     <Compile Include="Migrations\201611090659310_Update Order Internal.Designer.cs">
       <DependentUpon>201611090659310_Update Order Internal.cs</DependentUpon>
@@ -69,6 +70,46 @@
     <Compile Include="Migrations\201611090856555_Update Notify 2.cs" />
     <Compile Include="Migrations\201611090856555_Update Notify 2.Designer.cs">
       <DependentUpon>201611090856555_Update Notify 2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611101025155_Update Trainer 1.cs" />
+    <Compile Include="Migrations\201611101025155_Update Trainer 1.Designer.cs">
+      <DependentUpon>201611101025155_Update Trainer 1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611101038425_Update Unique 2.cs" />
+    <Compile Include="Migrations\201611101038425_Update Unique 2.Designer.cs">
+      <DependentUpon>201611101038425_Update Unique 2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611101108153_Update table BankInfo 2.cs" />
+    <Compile Include="Migrations\201611101108153_Update table BankInfo 2.Designer.cs">
+      <DependentUpon>201611101108153_Update table BankInfo 2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611110321197_Update Bankinfo 3.cs" />
+    <Compile Include="Migrations\201611110321197_Update Bankinfo 3.Designer.cs">
+      <DependentUpon>201611110321197_Update Bankinfo 3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611110354182_Update ClassInfo 3.cs" />
+    <Compile Include="Migrations\201611110354182_Update ClassInfo 3.Designer.cs">
+      <DependentUpon>201611110354182_Update ClassInfo 3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611110429393_Update Order 2.cs" />
+    <Compile Include="Migrations\201611110429393_Update Order 2.Designer.cs">
+      <DependentUpon>201611110429393_Update Order 2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611110444137_Update Order 4.cs" />
+    <Compile Include="Migrations\201611110444137_Update Order 4.Designer.cs">
+      <DependentUpon>201611110444137_Update Order 4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611110712362_UpDate Order 5.cs" />
+    <Compile Include="Migrations\201611110712362_UpDate Order 5.Designer.cs">
+      <DependentUpon>201611110712362_UpDate Order 5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611110733312_Update Order Column OrderCode.cs" />
+    <Compile Include="Migrations\201611110733312_Update Order Column OrderCode.Designer.cs">
+      <DependentUpon>201611110733312_Update Order Column OrderCode.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611110814418_Update ClassInfo Add Column CompletePayment.cs" />
+    <Compile Include="Migrations\201611110814418_Update ClassInfo Add Column CompletePayment.Designer.cs">
+      <DependentUpon>201611110814418_Update ClassInfo Add Column CompletePayment.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\SearchNotifyCriteriaModel.cs" />
     <Compile Include="Models\SearchOrderInternalCriteriaModel.cs" />
@@ -315,6 +356,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611090856555_Update Notify 2.resx">
       <DependentUpon>201611090856555_Update Notify 2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611101025155_Update Trainer 1.resx">
+      <DependentUpon>201611101025155_Update Trainer 1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611101038425_Update Unique 2.resx">
+      <DependentUpon>201611101038425_Update Unique 2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611101108153_Update table BankInfo 2.resx">
+      <DependentUpon>201611101108153_Update table BankInfo 2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110321197_Update Bankinfo 3.resx">
+      <DependentUpon>201611110321197_Update Bankinfo 3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110354182_Update ClassInfo 3.resx">
+      <DependentUpon>201611110354182_Update ClassInfo 3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110429393_Update Order 2.resx">
+      <DependentUpon>201611110429393_Update Order 2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110444137_Update Order 4.resx">
+      <DependentUpon>201611110444137_Update Order 4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110712362_UpDate Order 5.resx">
+      <DependentUpon>201611110712362_UpDate Order 5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110733312_Update Order Column OrderCode.resx">
+      <DependentUpon>201611110733312_Update Order Column OrderCode.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611110814418_Update ClassInfo Add Column CompletePayment.resx">
+      <DependentUpon>201611110814418_Update ClassInfo Add Column CompletePayment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

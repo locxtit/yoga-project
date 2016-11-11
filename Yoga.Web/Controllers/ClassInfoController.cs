@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
+using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
 using Yoga.Web.Helpers;
 
@@ -94,9 +95,59 @@ namespace Yoga.Web.Controllers
         public ActionResult PaymentList(int classInfoId)
         {
             var classInfo = new ClassInfoBll().GetById(classInfoId);
-            var orders = new OrderBll().GetByClassInfoId(classInfoId);
+            var orders = new OrderBll().GetByClassInfoId(classInfoId).ToList();
             ViewBag.ClassInfo = classInfo;
             return View(orders);
+        }
+
+        public ActionResult CreateOrder(int classInfoId)
+        {
+            var model = new Order();
+            var classInfo = new ClassInfoBll().GetById(classInfoId);
+            model.Price = classInfo.Price;
+            model.ClassInfoId = classInfo.ClassInfoId;
+
+            ViewBag.ClassInfo = classInfo;
+            return PartialView("_CreateOrder", model);
+        }
+
+        public ActionResult SaveOrder(Order model)
+        {
+            var errorMessage = new ErrorMessage()
+            {
+                Result = false,
+                ErrorString = "Cập nhật thất bại"
+            };
+            if (ModelState.IsValid)
+            {
+                var classInfoBll = new ClassInfoBll();
+                var classInfo = classInfoBll.GetById(model.ClassInfoId);
+                if (classInfo != null)
+                {
+                    if (classInfo.TotalDays - classInfo.NumOfPaidDays < model.NumOfDays)
+                    {
+                        errorMessage.ErrorString = string.Format("Không thể thanh toán số ngày vượt quá {0}", classInfo.TotalDays - classInfo.NumOfPaidDays);
+                    }
+                    else
+                    {
+                        model.OperatorId = CurrentOperator.OperatorId;
+                        model.OrderStatusId = OrderStatusEnum.PAID.ToString();
+                        errorMessage.Result = new OrderBll().Save(model);
+                        if (errorMessage.Result)
+                        {
+                            classInfoBll.UpdateByOrder(model);
+                            errorMessage.ErrorString = "Cập nhật thành công";
+                        }
+                    }
+                }
+                else
+                {
+                    errorMessage.ErrorString = "Không tồn tại thông tin lớp";
+                }
+            }
+            else
+                errorMessage.ErrorString = Util.GetModelStateErrors(ModelState);
+            return Json(errorMessage, JsonRequestBehavior.AllowGet);
         }
     }
 }

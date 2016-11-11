@@ -106,5 +106,22 @@ namespace Yoga.Web.Controllers
 
         }
 
+        public ActionResult IsExistEmail(string email)
+        {
+            var response = new ErrorMessage()
+            {
+                Result = true,
+            };
+            var customerBll = new CustomerBll();
+            var customer = customerBll.GetByEmail(email);
+            if (customer != null)
+            {
+                response.Result = false;
+                response.ErrorString = "Email đã rồn tại. Vui lòng nhập email khác.";
+            }
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

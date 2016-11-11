@@ -24,6 +24,12 @@ namespace Yoga.Bussiness
             return trainer;
         }
 
+        public Trainer GetByEmail(string email)
+        {
+            var trainer = _context.Trainers.SingleOrDefault(x => x.Email == email);
+            return trainer;
+        }
+
         public IEnumerable<Trainer> Search(SearchTrainerCriteriaModel criteria)
         {
             var query = _context.Trainers.Where(x => x.StatusId != StatusEnum.DELETED.ToString());
@@ -68,7 +74,7 @@ namespace Yoga.Bussiness
                 Trainer entity = _context.Trainers.SingleOrDefault(x => x.TrainerId == trainer.TrainerId);
                 if (entity == null)
                 {
-                    trainer.StatusId = StatusEnum.ACTIVE.ToString();
+                    trainer.CreatedDate = DateTime.Now;
                     _context.Trainers.Add(trainer);
 
                 }

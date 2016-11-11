@@ -1,0 +1,152 @@
+﻿@using Yoga.Web.Common
+@using Yoga.Entity
+@model Order
+@{
+    var classInfo = (ClassInfo)ViewBag.ClassInfo;
+}
+<form id="form-createorder">
+    <input type="hidden" id="OrderId" name="OrderId" value="@Model.OrderId" />
+    <input type="hidden" id="ClassInfoId" name="ClassInfoId" value="@classInfo.ClassInfoId" />
+    <input type="hidden" id="NumOfPaidDays" value="@classInfo.NumOfPaidDays" />
+    <input type="hidden" id="TotalDays" value="@classInfo.TotalDays" />
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="NumOfDays">Số buổi (<span class="required">* & <= @(classInfo.TotalDays - classInfo.NumOfPaidDays)</span>)</label>
+            @Html.TextBoxFor(x => x.NumOfDays, new { @class = "form-control", @placeholder = "Số buổi thanh toán", @min = "0", @type = "number", @max = classInfo.TotalDays - classInfo.NumOfPaidDays})
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Price">Học phí / buổi (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Số tiền trên buổi", @value = classInfo.Price, @readonly="readonly" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="TotalPaid">Tổng tiền (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.TotalPaid, new { @class = "form-control", @placeholder = "Tổng tiền" })
+        </div>
+        @*<div class="form-group col-md-6">
+            <label for="OrderStatusId">Trạng thái thanh toán</label>
+            @Html.DropDownListFor(x => x.OrderStatusId, CategoryReponsitory.GetOrderStatusSelectList(null, null), new { @class = "form-control" })
+        </div>*@
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Email">Tên liên hệ (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.ContactName, new { @class = "form-control", @placeholder = "Tên liên hệ" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="CustomerPhone">Số điện thoại (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.CustomerPhone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="ContactEmail">Email (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.ContactEmail, new { @class = "form-control", @placeholder = "Email" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="ContactAddress">Địa chỉ</label>
+            @Html.TextBoxFor(x => x.ContactAddress, new { @class = "form-control", @placeholder = "Địa chỉ" })
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label for="Note">Ghi chú</label>
+            @Html.TextAreaFor(x => x.Note, new { @class = "form-control", @rows = "3" })
+        </div>
+    </div>
+
+    <button type="button" onclick="submitUpdateCustomer();" class="btn btn-primary">Lưu</button>
+    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#form-createorder #TotalPaid,#form-createorder #Price').number(true, 0);
+
+        $('#form-createorder #NumOfDays').bind('input', function () {
+            updateTotalPrice();
+        });
+
+       // $('#form-createorder #Price').val('@classInfo.Price');
+        updateTotalPrice();
+    });
+
+    function updateTotalPrice() {
+        var price = parseFloat($('#form-createorder #Price').val());
+        var numOfDays = parseInt($('#form-createorder #NumOfDays').val());
+        var totalPaid = price * numOfDays;
+        $('#form-createorder #TotalPaid').val(totalPaid);
+    }
+
+    function submitUpdateCustomer() {
+        var numOfDays = parseInt($('#form-createorder #NumOfDays').val()) || 0;
+        var totalPaid = parseFloat($('#form-createorder #TotalPaid').val()) || 0;
+        var contactName = $('#form-createorder #ContactName').val();
+        var customerPhone = $('#form-createorder #CustomerPhone').val();
+        var contactEmail = $('#form-createorder #ContactEmail').val();
+
+        if (numOfDays <= 0) {
+            swal("Thông báo", "Số buổi thanh toán phải lớn hơn 0", "warning");
+            return;
+        }
+
+        if (numOfDays > parseInt('@(classInfo.TotalDays - classInfo.NumOfPaidDays)')) {
+            swal("Thông báo", "Số buổi thanh toán không được lớn hơn @(classInfo.TotalDays - classInfo.NumOfPaidDays)", "warning");
+            return;
+        }
+
+        if (isBlank(totalPaid)) {
+            swal("Thông báo", "Tổng tiêng thanht oán phải lớn hơn 0", "warning");
+            return;
+        }
+
+        if (isBlank(contactName)) {
+            swal("Thông báo", "Vui lòng nhập Tên liên hệ", "warning");
+            return;
+        }
+
+        if (isBlank(customerPhone)) {
+            swal("Thông báo", "Vui lòng nhập số điện thoại", "warning");
+            return;
+        }
+
+        if (isBlank(contactEmail)) {
+            swal("Thông báo", "Vui lòng nhập Email liên hệ", "warning");
+            return;
+        }
+        swal({
+            title: "Xác nhận tạo hóa đơn!",
+            text: "Hóa đơn không thể hủy khi đã tạo. Bạn thực sự muốn tạo hóa đơn?",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "OK!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            $.ajax({
+                url: '@Url.Action("SaveOrder", "ClassInfo")',
+                data: $('#form-createorder').serialize(),
+                type: 'POST',
+                success: function (data) {
+                    if (data.Result) {
+                        reloadTableClassInfo();
+                        swal("Thông báo", "Tạo hóa đơn thành công", "success");
+                        hideModalCommon();
+                    }
+                    else
+                        swal("Thông báo", data.ErrorString, "error");
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+                }
+            });
+        });
+        
+    }
+</script>

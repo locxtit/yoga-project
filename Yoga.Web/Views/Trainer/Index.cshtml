@@ -13,7 +13,7 @@
         <form>
             <div class="row">
                 <div class="form-group col-md-3">
-                    <label for="CustomerName">Tên HLV</label>
+                    <label for="TrainerName">Tên HLV</label>
                     <input type="text" class="form-control" id="TrainerName" placeholder="" name="TrainerName">
                 </div>
                 <div class="form-group col-md-3">
@@ -21,13 +21,13 @@
                     <input type="tel" class="form-control" id="Phone" placeholder="" name="Phone">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="Phone">Email</label>
+                    <label for="Email">Email</label>
                     <input type="tel" class="form-control" id="Email" placeholder="" name="Email">
                 </div>
                 
                 <div class="col-md-12">
                     <button type="button" class="btn brn-default" onclick="searchTrainer();"><i class="fa fa-search"></i> Tìm kiếm</button>
-                    <button class="btn brn-primary" onclick="updateTrainer();"><i class="fa fa-plus-circle"></i> Thêm HLV</button>
+                    <button class="btn brn-primary" type="button" onclick="updateTrainer();"><i class="fa fa-plus-circle"></i> Thêm HLV</button>
                 </div>
             </div>
         </form>
@@ -101,6 +101,7 @@
 
     function reloadTableTrainer() {
         var oTable = $('#dataTable').DataTable();
+        oTable.ajax.url(getAjaxSource());
         oTable.ajax.reload();
     }
 
@@ -115,7 +116,7 @@
             url: '@Url.Action("Edit", "Trainer")/?trainerId=' + id,
             type: 'POST',
             success: function (data) {
-                showModalCommon("Thông tin tỉnh", data);
+                showModalCommon("Thông tin Huấn luận viên", data);
             },
             error: function () {
                 swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");

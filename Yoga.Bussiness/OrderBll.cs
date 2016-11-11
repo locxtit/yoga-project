@@ -48,34 +48,22 @@ namespace Yoga.Bussiness
             return false;
         }
 
-        public bool SaveOrUpdate(Order order)
+        public bool Save(Order order)
         {
             try
             {
                 var entity = _context.Orders.SingleOrDefault(x => x.OrderId == order.OrderId);
                 if (entity == null)
                 {
+                    order.OrderCode = "O" + DateTime.Now.ToString("yyMMddHHmmss");
                     order.CreatedDate = DateTime.Now;
                     _context.Orders.Add(order);
-                    
+                    _context.SaveChanges();
+                    return true;
                 }
-                else
-                {
-                    //entity.CustomerId = order.CustomerId;
-                    //entity.Id = order.Id;
-                    //entity.Quantity = order.Quantity;
-                    //entity.Price = order.Price;
-                    //entity.Total = order.Price * order.Quantity;
-                    //entity.Note = order.Note;
-                    //entity.PaymentStatusId = order.PaymentStatusId;
-                }
-                _context.SaveChanges();
-                return true;
+                
             }
-            catch (Exception ex)
-            {
-
-            }
+            catch (Exception ex){ }
             return false;
         }
     }

@@ -1,0 +1,33 @@
+﻿@using Yoga.Entity
+@model IEnumerable<BankInfo>
+
+@{
+    var trainer = (Trainer)ViewBag.Trainer;
+    var index = 0;
+}
+
+<table id="dataTableBankInfo" class="display">
+    <thead>
+        <tr>
+            <th width=20px;">#</th>
+            <th>Tài khoản</th>
+            <th>Ngân hàng</th>
+            <th>Chi nhánh</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            index++;
+            <td>@index</td>
+            <td>@item.BankNumber</td>
+            <td>@item.Bank.BankName</td>
+            <td>@item.BankBrand</td>
+            <td>@item.Status.StatusName</td>
+        }
+    </tbody>
+</table>
+<script>
+    $('#dataTableBankInfo').DataTable();
+</script>

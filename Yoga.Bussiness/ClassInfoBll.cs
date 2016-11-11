@@ -64,6 +64,8 @@ namespace Yoga.Bussiness
                 ClassInfo entity = _context.ClassInfos.SingleOrDefault(x => x.ClassInfoId == classInfo.ClassInfoId);
                 if (entity == null)
                 {
+                    entity.CompletedPayment = false;
+                    classInfo.NumOfPaidDays = 0;
                     classInfo.CreatedDate = DateTime.Now;
                     _context.ClassInfos.Add(classInfo);
                     
@@ -79,6 +81,34 @@ namespace Yoga.Bussiness
                     entity.Price = classInfo.Price;
                     entity.TrainerPrice = classInfo.TrainerPrice;
                     entity.StatusId = classInfo.StatusId;
+                    entity.TryLearnDate = classInfo.TryLearnDate;
+                    entity.EndDate = classInfo.EndDate;
+                    //entity.NumOfPaidDays = classInfo.NumOfPaidDays;
+                }
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
+        }
+
+        public bool UpdateByOrder(Order order)
+        {
+            try
+            {
+                ClassInfo entity = _context.ClassInfos.SingleOrDefault(x => x.ClassInfoId == order.ClassInfoId);
+                if (entity != null)
+                {
+                    entity.NumOfPaidDays += order.NumOfDays;
+                    entity.LastestPaymentDate = DateTime.Now;
+
+                    if (entity.TotalDays == entity.NumOfPaidDays)
+                    {
+                        entity.CompletedPayment = true;
+                    }
                 }
                 _context.SaveChanges();
                 return true;

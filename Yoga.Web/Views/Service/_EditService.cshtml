@@ -20,6 +20,9 @@
 </form>
 
 <script>
+    $(document).ready(function () {
+        $("#form-service #Price").number(true, 0);
+    });
     function submitUpdate() {
         var serviceName = $('#ServiceName').val();
         var price = $('#Price').val();

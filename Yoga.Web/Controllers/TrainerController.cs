@@ -26,7 +26,7 @@ namespace Yoga.Web.Controllers
                 {
                     Email = email,
                     Phone = phone,
-                    TrainerName = phone,
+                    TrainerName = trainerName,
                 };
                 var trainerBll = new TrainerBll();
                 var trainners = trainerBll.Search(criteria).OrderByDescending(x => x.CreatedDate);
@@ -85,6 +85,31 @@ namespace Yoga.Web.Controllers
             }
             return Json(response, JsonRequestBehavior.AllowGet);
 
+        }
+
+        public ActionResult IsExistEmail(string email)
+        {
+            var response = new ErrorMessage()
+            {
+                Result = true,
+            };
+            var trainerBll = new TrainerBll();
+            var trainer = trainerBll.GetByEmail(email);
+            if (trainer != null)
+            {
+                response.Result = false;
+                response.ErrorString = "Email đã rồn tại. Vui lòng nhập email khác.";
+            }
+
+            return Json(response, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult BankInfos(int trainerId)
+        {
+            var trainer = new TrainerBll().GetById(trainerId);
+            ViewBag.ClassInfo = trainer;
+            var bankInfos = new BankInfoBll().GetByTrainerId(trainerId);
+            return PartialView("_BankInfos", bankInfos);
         }
 
     }
