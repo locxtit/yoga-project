@@ -7,13 +7,13 @@ namespace Yoga.Entity.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class UpDateOrder5 : IMigrationMetadata
+    public sealed partial class updateorder5 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(UpDateOrder5));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(updateorder5));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611110712362_UpDate Order 5"; }
+            get { return "201611110955433_update order 5"; }
         }
         
         string IMigrationMetadata.Source

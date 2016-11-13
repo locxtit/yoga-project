@@ -20,6 +20,8 @@ namespace Yoga.Entity
 
         public DateTime CreatedDate { get; set; }
 
+        public DateTime? PaymentDate { get; set; }
+
         public int OperatorId { get; set; }
 
         [StringLength(100)]
@@ -41,7 +43,11 @@ namespace Yoga.Entity
 
         public double Price { get; set; }
 
+        public double PriceForTrainer { get; set; }
+
         public double TotalPaid { get; set; }
+
+        public double TotalPaidForTrainer { get; set; }
 
         [StringLength(50)]
         public string OrderStatusId { get; set; }

@@ -48,7 +48,7 @@ namespace Yoga.Bussiness
             return false;
         }
 
-        public bool Save(Order order)
+        public bool SaveOrUpdate(Order order)
         {
             try
             {
@@ -58,10 +58,14 @@ namespace Yoga.Bussiness
                     order.OrderCode = "O" + DateTime.Now.ToString("yyMMddHHmmss");
                     order.CreatedDate = DateTime.Now;
                     _context.Orders.Add(order);
-                    _context.SaveChanges();
-                    return true;
                 }
-                
+                else
+                {
+                    entity.OrderStatusId = order.OrderStatusId;
+                    entity.PaymentDate = order.PaymentDate;
+                }
+                _context.SaveChanges();
+                return true;
             }
             catch (Exception ex){ }
             return false;
