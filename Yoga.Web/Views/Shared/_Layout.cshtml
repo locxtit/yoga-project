@@ -33,17 +33,17 @@
                 @Html.Partial("_Header")
             </section>
             <section id="main" class="row">
-                <div class="col-md-2 left-menu">
+                <div class="left-menu left_col">
                     @Html.Partial("_LeftMenu")
                 </div>
-                <div class="col-md-10 right">
+                <div class="right_col">
                     @RenderBody()
                 </div>
                 
             </section>
-            <section id="footer">
+            @*<section id="footer">
                 @Html.Partial("_Footer")
-            </section>
+            </section>*@
         </div>
 
         @RenderSection("scripts", required: false)
