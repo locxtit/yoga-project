@@ -111,6 +111,21 @@
     <Compile Include="Migrations\201611110955433_update order 5.Designer.cs">
       <DependentUpon>201611110955433_update order 5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611131212272_Update Event 3.cs" />
+    <Compile Include="Migrations\201611131212272_Update Event 3.Designer.cs">
+      <DependentUpon>201611131212272_Update Event 3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611141007291_Update Event 5.cs" />
+    <Compile Include="Migrations\201611141007291_Update Event 5.Designer.cs">
+      <DependentUpon>201611141007291_Update Event 5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611141417460_Update Eventjoiner 3.cs" />
+    <Compile Include="Migrations\201611141417460_Update Eventjoiner 3.Designer.cs">
+      <DependentUpon>201611141417460_Update Eventjoiner 3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\EventJoinerViewModel.cs" />
+    <Compile Include="Models\EventViewModel.cs" />
+    <Compile Include="Models\SearchEventCriteriaModel.cs" />
     <Compile Include="Models\SearchNotifyCriteriaModel.cs" />
     <Compile Include="Models\SearchOrderInternalCriteriaModel.cs" />
     <Compile Include="Models\SearchTrainerCriteriaModel.cs" />
@@ -386,6 +401,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611110955433_update order 5.resx">
       <DependentUpon>201611110955433_update order 5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611131212272_Update Event 3.resx">
+      <DependentUpon>201611131212272_Update Event 3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611141007291_Update Event 5.resx">
+      <DependentUpon>201611141007291_Update Event 5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611141417460_Update Eventjoiner 3.resx">
+      <DependentUpon>201611141417460_Update Eventjoiner 3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

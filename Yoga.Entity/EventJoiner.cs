@@ -13,6 +13,7 @@ namespace Yoga.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int EventJoinerId { get; set; }
 
+        [Index("IX_TrainerIdAndEventId", 1, IsUnique = true)]
         public int TrainerId { get; set; }
 
         public DateTime CreatedDate { get; set; }
@@ -23,6 +24,7 @@ namespace Yoga.Entity
         [StringLength(1000)]
         public string Opinion { get; set; }
 
+        [Index("IX_TrainerIdAndEventId", 2, IsUnique = true)]
         public int EventId { get; set; }
 
         [StringLength(50)]

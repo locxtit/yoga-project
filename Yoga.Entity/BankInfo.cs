@@ -19,6 +19,10 @@ namespace Yoga.Entity
 
         [StringLength(200)]
         [Required]
+        public string BankName { get; set; }
+
+        [StringLength(200)]
+        [Required]
         public string BankBrand { get; set; }
 
         public bool IsMain { get; set; }

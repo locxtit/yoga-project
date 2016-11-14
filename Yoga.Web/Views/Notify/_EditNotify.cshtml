@@ -20,8 +20,8 @@
     </div>
 
     <div class="form-group">
-        <label for="Note">Trạng thái (<span class="required">*</span>)</label>
-        @Html.DropDownListFor(x=>x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
+        <label for="Note">Nội dung (<span class="required">*</span>)</label>
+        @Html.TextAreaFor(x => x.Content, new { @class = "form-control", @placeholder = "", @rows=4 })
     </div>
 
     <div class="form-group">
@@ -30,8 +30,8 @@
     </div>
 
     <div class="form-group">
-        <label for="Note">Nội dung (<span class="required">*</span>)</label>
-        @Html.TextAreaFor(x => x.Content, new { @class = "form-control", @placeholder = "", @rows=4 })
+        <label for="Note">Trạng thái (<span class="required">*</span>)</label>
+        @Html.DropDownListFor(x=>x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
     </div>
 
     <button type="button" onclick="submitUpdateNotify();" class="btn btn-primary">Lưu</button>
