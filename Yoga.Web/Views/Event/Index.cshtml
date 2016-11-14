@@ -1,32 +1,65 @@
-﻿@{
+﻿@using Yoga.Web.Common
+@using Yoga.Entity.Enums
+@{
     ViewBag.Title = ViewBag.Title;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2 class="page-title">@ViewBag.Title</h2>
-
 <input type="hidden" name="EventTypeId" id="EventTypeId" value="@ViewBag.EventTypeId" />
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Thông tin tìm kiếm</h3>
+    </div>
+    <div class="panel-body">
+        <form>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="CustomerName">Tên chương trình</label>
+                    <input type="text" class="form-control" id="Title" placeholder="Tên chương trình" name="Title">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Phone">Tên người tổ chức</label>
+                    <input type="tel" class="form-control" id="OrganizerName" placeholder="Người tổ chức" name="OrganizerName">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Phone">Số điện thoại</label>
+                    <input type="tel" class="form-control" id="Phone" placeholder="Số điện thoại" name="Phone">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="CustomerTypeId">Huấn luận viên</label>
+                    @Html.DropDownList("TrainerId", CategoryReponsitory.GetTrainerSelectList(null,"--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn brn-default" onclick="reloadTableEvent();"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    <button type="button" class="btn brn-primary" onclick="updateEvent(0,'@ViewBag.EventTypeId');"><i class="fa fa-plus-circle"></i> Thêm hoạt động</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
-<a class="btn brn-primary" href="@Url.Action("Edit", "Event", new { eventTypeId = ViewBag.EventTypeId})"><i class="fa fa-plus-circle"></i> Thêm hoạt động</a>
 <table id="dataTable" class="display">
     <thead>
         <tr>
-            <th width=50px;">#</th>
-            <th>Tiêu đề</th>
-            <th>Mô tả</th>
-            <th>Ngày bắt đầu</th>
-            <th>Ngày tạo</th>
+            <th width="50px;">#</th>
+            <th>Tên chương trình</th>
+            <th>Người tổ chức</th>
+            <th>Địa chỉ</th>
+            <th>Số lượng</th>
+            <th>HLV</th>
             <th>Trạng thái</th>
         </tr>
     </thead>
     <tbody></tbody>
     <tfoot>
         <tr>
-            <th width=50px;">#</th>
-            <th>Tiêu đề</th>
-            <th>Mô tả</th>
-            <th>Ngày bắt đầu</th>
-            <th>Ngày tạo</th>
+            <th>#</th>
+            <th>Tên chương trình</th>
+            <th>Người tổ chức</th>
+            <th>Địa chỉ</th>
+            <th>Số lượng</th>
+            <th>HLV</th>
             <th>Trạng thái</th>
         </tr>
     </tfoot>
@@ -45,9 +78,10 @@
             columns: [
                 { "data": "EventId" },
                 { "data": "Title" },
-                { "data": "Description" },
-                { "data": "StartDate" },
-                { "data": "CreatedDate" },
+                { "data": "OrganizerName" },
+                { "data": "OrganizerAddress" },
+                { "data": "CountMember" },
+                { "data": "TrainerNames" },
                 { "data": "Status.StatusName" },
             ],
             fnPreDrawCallback: function (settings) {
@@ -56,14 +90,21 @@
             },
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.EventId));
-                $('td:eq(3)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
-                $('td:eq(4)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                //$('td:eq(4)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
+                //$('td:eq(4)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
             },
         });
     });
 
     function getAjaxSource() {
-        return '/Event/GetList?eventTypeId=' + $('#EventTypeId').val();
+        var params = '';
+        if ('@ViewBag.EventTypeId' == '@EventTypeEnum.COMMUNITY_ACTIVITY.ToString()') {
+            params += '&title=' + $('#Title').val();
+            params += '&organizerName=' + $('#OrganizerName').val();
+            params += '&phone=' + $('#Phone').val();
+            params += '&trainerId=' + $('#TrainerId').val();
+        }
+        return '/Event/GetList?eventTypeId=' + $('#EventTypeId').val() + params;
     }
 
     function reloadTableEvent() {
@@ -74,12 +115,17 @@
 
     function setIconVisibility(id) {
         var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateEvent(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
-        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteEvent(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
-        return editString + delString;
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteEvent(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>  ';
+        var viewMemberString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="viewMemberEvent(' + id + ')" ><span class="glyphicon glyphicon-user" title="Xem thông tin thành viên"></span></a>';
+        return editString + delString + viewMemberString;
     }
 
-    function updateEvent(id) {
-        location.href = "@Url.Action("Edit", "Event")?eventId" + id;
+    function updateEvent(id,eventTypeId) {
+        location.href = "@Url.Action("Edit", "Event")?eventId=" + id + "&eventTypeId=" + eventTypeId;
+    }
+
+    function viewMemberEvent(id) {
+        location.href = "@Url.Action("Joiners", "Event")?eventId=" + id;
     }
 
     function deleteEvent(id) {

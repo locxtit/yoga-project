@@ -5,13 +5,12 @@
 }
 
 <h2 class="page-title">@ViewBag.Title</h2>
-<button class="btn brn-primary" onclick="updateEventJoiner();"><i class="fa fa-plus-circle"></i> Thêm Thành viên</button>
+<button class="btn brn-primary" onclick="updateEventJoiner(0);"><i class="fa fa-plus-circle"></i> Thêm Thành viên</button>
 <table id="dataTable" class="display">
     <thead>
         <tr>
             <th width="100px;">#</th>
             <th>Tên HLV</th>
-            <th>Tham gia Hoạt động</th>
             <th>Ý kiến đóng góp</th>
             <th>Trạng thái</th>
             <th>Ghi chú</th>
@@ -41,7 +40,11 @@
             "pageLength": 25,
             columns: [
                 { "data": "EventJoinerId" },
-                { "data": "EventJoinerName" },
+                { "data": "Trainer.TrainerName" },
+                { "data": "Opinion" },
+                { "data": "Status.StatusName" },
+                { "data": "Note" },
+
             ],
             fnPreDrawCallback: function (settings) {
             },
@@ -71,8 +74,8 @@
 
     function updateEventJoiner(id) {
         $.ajax({
-            url: '@Url.Action("EditJoiner", "Event")/?eventJoinerId=' + id,
-            type: 'POST',
+            url: '@Url.Action("EditJoiner", "Event")/?eventJoinerId=' + id + '&eventId=@Model.EventId',
+            type: 'GET',
             success: function (data) {
                 showModalCommon("Thông tin Thành viên", data);
             },

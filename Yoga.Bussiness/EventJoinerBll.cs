@@ -17,9 +17,9 @@ namespace Yoga.Bussiness
             return _context.EventJoiners.Where(x => x.StatusId != StatusEnum.DELETED.ToString()).ToList();
         }
 
-        public List<EventJoiner> GetByEventId(int eventId)
+        public IEnumerable<EventJoiner> GetByEventId(int eventId)
         {
-            return _context.EventJoiners.Where(x => x.StatusId != StatusEnum.DELETED.ToString() && x.EventId == eventId).ToList();
+            return _context.EventJoiners.Where(x => x.StatusId != StatusEnum.DELETED.ToString() && x.EventId == eventId).OrderByDescending(x => x.CreatedDate);
         }
 
         public EventJoiner GetById(int eventJoinerId)
@@ -35,7 +35,7 @@ namespace Yoga.Bussiness
                 EventJoiner entity = _context.EventJoiners.SingleOrDefault(x => x.EventJoinerId == eventJoinerId);
                 if (entity != null)
                 {
-                    entity.StatusId = StatusEnum.DELETED.ToString();
+                    _context.EventJoiners.Remove(entity);
                     _context.SaveChanges();
                 }
                 return true;
@@ -47,24 +47,59 @@ namespace Yoga.Bussiness
             return false;
         }
 
-        public bool SaveOrUpdate(Event events)
+        public bool DeleteByEventId(int eventId)
         {
             try
             {
-                Event entity = _context.Events.SingleOrDefault(x => x.EventId == events.EventId);
+                var eventJoinerIds = _context.EventJoiners.Where(x => x.EventId == eventId).Select(x=>x.EventJoinerId).ToList();
+                return Delete(eventJoinerIds);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
+        }
+
+        public bool Delete(List<int> eventJoinerIds)
+        {
+            try
+            {
+                foreach (var eventJoinerId in eventJoinerIds)
+                {
+
+                    EventJoiner entity = _context.EventJoiners.SingleOrDefault(x => x.EventJoinerId == eventJoinerId);
+                    if (entity != null)
+                    {
+                        _context.EventJoiners.Remove(entity);
+                    }
+                }
+                _context.SaveChanges();
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
+        }
+
+        public bool SaveOrUpdate(EventJoiner eventJoiner)
+        {
+            try
+            {
+                var entity = _context.EventJoiners.SingleOrDefault(x => x.EventJoinerId == eventJoiner.EventJoinerId);
                 if (entity == null)
                 {
-                    events.CreatedDate = DateTime.Now;
-                    _context.Events.Add(events);
+                    eventJoiner.CreatedDate = DateTime.Now;
+                    _context.EventJoiners.Add(eventJoiner);
                     
                 }
                 else
                 {
-                    entity.StartDate = events.StartDate;
-                    entity.Title = events.Title;
-                    entity.Description = events.Description;
-                    entity.ContentDetail = events.ContentDetail;
-                    entity.StatusId = events.StatusId;
+                    entity.StatusId = eventJoiner.StatusId;
+                    entity.Note = eventJoiner.Note;
+                    entity.Opinion = eventJoiner.Opinion;
                 }
                 _context.SaveChanges();
                 return true;

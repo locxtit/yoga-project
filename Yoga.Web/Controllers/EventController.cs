@@ -43,17 +43,52 @@ namespace Yoga.Web.Controllers
             if (model == null)
                 model = new Event();
 
-            model.EventTypeId = eventTypeId;
+
+            if (model.EventId <= 0)
+            {
+                model.EventTypeId = eventTypeId;
+            }
+
             return View(model);
         }
 
-        public ActionResult GetList(string eventTypeId)
+        public ActionResult GetList(string eventTypeId, string title, string organizerName, string phone, int? trainerId)
         {
             try
             {
+                var criteria = new SearchEventCriteriaModel
+                {
+                    EventTypeId = eventTypeId,
+                    OrganizerName = organizerName,
+                    OrganizerPhone = phone,
+                    Title = title,
+                    TrainerId = trainerId
+
+                };
                 var eventBll = new EventBll();
-                var events = eventBll.GetByEventType(eventTypeId).OrderByDescending(x => x.CreatedDate);
-                return Json(events, JsonRequestBehavior.AllowGet);
+                var events = eventBll.Search(criteria);
+
+                var models = events.Select(x=>new EventViewModel
+                {
+                    ContentDetail = x.ContentDetail,
+                    CreatedDate = x.CreatedDate,
+                    Description = x.Description,
+                    EventId = x.EventId,
+                    EventTypeId = x.EventTypeId,
+                    EventType = x.EventType,
+                    OperatorId = x.OperatorId,
+                    OrganizerName = x.OrganizerName,
+                    OrganizerEmail = x.OrganizerEmail,
+                    OrganizerPhone = x.OrganizerPhone,
+                    OrganizerAddress = x.OrganizerAddress,
+                    StartDate = x.StartDate,
+                    Title = x.Title,
+                    StatusId = x.StatusId,
+                    Status = x.Status,
+                    Operator = x.Operator,
+                    TrainerNames = x.TrainerNames
+                }).ToList();
+                return Json(models, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -71,7 +106,15 @@ namespace Yoga.Web.Controllers
             };
             if (ModelState.IsValid)
             {
-                errorMessage.Result = new EventBll().SaveOrUpdate(model);
+                var eventBll = new EventBll();
+
+                var oldEvent = eventBll.GetById(model.EventId);
+                if (oldEvent == null)
+                {
+                    model.OperatorId = CurrentOperator.OperatorId;
+                }
+
+                errorMessage.Result = eventBll.SaveOrUpdate(model);
                 if (errorMessage.Result)
                 {
                     errorMessage.ErrorString = "Cập nhật thành công";
@@ -114,8 +157,12 @@ namespace Yoga.Web.Controllers
             try
             {
                 var eventJoinerBll = new EventJoinerBll();
-                var eventJoiners = eventJoinerBll.GetByEventId(eventId).OrderByDescending(x=>x.CreatedDate);
-                return Json(eventJoiners, JsonRequestBehavior.AllowGet);
+                var eventJoiners = eventJoinerBll.GetByEventId(eventId);
+                foreach (var item in eventJoiners)
+                {
+                    item.Event.EventJoiners = null;
+                }
+                return Json(eventJoiners.ToList(), JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {
@@ -123,22 +170,24 @@ namespace Yoga.Web.Controllers
             }
         }
 
-        public ActionResult EditJoiner(int? eventjoinerId)
+        [HttpGet]
+        public ActionResult EditJoiner(int? eventjoinerId, int eventId)
         {
             var model = new EventJoiner();
             if (eventjoinerId.HasValue && eventjoinerId.Value > 0)
             {
                 model = new EventJoinerBll().GetById(eventjoinerId.Value);
             }
+            else
+            {
+                model.EventId = eventId;
+            }
 
-            if (model == null)
-                model = new EventJoiner();
-
-            return View(model);
+            return PartialView("_EditJoiner", model);
         }
 
         [HttpPost]
-        public ActionResult EditJoiner(Event model)
+        public ActionResult EditJoiner(EventJoiner model)
         {
             var errorMessage = new ErrorMessage()
             {

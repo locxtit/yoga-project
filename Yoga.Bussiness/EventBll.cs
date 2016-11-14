@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Yoga.Entity;
 using Yoga.Entity.Enums;
+using Yoga.Entity.Models;
 
 namespace Yoga.Bussiness
 {
@@ -20,6 +21,35 @@ namespace Yoga.Bussiness
         public List<Event> GetByEventType(string eventTypeId)
         {
             return _context.Events.Where(x => x.StatusId != StatusEnum.DELETED.ToString() && x.EventTypeId == eventTypeId).ToList();
+        }
+
+        public IEnumerable<Event> Search(SearchEventCriteriaModel criteria)
+        {
+            var query = _context.Events.Where(x => x.StatusId != StatusEnum.DELETED.ToString());
+
+            if (!string.IsNullOrEmpty(criteria.EventTypeId))
+            {
+                query = query.Where(x => x.EventTypeId == criteria.EventTypeId);
+            }
+            if (!string.IsNullOrEmpty(criteria.Title))
+            {
+                query = query.Where(x => x.Title.ToLower().Contains(criteria.Title.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(criteria.OrganizerPhone))
+            {
+                query = query.Where(x => x.OrganizerPhone.Contains(criteria.OrganizerPhone));
+            }
+            if (!string.IsNullOrEmpty(criteria.OrganizerName))
+            {
+                query = query.Where(x => x.OrganizerName .Contains(criteria.OrganizerName));
+            }
+            if (criteria.TrainerId.HasValue)
+            {
+                query = query.Where(x => x.EventJoiners.Any(y=>y.TrainerId == criteria.TrainerId));
+            }
+
+            query = query.OrderByDescending(x => x.CreatedDate);
+            return query;
         }
 
         public Event GetById(int eventId)
@@ -65,6 +95,12 @@ namespace Yoga.Bussiness
                     entity.Description = events.Description;
                     entity.ContentDetail = events.ContentDetail;
                     entity.StatusId = events.StatusId;
+                    entity.CountMember = events.CountMember;
+
+                    entity.OrganizerName = events.OrganizerName;
+                    entity.OrganizerEmail = events.OrganizerEmail;
+                    entity.OrganizerPhone = events.OrganizerPhone;
+                    entity.OrganizerAddress = events.OrganizerAddress;
                 }
                 _context.SaveChanges();
                 return true;

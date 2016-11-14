@@ -28,6 +28,22 @@ namespace Yoga.Entity
         [StringLength(50)]
         public string StatusId { get; set; }
 
+        [StringLength(200)]
+        public string OrganizerName { get; set; }
+
+        [StringLength(12)]
+        public string OrganizerPhone { get; set; }
+
+        [StringLength(100)]
+        public string OrganizerEmail { get; set; }
+
+        [StringLength(200)]
+        public string OrganizerAddress { get; set; }
+
+        public int OperatorId { get; set; }
+
+        public int? CountMember { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public DateTime? StartDate { get; set; }
@@ -35,5 +51,21 @@ namespace Yoga.Entity
         public virtual Status Status { get; set; }
 
         public virtual EventType EventType { get; set; }
+
+        public virtual Operator Operator { get; set; }
+
+        public virtual ICollection<EventJoiner> EventJoiners { get; set; }
+
+        [NotMapped]
+        public string TrainerNames
+        {
+            get
+            {
+                if (EventJoiners == null) return null;
+                var lst = EventJoiners.Select(x => x.Trainer.TrainerName);
+                var value = string.Join(", ", lst);
+                return value;
+            }
+        }
     }
 }
