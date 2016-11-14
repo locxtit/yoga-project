@@ -1,0 +1,179 @@
+﻿@using Yoga.Web.Common
+@using Yoga.Entity
+@using Yoga.Entity.Enums
+@model Order
+@{
+    var classInfo = (ClassInfo)ViewBag.ClassInfo;
+}
+<form id="form-createorder">
+    <input type="hidden" id="OrderId" name="OrderId" value="@Model.OrderId" />
+    <input type="hidden" id="ClassInfoId" name="ClassInfoId" value="@Model.ClassInfoId" />
+    <input type="hidden" id="OrderStatusId" name="OrderStatusId" value="@Model.OrderStatusId" />
+    <input type="hidden" id="NumOfPaidDays" value="@classInfo.NumOfPaidDays" />
+    <input type="hidden" id="TotalDays" value="@classInfo.TotalDays" />
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="NumOfDays">Số buổi (<span class="required">* & <= @(classInfo.TotalDays - classInfo.NumOfPaidDays)</span>)</label>
+            @Html.TextBoxFor(x => x.NumOfDays, new { @class = "form-control", @placeholder = "Số buổi thanh toán", @min = "0", @type = "number", @max = classInfo.TotalDays - classInfo.NumOfPaidDays})
+        </div>
+        <div class="form-group col-md-3">
+            <label for="Price">Học phí / buổi (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Số tiền trên buổi", @readonly="readonly" })
+        </div>
+        <div class="form-group col-md-3">
+            <label for="Price">Học phí HLV / buổi (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.PriceForTrainer, new { @class = "form-control", @placeholder = "Số tiền trên buổi", @readonly="readonly" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="TotalPaid">Tổng tiền (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.TotalPaid, new { @class = "form-control", @placeholder = "Tổng tiền" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="TotalPaid">Tiền HLV (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.TotalPaidForTrainer, new { @class = "form-control", @placeholder = "Tiền Huấn luận viên" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Email">Tên liên hệ (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.ContactName, new { @class = "form-control", @placeholder = "Tên liên hệ" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="CustomerPhone">Số điện thoại (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.CustomerPhone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="ContactEmail">Email (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.ContactEmail, new { @class = "form-control", @placeholder = "Email" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="ContactAddress">Địa chỉ</label>
+            @Html.TextBoxFor(x => x.ContactAddress, new { @class = "form-control", @placeholder = "Địa chỉ" })
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label for="Note">Ghi chú</label>
+            @Html.TextAreaFor(x => x.Note, new { @class = "form-control", @rows = "3" })
+        </div>
+    </div>
+    @if(Model.OrderId <= 0){
+        <button type="button" onclick="submitUpdateOrder('@OrderStatusEnum.WAITING.ToString()');" class="btn btn-primary">Chưa thanh toán</button>
+    }
+    @if(Model.OrderId <= 0 || Model.OrderStatusId == OrderStatusEnum.WAITING.ToString()){
+        <button type="button" onclick="submitUpdateOrder('@OrderStatusEnum.PAID.ToString()');" class="btn btn-primary">Đã thanh toán</button>
+    }
+    @if (Model.OrderId > 0 && Model.OrderStatusId == OrderStatusEnum.WAITING.ToString()){
+        <button type="button" onclick="submitUpdateOrder('@OrderStatusEnum.CANCEL.ToString()');" class="btn btn-primary">Hủy hóa đơn</button>
+    }
+    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#form-createorder #TotalPaid,#form-createorder #Price, #form-createorder #TotalPaidForTrainer,#form-createorder #PriceForTrainer').number(true, 0);
+
+        $('#form-createorder #NumOfDays').bind('input', function () {
+            updateTotalPrice();
+        });
+
+       // $('#form-createorder #Price').val('@classInfo.Price');
+        updateTotalPrice();
+    });
+
+    function updateTotalPrice() {
+        var price = parseFloat($('#form-createorder #Price').val());
+        var priceForTrainer = parseFloat($('#form-createorder #PriceForTrainer').val());
+        var numOfDays = parseInt($('#form-createorder #NumOfDays').val());
+        var totalPaid = price * numOfDays;
+        var totalPaidForTrainer = priceForTrainer * numOfDays;
+        $('#form-createorder #TotalPaid').val(totalPaid);
+        $('#form-createorder #TotalPaidForTrainer').val(totalPaidForTrainer);
+    }
+
+    function submitUpdateOrder(orderStatusId) {
+        var numOfDays = parseInt($('#form-createorder #NumOfDays').val()) || 0;
+        var totalPaid = parseFloat($('#form-createorder #TotalPaid').val()) || 0;
+        var contactName = $('#form-createorder #ContactName').val();
+        var customerPhone = $('#form-createorder #CustomerPhone').val();
+        var contactEmail = $('#form-createorder #ContactEmail').val();
+
+        if (numOfDays <= 0) {
+            swal("Thông báo", "Số buổi thanh toán phải lớn hơn 0", "warning");
+            return;
+        }
+
+        if (numOfDays > parseInt('@(classInfo.TotalDays - classInfo.NumOfPaidDays)')) {
+            swal("Thông báo", "Số buổi thanh toán không được lớn hơn @(classInfo.TotalDays - classInfo.NumOfPaidDays)", "warning");
+            return;
+        }
+
+        if (isBlank(totalPaid)) {
+            swal("Thông báo", "Tổng tiêng thanht oán phải lớn hơn 0", "warning");
+            return;
+        }
+
+        if (isBlank(contactName)) {
+            swal("Thông báo", "Vui lòng nhập Tên liên hệ", "warning");
+            return;
+        }
+
+        if (isBlank(customerPhone)) {
+            swal("Thông báo", "Vui lòng nhập số điện thoại", "warning");
+            return;
+        }
+
+        if (isBlank(contactEmail)) {
+            swal("Thông báo", "Vui lòng nhập Email liên hệ", "warning");
+            return;
+        }
+
+        var alertText = 'Hóa đơn sẽ ko cho phép cập nhật khi đã tạo. Bạn thực sự muốn tạo hóa đơn?';
+        if (orderStatusId == 'CANCEL') {
+            alertText = 'Bạn thực sự muốn hủy hóa đơn?';
+        }
+        if (orderStatusId == 'PAID') {
+            alertText = 'Hóa đơn sẽ ko cho phép cập nhật khi đã thanh toán. Bạn có chắc đã thu tiền hóa đơn rồi?';
+        }
+
+        swal({
+            title: "Xác nhận!",
+            text: alertText,
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "OK!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            $('#form-createorder #OrderStatusId').val(orderStatusId);
+
+            $.ajax({
+                url: '@Url.Action("SaveOrder", "ClassInfo")',
+                data: $('#form-createorder').serialize(),
+                type: 'POST',
+                success: function (data) {
+                    if (data.Result) {
+                        reloadTableClassInfo();
+                        swal("Thông báo", data.ErrorString, "success");
+                        hideModalCommon();
+                    }
+                    else
+                        swal("Thông báo", data.ErrorString, "error");
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+                }
+            });
+        });
+        
+    }
+</script>

@@ -32,6 +32,7 @@
     <thead>
         <tr>
             <th width="50px;">#</th>
+            <th>Tên lớp</th>
             <th>Học viên</th>
             <th>Điện thoại</th>
             <th>Học phí</th>
@@ -39,6 +40,7 @@
             <th>Ngày bất đầu</th>
             <th>Tổng số buổi</th>
             <th>HLV</th>
+            <th>Trạng thái</th>
             <th>Thanh toán</th>
         </tr>
     </thead>
@@ -46,6 +48,7 @@
     <tfoot>
         <tr>
             <th width="50px;">#</th>
+            <th>Tên lớp</th>
             <th>Học viên</th>
             <th>Điện thoại</th>
             <th>Học phí</th>
@@ -53,6 +56,7 @@
             <th>Ngày bất đầu</th>
             <th>Tổng số buổi</th>
             <th>HLV</th>
+            <th>Trạng thái</th>
             <th>Thanh toán</th>
         </tr>
     </tfoot>
@@ -72,6 +76,7 @@
             "pageLength": 25,
             columns: [
                 { "data": "ClassInfoId" },
+                { "data": "ClassName" },
                 { "data": "Customer.Name" },
                 { "data": "Customer.Phone" },
                 { "data": "Price" },
@@ -79,6 +84,7 @@
                 { "data": "StartDate" },
                 { "data": "TotalDays" },
                 { "data": "Trainer.TrainerName" },
+                { "data": "Status.StatusName" },
                 { "data": "ClassInfoId" },
             ],
             fnPreDrawCallback: function (settings) {
@@ -87,8 +93,10 @@
             },
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId));
-                $('td:eq(5)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
-                $('td:eq(8)', nRow).html(setIconShowPaymentList(aData.ClassInfoId));
+                $('td:eq(6)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
+                $('td:eq(10)', nRow).html(setIconShowPaymentList(aData.ClassInfoId, aData.CompletedPayment));
+                $('td:eq(4)', nRow).html($.number(aData.Price, 0));
+                $('td:eq(5)', nRow).html($.number(aData.TrainerPrice, 0));
             },
         });
     });
@@ -103,15 +111,19 @@
         oTable.ajax.reload();
     }
 
-    function setIconShowPaymentList(id) {
+    function setIconShowPaymentList(id,completedpayment) {
         var editString = '<a class="action-icon" href= "javascript:void(0)" onclick="showPopupPayment(' + id + ')">Thanh toán</a>  ';
+        if (completedpayment) {
+            var editString = '<a class="action-icon" href= "javascript:void(0)" onclick="showPopupPayment(' + id + ')">Đã hoàn thành</a>  ';
+        }
         return editString;
     }
 
     function setIconVisibility(id) {
         var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateClassInfo(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
-        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteClassInfo(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
-        return editString + delString;
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteClassInfo(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>  ';
+        var createOrderString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="creatOrder(' + id + ')"><span class="glyphicon glyphicon-edit" title="Tạo hóa đơn"></span></a>  ';
+        return editString + delString + createOrderString;
     }
 
     function searchClassInfo() {
@@ -124,6 +136,19 @@
             type: 'POST',
             success: function (data) {
                 showModalCommon("Thông tin Khách hàng", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function creatOrder(id) {
+        $.ajax({
+            url: '@Url.Action("CreateOrder", "ClassInfo")/?classInfoId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Tạo hóa đơn", data);
             },
             error: function () {
                 swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");

@@ -17,9 +17,14 @@ namespace Yoga.Entity
         public string TrainerName { get; set; }
 
         [StringLength(12)]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^(\d{10})$|^(\d{11})$", ErrorMessage = "Số điện thoại không hợp lệ")]
         public string Phone { get; set; }
 
         [StringLength(100)]
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        [Index("IX_Email", 1, IsUnique = true)]
         public string Email { get; set; }
 
         [StringLength(200)]
@@ -33,6 +38,8 @@ namespace Yoga.Entity
 
         [StringLength(50)]
         public string StatusId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
 
         public virtual Status Status { get; set; }
     }

@@ -13,23 +13,41 @@ namespace Yoga.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderId { get; set; }
 
-        [StringLength(10)]
+        [StringLength(15)]
+        [DataType(DataType.EmailAddress)]
+        [Index("IX_Email", 1, IsUnique = true)]
         public string OrderCode { get; set; }
 
         public DateTime CreatedDate { get; set; }
 
+        public DateTime? PaymentDate { get; set; }
+
         public int OperatorId { get; set; }
 
         [StringLength(100)]
+        [Required]
+        public string ContactName { get; set; }
+
+        [StringLength(100)]
+        [Required]
         public string ContactEmail { get; set; }
 
         [StringLength(12)]
+        [Required]  
         public string CustomerPhone { get; set; }
 
         [StringLength(200)]
         public string ContactAddress { get; set; }
 
+        public int NumOfDays { get; set; }
+
+        public double Price { get; set; }
+
+        public double PriceForTrainer { get; set; }
+
         public double TotalPaid { get; set; }
+
+        public double TotalPaidForTrainer { get; set; }
 
         [StringLength(50)]
         public string OrderStatusId { get; set; }

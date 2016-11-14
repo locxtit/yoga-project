@@ -1,0 +1,183 @@
+﻿@using Yoga.Web.Common
+@{
+    ViewBag.Title = "Báo cáo thu chi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-title">@ViewBag.Title</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Thông báo cáo</h3>
+    </div>
+    <div class="panel-body">
+        <form>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="Year">Năm</label>
+                    @Html.DropDownList("Year", CategoryReponsitory.GetYearReportSelectList(), new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Month">Tháng</label>
+                    @Html.DropDownList("Month", CategoryReponsitory.GetMonthReportSelectList(), new { @class = "form-control" })
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn brn-default" onclick="getReport();"><i class="fa fa-search"></i> Lấy báo cáo</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#tab1">Báo cáo thu</a></li>
+  <li><a data-toggle="tab" href="#tab2">Báo cáo chi</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="tab1" class="tab-pane fade in active">
+    <table id="dataTableImport" class="display">
+    <thead>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Tên lớp</th>
+            <th>Học viên</th>
+            <th>Điện thoại</th>
+            <th>Học phí</th>
+            <th>Phí HLV</th>
+            <th>Ngày bất đầu</th>
+            <th>Tổng số buổi</th>
+            <th>HLV</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Tên lớp</th>
+            <th>Học viên</th>
+            <th>Điện thoại</th>
+            <th>Học phí</th>
+            <th>Phí HLV</th>
+            <th>Ngày bất đầu</th>
+            <th>Tổng số buổi</th>
+            <th>HLV</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
+        </tr>
+    </tfoot>
+</table>
+  </div>
+  <div id="tab2" class="tab-pane fade">
+    <table id="dataTableExport" class="display">
+    <thead>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Tên lớp</th>
+            <th>Học viên</th>
+            <th>Điện thoại</th>
+            <th>Học phí</th>
+            <th>Phí HLV</th>
+            <th>Ngày bất đầu</th>
+            <th>Tổng số buổi</th>
+            <th>HLV</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    <tfoot>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Tên lớp</th>
+            <th>Học viên</th>
+            <th>Điện thoại</th>
+            <th>Học phí</th>
+            <th>Phí HLV</th>
+            <th>Ngày bất đầu</th>
+            <th>Tổng số buổi</th>
+            <th>HLV</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
+        </tr>
+    </tfoot>
+</table>
+  </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('#dataTableImport').DataTable({
+            serverSide: false,
+            ajax: {
+                "url": getAjaxSource(),
+                "dataSrc": ""
+            },
+            "pageLength": 25,
+            columns: [
+                { "data": "ClassInfoId" },
+                { "data": "ClassName" },
+                { "data": "Customer.Name" },
+                { "data": "Customer.Phone" },
+                { "data": "Price" },
+                { "data": "TrainerPrice" },
+                { "data": "StartDate" },
+                { "data": "TotalDays" },
+                { "data": "Trainer.TrainerName" },
+                { "data": "Status.StatusName" },
+                { "data": "ClassInfoId" },
+            ],
+            fnPreDrawCallback: function (settings) {
+            },
+            fnDrawCallback: function (settings) {
+            },
+            fnRowCallback: function (nRow, aData) {
+                $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId));
+                $('td:eq(6)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
+                $('td:eq(10)', nRow).html(setIconShowPaymentList(aData.ClassInfoId, aData.CompletedPayment));
+                $('td:eq(4)', nRow).html($.number(aData.Price, 0));
+                $('td:eq(5)', nRow).html($.number(aData.TrainerPrice, 0));
+            },
+        });
+
+        $('#dataTableExport').DataTable({
+            serverSide: false,
+            ajax: {
+                "url": getAjaxSource(),
+                "dataSrc": ""
+            },
+            "pageLength": 25,
+            columns: [
+                { "data": "ClassInfoId" },
+                { "data": "ClassName" },
+                { "data": "Customer.Name" },
+                { "data": "Customer.Phone" },
+                { "data": "Price" },
+                { "data": "TrainerPrice" },
+                { "data": "StartDate" },
+                { "data": "TotalDays" },
+                { "data": "Trainer.TrainerName" },
+                { "data": "Status.StatusName" },
+                { "data": "ClassInfoId" },
+            ],
+            fnPreDrawCallback: function (settings) {
+            },
+            fnDrawCallback: function (settings) {
+            },
+            fnRowCallback: function (nRow, aData) {
+                $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId));
+                $('td:eq(6)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
+                $('td:eq(10)', nRow).html(setIconShowPaymentList(aData.ClassInfoId, aData.CompletedPayment));
+                $('td:eq(4)', nRow).html($.number(aData.Price, 0));
+                $('td:eq(5)', nRow).html($.number(aData.TrainerPrice, 0));
+            },
+        });
+    });
+
+    function getAjaxSourceImport() {
+        return '/ClassInfo/GetList?trainerId=' + $('#trainerId').val() + '&customerName=' + $('#customerName').val();
+    }
+</script>

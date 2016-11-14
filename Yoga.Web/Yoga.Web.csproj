@@ -139,6 +139,7 @@
     <Compile Include="Controllers\OrderServiceController.cs" />
     <Compile Include="Controllers\PopularController.cs" />
     <Compile Include="Controllers\ProvinceController.cs" />
+    <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Controllers\TrainerController.cs" />
     <Compile Include="Global.asax.cs">
@@ -609,6 +610,7 @@
     <Content Include="Scripts\jquery-3.1.1.min.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.js" />
     <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery.number.min.js" />
     <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Scripts\pages\main.js" />
     <Content Include="Scripts\tinymce\jquery.tinymce.min.js" />
@@ -819,6 +821,9 @@
     <Content Include="Views\Operator\Profile.cshtml" />
     <Content Include="Views\Shared\_ShowMessage.cshtml" />
     <Content Include="Views\ClassInfo\PaymentList.cshtml" />
+    <Content Include="Views\Trainer\_BankInfos.cshtml" />
+    <Content Include="Views\ClassInfo\_CreateOrder.cshtml" />
+    <Content Include="Views\Report\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -49,6 +49,8 @@
         $("#form-orderservice #CustomerId").select2();
         $("#form-orderservice #ServiceId").select2();
 
+        $('#form-orderservice #Price, #form-orderservice #Total').number(true, 0);
+
         $('#form-orderservice #ServiceId').change(function () {
             if ($(this).val() == '') {
                 $('#form-orderservice #Price').val(0)

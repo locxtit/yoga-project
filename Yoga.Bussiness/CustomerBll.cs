@@ -46,6 +46,12 @@ namespace Yoga.Bussiness
             return province;
         }
 
+        public Customer GetByEmail(string email)
+        {
+            var customer = _context.Customers.SingleOrDefault(x => x.Email == email);
+            return customer;
+        }
+
         public bool Delete(int customerId)
         {
             try

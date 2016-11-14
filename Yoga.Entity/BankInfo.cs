@@ -14,12 +14,11 @@ namespace Yoga.Entity
         public int BankInfoId { get; set; }
 
         [StringLength(50)]
+        [Required]
         public string BankNumber { get; set; }
 
-        [StringLength(100)]
-        public string BankName { get; set; }
-
         [StringLength(200)]
+        [Required]
         public string BankBrand { get; set; }
 
         public bool IsMain { get; set; }
@@ -30,9 +29,12 @@ namespace Yoga.Entity
         public Status Status { get; set; }
 
         [StringLength(50)]
+        [Required]
         public string BankId { get; set; }
 
         public int TrainerId { get; set; }
+
+        public DateTime CreatedDate { get; set; }
 
         public virtual Bank Bank { get; set; }
 

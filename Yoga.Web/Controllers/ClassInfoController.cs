@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
+using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
 using Yoga.Web.Helpers;
 
@@ -94,9 +95,106 @@ namespace Yoga.Web.Controllers
         public ActionResult PaymentList(int classInfoId)
         {
             var classInfo = new ClassInfoBll().GetById(classInfoId);
-            var orders = new OrderBll().GetByClassInfoId(classInfoId);
+            var orders = new OrderBll().GetByClassInfoId(classInfoId).ToList();
             ViewBag.ClassInfo = classInfo;
             return View(orders);
+        }
+
+        public ActionResult CreateOrder(int classInfoId)
+        {
+            var model = new Order();
+            var classInfo = new ClassInfoBll().GetById(classInfoId);
+            model.Price = classInfo.Price;
+            model.PriceForTrainer = classInfo.TrainerPrice;
+            model.ClassInfoId = classInfo.ClassInfoId;
+
+            ViewBag.ClassInfo = classInfo;
+            return PartialView("_CreateOrder", model);
+        }
+
+        public ActionResult EditOrder(int orderId)
+        {
+            var model = new OrderBll().GetById(orderId);
+            var classInfo = new ClassInfoBll().GetById(model.ClassInfoId);
+
+            ViewBag.ClassInfo = classInfo;
+            return PartialView("_CreateOrder", model);
+        }
+
+        [HttpPost]
+        public ActionResult SaveOrder(Order model)
+        {
+            var errorMessage = new ErrorMessage()
+            {
+                Result = false,
+                ErrorString = "Cập nhật thất bại"
+            };
+            if (ModelState.IsValid)
+            {
+                var classInfoBll = new ClassInfoBll();
+                var classInfo = classInfoBll.GetById(model.ClassInfoId);
+                if (classInfo != null)
+                {
+
+                    var orderBll = new OrderBll();
+                    var oldOrder = orderBll.GetById(model.OrderId);
+                    if (oldOrder == null)
+                    {
+                        if (classInfo.TotalDays - classInfo.NumOfPaidDays < model.NumOfDays)
+                        {
+                            errorMessage.ErrorString = string.Format("Không thể thanh toán số ngày vượt quá {0}", classInfo.TotalDays - classInfo.NumOfPaidDays);
+                        }
+                        else
+                        {
+                            model.OperatorId = CurrentOperator.OperatorId;
+                            if (model.OrderStatusId == OrderStatusEnum.PAID.ToString())
+                            {
+                                model.PaymentDate = DateTime.Now;
+                            }
+                            errorMessage.Result = orderBll.SaveOrUpdate(model);
+                        }
+                    }
+                    else
+                    {
+                        if (oldOrder.OrderStatusId == OrderStatusEnum.PAID.ToString() && oldOrder.OrderStatusId == OrderStatusEnum.CANCEL.ToString())
+                        {
+                            errorMessage.ErrorString = "Hóa đơn đã thanh toán hoặc đã bị hủy. Không thể cập nhật được";
+                        }
+                        else
+                        {
+                            if (model.OrderStatusId == OrderStatusEnum.WAITING.ToString())
+                            {
+                                errorMessage.ErrorString = "Hóa đơn ko cho phép Cập nhật";
+                            }
+                            else
+                            {
+                                oldOrder.OrderStatusId = model.OrderStatusId;
+                                if (model.OrderStatusId == OrderStatusEnum.PAID.ToString())
+                                {
+                                    oldOrder.PaymentDate.ToString();
+                                }
+                                errorMessage.Result = orderBll.SaveOrUpdate(oldOrder);
+                            }
+                        }
+                    }
+
+                    if (errorMessage.Result)
+                    {
+                        if (model.OrderStatusId == OrderStatusEnum.PAID.ToString())
+                        {
+                            classInfoBll.UpdateByOrder(model);
+                        }
+                        errorMessage.ErrorString = "Cập nhật thành công";
+                    }
+                }
+                else
+                {
+                    errorMessage.ErrorString = "Không tồn tại thông tin lớp";
+                }
+            }
+            else
+                errorMessage.ErrorString = Util.GetModelStateErrors(ModelState);
+            return Json(errorMessage, JsonRequestBehavior.AllowGet);
         }
     }
 }

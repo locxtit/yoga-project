@@ -163,5 +163,18 @@ namespace Yoga.Bussiness
                 _operators = value;
             }
         }
+
+        private static List<OrderStatus> _orderStatus;
+        public static List<OrderStatus> OrderStatus
+        {
+            get
+            {
+                if (_orderStatus == null)
+                {
+                    _orderStatus = new OrderStatusBll().GetAll();
+                }
+                return _orderStatus;
+            }
+        }
     }
 }

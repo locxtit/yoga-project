@@ -53,6 +53,8 @@
   <ItemGroup>
     <Compile Include="CategoryBll.cs" />
     <Compile Include="ClassInfoBll.cs" />
+    <Compile Include="BankInfoBll.cs" />
+    <Compile Include="OrderStatusBll.cs" />
     <Compile Include="OrderBll.cs" />
     <Compile Include="NotifyBll.cs" />
     <Compile Include="OrderInternalBll.cs" />

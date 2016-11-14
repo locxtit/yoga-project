@@ -24,6 +24,18 @@
             @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control", @placeholder = "Ngày bắt đầu", @value=Model.StartDate == DateTime.MinValue? "" : Model.StartDate.ToString("dd/MM/yyyy") })
         </div>
     </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Phone">Ngày học thử</label>
+            @Html.TextBoxFor(x => x.TryLearnDate, new { @class = "form-control", @value=Model.TryLearnDate.HasValue?  Model.TryLearnDate.Value.ToString("dd/MM/yyyy") : ""})
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Email">Ngày kết thúc</label>
+            @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control", @placeholder = "Ngày bắt đầu", @value=Model.EndDate.HasValue?  Model.EndDate.Value.ToString("dd/MM/yyyy") : "" })
+        </div>
+    </div>
+
     <div class="row">
         <div class="form-group col-md-6">
             <label for="Phone">Số buổi/tuần (<span class="required">*</span>)</label>
@@ -48,7 +60,7 @@
     <div class="row">
         <div class="form-group col-md-6">
             <label for="StatusId">Trạng thái</label>
-            @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
+            @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForClassInfo(), new { @class = "form-control" })
         </div>
     </div>
 
@@ -61,9 +73,11 @@
         $("#TrainerId").select2();
         $("#CustomerId").select2();
 
-        $("#StartDate").datepicker({
+        $("#StartDate, #TryLearnDate, #EndDate").datepicker({
             format: 'dd/mm/yyyy'
         });
+
+        $("#form-classinfo #Price, #form-classinfo #TrainerPrice").number(true, 0);
     });
     
     function submitUpdateCustomer() {

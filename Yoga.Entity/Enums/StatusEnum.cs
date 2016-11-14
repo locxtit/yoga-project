@@ -8,6 +8,9 @@ namespace Yoga.Entity.Enums
 {
     public enum StatusEnum
     {
-        ACTIVE, DELETED, INACTIVE
+        ACTIVE,
+        DELETED,
+        INACTIVE,
+        FINISHED
     }
 }
