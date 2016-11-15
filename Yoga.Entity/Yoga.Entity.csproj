@@ -123,6 +123,10 @@
     <Compile Include="Migrations\201611141417460_Update Eventjoiner 3.Designer.cs">
       <DependentUpon>201611141417460_Update Eventjoiner 3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611151239205_Update Order Internal 3.cs" />
+    <Compile Include="Migrations\201611151239205_Update Order Internal 3.Designer.cs">
+      <DependentUpon>201611151239205_Update Order Internal 3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\EventJoinerViewModel.cs" />
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\SearchEventCriteriaModel.cs" />
@@ -410,6 +414,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611141417460_Update Eventjoiner 3.resx">
       <DependentUpon>201611141417460_Update Eventjoiner 3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611151239205_Update Order Internal 3.resx">
+      <DependentUpon>201611151239205_Update Order Internal 3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -29,6 +29,13 @@ namespace Yoga.Bussiness
             return query;
         }
 
+        public IEnumerable<OrderInternal> GetList(DateTime fromDate, DateTime toDate)
+        {
+            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0);
+            toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59);
+            return _context.OrderInternals.Where(x => x.CreatedDate >= fromDate && x.CreatedDate <= toDate);
+        }
+
         public OrderInternal GetById(int orderInternalId)
         {
             var orderInternal = _context.OrderInternals.SingleOrDefault(x => x.OrderInternalId == orderInternalId);
@@ -69,6 +76,8 @@ namespace Yoga.Bussiness
                 {
                     entity.Total = orderInternal.Total;
                     entity.Note = orderInternal.Note;
+                    entity.Content = orderInternal.Content;
+                    entity.Payer = orderInternal.Payer;
                 }
                 _context.SaveChanges();
                 return true;

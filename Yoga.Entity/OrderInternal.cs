@@ -18,6 +18,14 @@ namespace Yoga.Entity
         public double Total { get; set; }
 
         [StringLength(1000)]
+        [Required]
+        public string Content { get; set; }
+
+        [StringLength(200)]
+        [Required]
+        public string Payer { get; set; }
+
+        [StringLength(1000)]
         public string Note { get; set; }
 
         public virtual Operator Operator { get; set; }
