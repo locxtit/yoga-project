@@ -22,13 +22,16 @@ function isBlank(text) {
 }
 
 function formateDate(data) {
+    if (isBlank(data)) return '';
     return kendo.toString(new Date(parseInt(data)), "dd/MM/yyyy");
 }
 
 function formateDateTime(data) {
+    if (isBlank(data)) return '';
     return kendo.toString(new Date(parseInt(data)), "dd/MM/yyyy HH:mm");
 }
 
 function parseJsonDate(jsonDateString) {
+    if (isBlank(jsonDateString)) return '';
     return jsonDateString.replace('/Date(', '').replace(')/', '');
 }

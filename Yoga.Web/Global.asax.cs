@@ -21,6 +21,8 @@ namespace Yoga.Web
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
+
+            //ModelBinders.Binders.Add(typeof(DateTime?), new MyDateTimeModelBinder());
         }
 
         void Application_BeginRequest(object sender, EventArgs e)

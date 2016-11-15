@@ -41,8 +41,8 @@
 </div>
 
 <ul class="nav nav-tabs">
-    <li class="active"><a data-toggle="tab" href="#tab1">Báo cáo thu</a></li>
-    <li><a data-toggle="tab" href="#tab2">Báo cáo chi</a></li>
+    <li class="active"><a data-toggle="tab" id="tab-import" href="#tab1">Báo cáo thu</a></li>
+    <li><a data-toggle="tab" href="#tab2" id="tab-export">Báo cáo chi</a></li>
 </ul>
 
 <div class="tab-content">
@@ -108,6 +108,91 @@
 
 <script>
     $(document).ready(function () {
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            if (target == '#tab1')
+                initTableImport();
+            else if (target == '#tab2')
+                initTableExport();
+        });
+
+        initTableImport();
+        function initTableImport() {
+            if (!$('#tab-import').hasClass('hadClick')) {
+                $('#tab-import').addClass('hadClick');
+                $('#dataTableImport').DataTable({
+                    serverSide: false,
+                    ajax: {
+                        "url": getAjaxSourceImport(),
+                        "dataSrc": ""
+                    },
+                    "pageLength": 25,
+                    columns: [
+                        { "data": "OrderId" },
+                        { "data": "CustomerName" },
+                        { "data": "Price" },
+                        { "data": "NumOfDays" },
+                        { "data": "PriceForTrainer" },
+                        { "data": "TotalPaid" },
+                        { "data": "TotalPaidForTrainer" },
+                        { "data": "Total" },
+                        { "data": "CreatedDate" },
+                        { "data": "PaymentDate" },
+                    ],
+                    fnPreDrawCallback: function (settings) {
+                    },
+                    fnDrawCallback: function (settings) {
+                    },
+                    fnRowCallback: function (nRow, aData) {
+                        $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
+                        $('td:eq(8)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                        $('td:eq(9)', nRow).html(formateDate(parseJsonDate(aData.PaymentDate)));
+                        $('td:eq(2)', nRow).html($.number(aData.Price, 0));
+                        $('td:eq(4)', nRow).html($.number(aData.PriceForTrainer, 0));
+                        $('td:eq(5)', nRow).html($.number(aData.TotalPaid, 0));
+                        $('td:eq(6)', nRow).html($.number(aData.TotalPaidForTrainer, 0));
+                        $('td:eq(7)', nRow).html($.number(aData.Total, 0));
+                    },
+                });
+            }
+            else {
+                reloadTableReportImport();
+            }
+        }
+
+        function initTableExport() {
+            if (!$('#tab-export').hasClass('hadClick')) {
+                $('#tab-export').addClass('hadClick');
+                $('#dataTableExport').DataTable({
+                    serverSide: false,
+                    ajax: {
+                        "url": getAjaxSourceExport(),
+                        "dataSrc": ""
+                    },
+                    "pageLength": 25,
+                    columns: [
+                        { "data": "OrderInternalId" },
+                        { "data": "Content" },
+                        { "data": "Total" },
+                        { "data": "CreatedDate" },
+                        { "data": "Payer" },
+                        { "data": "Note" },
+                    ],
+                    fnPreDrawCallback: function (settings) {
+                    },
+                    fnDrawCallback: function (settings) {
+                    },
+                    fnRowCallback: function (nRow, aData) {
+                        $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
+                        $('td:eq(3)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                        $('td:eq(2)', nRow).html($.number(aData.Total, 0));
+                    },
+                });
+            }
+            else {
+                reloadTableReportExport();
+            }
+        }
 
         $('#FromDate').datepicker({
             format: 'dd/mm/yyyy',
@@ -122,73 +207,33 @@
             autoclose: true
         });
 
-        $('#dataTableImport').DataTable({
-            serverSide: false,
-            ajax: {
-                "url": getAjaxSourceImport(),
-                "dataSrc": ""
-            },
-            "pageLength": 25,
-            columns: [
-                { "data": "OrderId" },
-                { "data": "CustomerName" },
-                { "data": "Price" },
-                { "data": "NumsOfDay" },
-                { "data": "PriceForTrainer" },
-                { "data": "TotalPaid" },
-                { "data": "TotalPaidForTrainer" },
-                { "data": "Total" },
-                { "data": "CreatedDate" },
-                { "data": "PaymentDate" },
-            ],
-            fnPreDrawCallback: function (settings) {
-            },
-            fnDrawCallback: function (settings) {
-            },
-            fnRowCallback: function (nRow, aData) {
-                $('td:eq(0)', nRow).html(setIconVisibility(aData.OrderId));
-                $('td:eq(8)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
-                $('td:eq(9)', nRow).html(formateDate(parseJsonDate(aData.PaymentDate)));
-                $('td:eq(2)', nRow).html($.number(aData.Price, 0));
-                $('td:eq(4)', nRow).html($.number(aData.PriceForTrainer, 0));
-                $('td:eq(5)', nRow).html($.number(aData.TotalPaid, 0));
-                $('td:eq(6)', nRow).html($.number(aData.TotalPaidForTrainer, 0));
-                $('td:eq(7)', nRow).html($.number(aData.Total, 0));
-            },
-        });
+        
 
-        $('#dataTableExport').DataTable({
-            serverSide: false,
-            ajax: {
-                "url": getAjaxSourceExport(),
-                "dataSrc": ""
-            },
-            "pageLength": 25,
-            columns: [
-                { "data": "OrderInternalId" },
-                { "data": "Content" },
-                { "data": "Total" },
-                { "data": "CreatedDate" },
-                { "data": "Payer" },
-                { "data": "Note" },
-            ],
-            fnPreDrawCallback: function (settings) {
-            },
-            fnDrawCallback: function (settings) {
-            },
-            fnRowCallback: function (nRow, aData) {
-                $('td:eq(0)', nRow).html(setIconVisibility(aData.OrderInternalId));
-                $('td:eq(3)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
-                $('td:eq(2)', nRow).html($.number(aData.Total, 0));
-            },
-        });
+        
     });
+
+    function getReport() {
+        reloadTableReportImport();
+        reloadTableReportExport();
+    }
+
+    function reloadTableReportImport() {
+        var oTable = $('#dataTableImport').DataTable();
+        oTable.ajax.url(getAjaxSourceImport());
+        oTable.ajax.reload();
+    }
+
+    function reloadTableReportExport() {
+        var oTable = $('#dataTableExport').DataTable();
+        oTable.ajax.url(getAjaxSourceExport());
+        oTable.ajax.reload();
+    }
 
     function getAjaxSourceImport() {
         return '/Report/GetImportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
     }
 
     function getAjaxSourceExport() {
-        return '/ClassInfo/GetExportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
+        return '/Report/GetExportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
     }
 </script>
