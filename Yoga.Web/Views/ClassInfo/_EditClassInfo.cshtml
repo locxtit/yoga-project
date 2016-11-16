@@ -63,9 +63,10 @@
             @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForClassInfo(), new { @class = "form-control" })
         </div>
     </div>
-
-    <button type="button" onclick="submitUpdateCustomer();" class="btn btn-primary">Lưu</button>
-    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+    <div class="form-group-modal">
+        <button type="button" onclick="submitUpdateCustomer();" class="btn btn-primary">Lưu</button>
+        <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+    </div>
 </form>
 
 <script>

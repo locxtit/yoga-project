@@ -239,3 +239,23 @@ div.dataTables_wrapper div.dataTables_info {
 button i.fa.fa-plus-circle {
     margin-right: 5px;
 }
+.modal-header {
+    background: #3c8dbc;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+.modal-body >form {
+	margin-bottom: 0;
+}
+.form-group-modal {
+    margin: 20px -15px -15px -15px;
+    padding: 10px 15px;
+    border-top: 1px solid #ddd;
+    text-align: right;
+    background: #ecf0f5;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}

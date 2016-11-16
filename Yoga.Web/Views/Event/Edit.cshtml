@@ -10,73 +10,76 @@
 <script src="~/Scripts/tinymce/tinymce.min.js"></script>
 
 <h2 class="page-title">@ViewBag.Title</h2>
+<div class="panel panel-default">
+	<div class="panel-body">
+		<form id="form-event">
+			<input type="hidden" name="EventId" value="@Model.EventId" />
+			<input type="hidden" name="EventTypeId" value="@Model.EventTypeId" />
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="Title">Tiêu đề (<span class="required">*</span>)</label>
+					@Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
+				</div>
+				<div class="form-group col-md-6">
+					<label for="StartDate">Ngày bắt đầu (<span class="required">*</span>)</label>
+					<div class="input-group date">
+						<input type="text" name="StartDate" id="StartDate" class="form-control" placeholder = "Ngày bắt đầu" value="@(Model.StartDate.HasValue ? Model.StartDate.Value.ToString("dd/MM/yyyy") : "")">
+						<div class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label for="CountMember">Số lượng tham gia</label>
+					@Html.TextBoxFor(x => x.CountMember, new { @class = "form-control", @tyle="number", @min = 0 })
+				</div>
+				<div class="form-group col-md-6">
+					<label for="StatusId">Trạng thái</label>
+					@Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
+				</div>
+			</div>
+			@if (Model.EventTypeId == EventTypeEnum.COMMUNITY_ACTIVITY.ToString())
+			{
+				<h3 style="font-size: 16px; font-weight: bold; margin: 10px 0; color: #3c8dbc;">Thông tin người tổ chức</h3>
+				<div class="row">
+					<div class="form-group col-md-6">
+						<label for="OrganizerName">Tên (<span class="required">*</span>)</label>
+						@Html.TextBoxFor(x => x.OrganizerName, new { @class = "form-control", @placeholder = "Họ và tên" })
+					</div>
+					<div class="form-group col-md-6">
+						<label for="OrganizerEmail">Email (<span class="required">*</span>)</label>
+						@Html.TextBoxFor(x => x.OrganizerEmail, new { @class = "form-control", @placeholder = "Email" })
+					</div>
+				</div>
+				<div class="row">
+					<div class="form-group col-md-6">
+						<label for="OrganizerPhone">Số điện thoại (<span class="required">*</span>)</label>
+						@Html.TextBoxFor(x => x.OrganizerPhone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+					</div>
+					<div class="form-group col-md-6">
+						<label for="OrganizerAddress">Địa chỉ (<span class="required">*</span>)</label>
+						@Html.TextBoxFor(x => x.OrganizerAddress, new { @class = "form-control", @placeholder = "Địa chỉ" })
+					</div>
+				</div>
+			}
 
-<form id="form-event">
-    <input type="hidden" name="EventId" value="@Model.EventId" />
-    <input type="hidden" name="EventTypeId" value="@Model.EventTypeId" />
-    <div class="row">
-        <div class="form-group col-md-6">
-            <label for="Title">Tiêu đề (<span class="required">*</span>)</label>
-            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
-        </div>
-        <div class="form-group col-md-6">
-            <label for="StartDate">Ngày bắt đầu (<span class="required">*</span>)</label>
-            <div class="input-group date">
-                <input type="text" name="StartDate" id="StartDate" class="form-control" placeholder = "Ngày bắt đầu" value="@(Model.StartDate.HasValue ? Model.StartDate.Value.ToString("dd/MM/yyyy") : "")">
-                <div class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="form-group col-md-6">
-            <label for="CountMember">Số lượng tham gia</label>
-            @Html.TextBoxFor(x => x.CountMember, new { @class = "form-control", @tyle="number", @min = 0 })
-        </div>
-        <div class="form-group col-md-6">
-            <label for="StatusId">Trạng thái</label>
-            @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
-        </div>
-    </div>
-    @if (Model.EventTypeId == EventTypeEnum.COMMUNITY_ACTIVITY.ToString())
-    {
-        <h3>Thông tin người tổ chức</h3>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label for="OrganizerName">Tên (<span class="required">*</span>)</label>
-                @Html.TextBoxFor(x => x.OrganizerName, new { @class = "form-control", @placeholder = "Họ và tên" })
-            </div>
-            <div class="form-group col-md-6">
-                <label for="OrganizerEmail">Email (<span class="required">*</span>)</label>
-                @Html.TextBoxFor(x => x.OrganizerEmail, new { @class = "form-control", @placeholder = "Email" })
-            </div>
-        </div>
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label for="OrganizerPhone">Số điện thoại (<span class="required">*</span>)</label>
-                @Html.TextBoxFor(x => x.OrganizerPhone, new { @class = "form-control", @placeholder = "Số điện thoại" })
-            </div>
-            <div class="form-group col-md-6">
-                <label for="OrganizerAddress">Địa chỉ (<span class="required">*</span>)</label>
-                @Html.TextBoxFor(x => x.OrganizerAddress, new { @class = "form-control", @placeholder = "Địa chỉ" })
-            </div>
-        </div>
-    }
-
-    <div class="form-group">
-        <label for="Description">Mô tả (<span class="required">*</span>)</label>
-        @Html.TextAreaFor(x => x.Description, new { @class = "form-control", @placeholder = "Mô tả", @rows = "3" })
-    </div>
-    <div class="form-group">
-        <label for="ContentDetail">Nội dung (<span class="required">*</span>)</label>
-        @Html.TextAreaFor(x => x.ContentDetail, new { @class = "form-control", @placeholder = "" })
-    </div>
+			<div class="form-group">
+				<label for="Description">Mô tả (<span class="required">*</span>)</label>
+				@Html.TextAreaFor(x => x.Description, new { @class = "form-control", @placeholder = "Mô tả", @rows = "3" })
+			</div>
+			<div class="form-group">
+				<label for="ContentDetail">Nội dung (<span class="required">*</span>)</label>
+				@Html.TextAreaFor(x => x.ContentDetail, new { @class = "form-control", @placeholder = "" })
+			</div>
 
 
-    <button type="button" onclick="submitUpdateEvent();" class="btn btn-primary">Lưu</button>
-    <a href="@Url.Action("Index", "Event", new { eventTypeId = Model.EventTypeId })" class="btn btn-default">Quay về danh sách</a>
-</form>
+			<button type="button" onclick="submitUpdateEvent();" class="btn btn-primary">Lưu</button>
+			<a href="@Url.Action("Index", "Event", new { eventTypeId = Model.EventTypeId })" class="btn btn-default">Quay về danh sách</a>
+		</form>
+	</div>
+</div>
 
 <script>
     $(document).ready(function () {
