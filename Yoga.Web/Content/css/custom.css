@@ -1,5 +1,5 @@
 ﻿body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .container.main {
@@ -10,16 +10,16 @@
 
 .page-title {
     margin-top: 10px;
-    font-size: 18px;
     font-weight: bold;
-    text-transform: uppercase;
+    margin: 10px 0;
+    font-size: 18px;
 }
 
 .navbar.navbar-default {
-    background-color: #337ab7;
-    border-color: #337ab7;
+    background-color: #3c8dbc;
     border-radius: 0;
-    margin-bottom: 0;
+    margin: 0;
+    border: 0;
 }
 
 .navbar-default .navbar-brand, .navbar-default .navbar-nav > li > a {
@@ -35,30 +35,39 @@
     width: 230px;
     padding: 0;
     z-index: 999;
-    top: 0;
+    top: 50px;
     left: 0;
 }
 
 .right_col {
     padding: 15px;
     margin-left: 230px;
+    background-color: #ecf0f5;
 }
 
 section#header {
-    padding-left: 230px;
+    /* padding-left: 230px; */
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 999;
 }
 table.dataTable {
     font-size: 14px;
+    margin-top: 0 !important;
 }
 section#main {
     height: 100%;
     margin-left:0;
     margin-right:0;
+    padding-top: 50px;
+    background-color: #ecf0f5;
 }
 
     section#main .left-menu {
         height: 100%;
-        background-color: #5f5f5f;
+        background-color: #222d32;
         padding:0;
         overflow-y:auto;
     }
@@ -89,7 +98,19 @@ section#main .left-menu .nav-pills > li > a {
         section#main .left-menu .nav-pills > li > a:hover {
             color:#5f5f5f;
         }
+li.bar-menu {
+    height: 50px;
+    line-height: 50px;
+}
 
+li.bar-menu a {
+    padding: 0 15px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+li.bar-menu a i {
+	margin-right: 10px;
+}
 section#footer {
     height: 52px;
     background-color:#337ab7;
@@ -97,6 +118,7 @@ section#footer {
 
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 0;
+    border: 0 !important;
 }
 
 table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after {
@@ -108,14 +130,16 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after {
 }
 
 table.dataTable thead th, table.dataTable thead td {
-    border-bottom: 3px solid #dddddd;
-    background: #f5f5f5;
+    border-bottom: 3px solid #d2d6de;
+    background: #ecf0f5;
 }
-
+table.dataTable.row-border tbody th, table.dataTable.row-border tbody td, table.dataTable.display tbody th, table.dataTable.display tbody td {
+    border-top: 1px solid #d2d6de;
+}
 table.dataTable tfoot th, table.dataTable tfoot td {
-    border-top: 3px solid #dddddd;
-    background: #f5f5f5;
-	padding: 6px 18px 10px 18px;
+    border-top: 3px solid #d2d6de;
+    background: #ecf0f5;
+    padding: 6px 18px 10px 18px;
 }
 
 .dataTables_filter, .dataTables_length {
@@ -153,4 +177,65 @@ span.required {
 .navbar-default .navbar-nav > .open > a {
     color: #fff !important;
     background-color: #337ab7 !important;
+}
+.panel.panel-default,
+.dataTables_wrapper {
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border: 1px;
+    border-top: 3px solid #d2d6de;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px #d2d6de;
+}
+.panel-default > .panel-heading {
+    border: 0;
+    border-bottom: 1px solid #d2d6de;
+}
+.panel-default > .panel-heading .panel-title {
+    font-weight: bold;
+    color: #3c8dbc;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+.form-control,
+.select2-container--default .select2-selection--single {
+    border-radius: 0;
+    box-shadow: none;
+    border-color: #d2d6de;
+}
+label {
+    margin-bottom: 3px;
+}
+.dataTables_wrapper {
+    padding: 15px;
+}
+table.dataTable {
+    border: 1px solid #ecf0f5;
+    width: 100% !important;
+}
+.pagination > li > a, .pagination > li > span {
+    font-size: 12px;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    margin-left: 0 !important;
+}
+div.dataTables_wrapper div.dataTables_info {
+    font-size: 13px;
+}
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    background: #d2d6de;
+    margin-left: 15px;
+    font-weight: bold;
+    color: #000;
+}
+.nav-tabs {
+    border-bottom: 0;
+}
+.input-group-addon {
+    border-radius: 0;
+}
+button i.fa.fa-plus-circle {
+    margin-right: 5px;
 }

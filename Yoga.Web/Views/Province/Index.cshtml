@@ -3,8 +3,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="page-title">@ViewBag.Title</h2>
-<button class="btn brn-primary" onclick="updateProvince();"><i class="fa fa-plus-circle"></i> Thêm tỉnh</button>
+<div class="clearfix">
+	<h2 class="page-title pull-left">@ViewBag.Title</h2>
+	<button class="btn btn-success dropdown-toggle pull-right" onclick="updateProvince();"><i class="fa fa-plus-circle"></i> Thêm tỉnh</button>
+</div>
 <table id="dataTable" class="display">
     <thead>
         <tr>

@@ -5,13 +5,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="page-title">@ViewBag.Title</h2>
+<div class="clearfix">
+	<h2 class="page-title pull-left">@ViewBag.Title</h2>
+	<button type="button" class="btn btn-success dropdown-toggle pull-right" onclick="updateEvent(0,'@ViewBag.EventTypeId');"><i class="fa fa-plus-circle"></i> Thêm hoạt động</button>
+	
+</div>
 <input type="hidden" name="EventTypeId" id="EventTypeId" value="@ViewBag.EventTypeId" />
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Thông tin tìm kiếm</h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" style="padding-bottom: 0;">
         <form>
             <div class="row">
                 <div class="form-group col-md-3">
@@ -31,8 +35,7 @@
                     @Html.DropDownList("TrainerId", CategoryReponsitory.GetTrainerSelectList(null,"--- Chọn ---"), new { @class = "form-control" })
                 </div>
                 <div class="col-md-12">
-                    <button type="button" class="btn brn-default" onclick="reloadTableEvent();"><i class="fa fa-search"></i> Tìm kiếm</button>
-                    <button type="button" class="btn brn-primary" onclick="updateEvent(0,'@ViewBag.EventTypeId');"><i class="fa fa-plus-circle"></i> Thêm hoạt động</button>
+                    <button type="button" class="btn btn-primary" onclick="reloadTableEvent();"><i class="fa fa-search"></i> Tìm kiếm</button>
                 </div>
             </div>
         </form>

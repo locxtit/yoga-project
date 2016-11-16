@@ -4,7 +4,10 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="page-title">@ViewBag.Title</h2>
+<div class="clearfix">
+	<h2 class="page-title pull-left">@ViewBag.Title</h2>
+	<button type="button" class="btn btn-success dropdown-toggle pull-right" onclick="updateCustomer();"><i class="fa fa-plus-circle"></i> Thêm Khách hàng</button>
+</div>
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">Thông tin tìm kiếm</h3>
@@ -29,8 +32,7 @@
                     @Html.DropDownList("CustomerStatusId", CategoryReponsitory.GetCustomerStatusSelectList(null,"--- Chọn ---"), new { @class = "form-control" })
                 </div>
                 <div class="col-md-12">
-                    <button type="button" class="btn brn-default" onclick="searchCustomer();"><i class="fa fa-search"></i> Tìm kiếm</button>
-                    <button type="button" class="btn brn-primary" onclick="updateCustomer();"><i class="fa fa-plus-circle"></i> Thêm Khách hàng</button>
+                    <button type="button" class="btn btn-primary" onclick="searchCustomer();"><i class="fa fa-search"></i> Tìm kiếm</button>
                 </div>
             </div>
         </form>
