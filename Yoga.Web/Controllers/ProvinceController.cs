@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
 using Yoga.Entity.Models;
+using Yoga.Web.Infrastructure.Extensions;
 
 namespace Yoga.Web.Controllers
 {
+    [Authorized]
     public class ProvinceController : BaseController
     {
         //

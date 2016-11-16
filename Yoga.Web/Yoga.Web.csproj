@@ -141,6 +141,7 @@
     </Compile>
     <Compile Include="Helpers\Support.cs" />
     <Compile Include="Helpers\Util.cs" />
+    <Compile Include="Infrastructure\Extensions\AuthorizedAttribute.cs" />
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
     <Compile Include="Models\LoginModel.cs" />

@@ -6,10 +6,12 @@ using System.Web;
 using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
+using Yoga.Web.Infrastructure.Extensions;
 using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
 {
+    [Authorized]
     public class ReportController : Controller
     {
         //
@@ -52,7 +54,19 @@ namespace Yoga.Web.Controllers
                 CustomerName = x.ClassInfo.Customer.Name
             });
 
+            Session["ImportListTotal"] = model.Sum(x => x.Total);
+
             return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetTotalImportList()
+        {
+            var total = 0.0;
+            if (Session["ImportListTotal"] != null)
+            {
+                total = (double)Session["ImportListTotal"];
+            }
+            return Json(total, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetExportList(string fromDate, string toDate)
@@ -62,7 +76,19 @@ namespace Yoga.Web.Controllers
                 return Json(new List<ReportImportModel>(), JsonRequestBehavior.AllowGet);
             }
             var results = new OrderInternalBll().GetList(DateTime.ParseExact(fromDate, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(toDate, "dd/MM/yyyy", CultureInfo.InvariantCulture));
+
+            Session["ExportListTotal"] = results.Sum(x => x.Total);
             return Json(results, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetTotalExportList()
+        {
+            var total = 0.0;
+            if (Session["ExportListTotal"] != null)
+            {
+                total = (double)Session["ExportListTotal"];
+            }
+            return Json(total, JsonRequestBehavior.AllowGet);
         }
     }
 }

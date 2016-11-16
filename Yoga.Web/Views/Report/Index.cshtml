@@ -40,6 +40,26 @@
     </div>
 </div>
 
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Doanh thu</h3>
+    </div>
+    <div class="panel-body" style="padding-bottom: 0;">
+        <div class="form-group col-md-4">
+            <label for="ProvinceName">Tổng thu</label>
+            @Html.TextBox("TotalImport", "0", new { @class = "form-control", @placeholder = "Tổng thu" , @readonly="readonly"})
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Status">Tổng chi:</label>
+            @Html.TextBox("TotalExport", "0", new { @class = "form-control", @placeholder = "Tổng chi" , @readonly="readonly"})
+        </div>
+            <div class="form-group col-md-4">
+            <label for="Status">Tổng lợi nhuận:</label>
+            @Html.TextBox("SumTotal", "0", new { @class = "form-control", @placeholder = "Tổng lợi nhuận" , @readonly="readonly"})
+        </div>
+    </div>
+</div>
+
 <ul class="nav nav-tabs">
     <li class="active"><a data-toggle="tab" id="tab-import" href="#tab1">Báo cáo thu</a></li>
     <li><a data-toggle="tab" href="#tab2" id="tab-export">Báo cáo chi</a></li>
@@ -106,10 +126,21 @@
     </div>
 </div>
 
+
+
+
+
 <script>
+    var tabActive = "#tab1";
     $(document).ready(function () {
+
+        
+
+        $('#TotalImport, #TotalExport, #SumTotal').number(true, 0);
+
         $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             var target = $(e.target).attr("href") // activated tab
+            tabActive = target;
             if (target == '#tab1')
                 initTableImport();
             else if (target == '#tab2')
@@ -142,6 +173,7 @@
                     fnPreDrawCallback: function (settings) {
                     },
                     fnDrawCallback: function (settings) {
+                        getImportTatal()
                     },
                     fnRowCallback: function (nRow, aData) {
                         $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
@@ -181,6 +213,7 @@
                     fnPreDrawCallback: function (settings) {
                     },
                     fnDrawCallback: function (settings) {
+                        getExportTatal()
                     },
                     fnRowCallback: function (nRow, aData) {
                         $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
@@ -207,14 +240,16 @@
             autoclose: true
         });
 
-        
 
-        
+
+
     });
 
     function getReport() {
-        reloadTableReportImport();
-        reloadTableReportExport();
+        if (tabActive == '#tab1')
+            reloadTableReportImport();
+        else
+            reloadTableReportExport();
     }
 
     function reloadTableReportImport() {
@@ -235,5 +270,52 @@
 
     function getAjaxSourceExport() {
         return '/Report/GetExportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
+    }
+
+    function getImportTatal() {
+        var oTable = $('#dataTableImport').DataTable();
+        if (!oTable.data().count()) {
+            $('#TotalImport').val(0);
+            updateTotal();
+            return 0;
+        }
+        $.ajax({
+            url: '@Url.Action("GetTotalImportList","Report")',
+            type: 'GET',
+            success: function (data) {
+                $('#TotalImport').val(data);
+                updateTotal();
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function getExportTatal() {
+        var oTable = $('#dataTableExport').DataTable();
+        if (!oTable.data().count()) {
+            $('#TotalExport').val(0);
+            updateTotal();
+            return 0;
+        }
+        $.ajax({
+            url: '@Url.Action("GetTotalExportList","Report")',
+            type: 'GET',
+            success: function (data) {
+                $('#TotalExport').val(data);
+                updateTotal()
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function updateTotal() {
+        var totalImport = $('#TotalImport').val();
+        var totalExport = $('#TotalExport').val();
+        var total = totalImport - totalExport;
+        $('#SumTotal').val(total)
     }
 </script>

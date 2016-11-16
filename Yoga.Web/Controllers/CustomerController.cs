@@ -7,10 +7,12 @@ using Yoga.Bussiness;
 using Yoga.Entity;
 using Yoga.Entity.Models;
 using Yoga.Web.Helpers;
+using Yoga.Web.Infrastructure.Extensions;
 using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
 {
+    [Authorized]
     public class CustomerController : BaseController
     {
         //

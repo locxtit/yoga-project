@@ -7,9 +7,11 @@ using Yoga.Bussiness;
 using Yoga.Entity;
 using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
+using Yoga.Web.Infrastructure.Extensions;
 
 namespace Yoga.Web.Controllers
 {
+    [Authorized]
     public class EventController : BaseController
     {
         //
