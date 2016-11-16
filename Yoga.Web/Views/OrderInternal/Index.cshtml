@@ -28,19 +28,21 @@
     <thead>
         <tr>
             <th width="50px;">#</th>
-            <th>Người tạo</th>
+            <th>Người chi</th>
             <th>Ngày tạo</th>
             <th>Tổng tiền</th>
+            <th>Nội dung</th>
             <th>Ghi chú</th>
         </tr>
     </thead>
     <tbody></tbody>
     <tfoot>
         <tr>
-            <th width="50px;">#</th>
-            <th>Người tạo</th>
+            <th>#</th>
+            <th>Người chi</th>
             <th>Ngày tạo</th>
             <th>Tổng tiền</th>
+            <th>Nội dung</th>
             <th>Ghi chú</th>
         </tr>
     </tfoot>
@@ -63,9 +65,10 @@
             "pageLength": 25,
             columns: [
                 { "data": "OrderInternalId" },
-                { "data": "Operator.OperatorName" },
+                { "data": "Payer" },
                 { "data": "CreatedDate" },
                 { "data": "Total" },
+                { "data": "Content" },
                 { "data": "Note" },
             ],
             fnPreDrawCallback: function (settings) {
@@ -75,6 +78,7 @@
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.OrderInternalId));
                 $('td:eq(2)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                $('td:eq(3)', nRow).html($.number(aData.Total, 0));
             },
         });
     });

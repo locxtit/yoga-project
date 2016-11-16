@@ -39,7 +39,7 @@
             <th>Người tạo</th>
             <th>Người nhận</th>
             <th>Ngày tạo</th>
-            <th>Ngày bất đầu</th>
+            <th>Ngày bắt đầu</th>
             <th>Mô tả</th>
             <th>Trạng thái</th>
         </tr>
@@ -51,7 +51,7 @@
             <th>Người tạo</th>
             <th>Người nhận</th>
             <th>Ngày tạo</th>
-            <th>Ngày bất đầu</th>
+            <th>Ngày bắt đầu</th>
             <th>Mô tả</th>
             <th>Trạng thái</th>
         </tr>
@@ -90,7 +90,7 @@
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.NotifyId));
                 $('td:eq(3)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
-                $('td:eq(4)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                $('td:eq(4)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
             },
         });
     });

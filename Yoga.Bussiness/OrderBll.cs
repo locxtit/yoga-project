@@ -23,6 +23,13 @@ namespace Yoga.Bussiness
             return _context.Orders.Where(x => x.ClassInfoId == classInfoId);
         }
 
+        public IEnumerable<Order> GetList(DateTime fromDate, DateTime toDate)
+        {
+            fromDate = new DateTime(fromDate.Year, fromDate.Month, fromDate.Day, 0, 0, 0);
+            toDate = new DateTime(toDate.Year, toDate.Month, toDate.Day, 23, 59, 59);
+            return _context.Orders.Where(x => x.OrderStatusId == OrderStatusEnum.PAID.ToString() && x.CreatedDate >= fromDate && x.CreatedDate <= toDate);
+        }
+
         public Order GetById(int orderId)
         {
             var order = _context.Orders.SingleOrDefault(x => x.OrderId == orderId);

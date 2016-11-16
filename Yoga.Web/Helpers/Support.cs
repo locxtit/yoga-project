@@ -16,6 +16,7 @@ namespace Yoga.Web.Helpers
             {
                 var oper = (Operator)HttpContext.Current.Session[SessionConstant.SESSION_OPERATOR];
                 var count = new NotifyBll().GetForNotification(oper.OperatorId).Count();
+                return count;
             }
             return 0;
         }

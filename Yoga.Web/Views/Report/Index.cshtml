@@ -8,19 +8,30 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Thông báo cáo</h3>
+        <h3 class="panel-title">Thông tin báo cáo</h3>
     </div>
     <div class="panel-body">
         <form>
             <div class="row">
                 <div class="form-group col-md-3">
-                    <label for="Year">Năm</label>
-                    @Html.DropDownList("Year", CategoryReponsitory.GetYearReportSelectList(), new { @class = "form-control" })
+                    <label for="Year">Từ ngày</label>
+                    <div class="input-group date">
+                        <input type="text" name="FromDate" id="FromDate" class="form-control" placeholder="Từ ngày" value="">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="Month">Tháng</label>
-                    @Html.DropDownList("Month", CategoryReponsitory.GetMonthReportSelectList(), new { @class = "form-control" })
+                    <label for="Month">Đến ngày</label>
+                    <div class="input-group date">
+                        <input type="text" name="ToDate" id="ToDate" class="form-control" placeholder="Đến ngày" value="">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="col-md-12">
                     <button type="button" class="btn brn-default" onclick="getReport();"><i class="fa fa-search"></i> Lấy báo cáo</button>
                 </div>
@@ -30,154 +41,199 @@
 </div>
 
 <ul class="nav nav-tabs">
-  <li class="active"><a data-toggle="tab" href="#tab1">Báo cáo thu</a></li>
-  <li><a data-toggle="tab" href="#tab2">Báo cáo chi</a></li>
+    <li class="active"><a data-toggle="tab" id="tab-import" href="#tab1">Báo cáo thu</a></li>
+    <li><a data-toggle="tab" href="#tab2" id="tab-export">Báo cáo chi</a></li>
 </ul>
 
 <div class="tab-content">
-  <div id="tab1" class="tab-pane fade in active">
-    <table id="dataTableImport" class="display">
-    <thead>
-        <tr>
-            <th width="50px;">#</th>
-            <th>Tên lớp</th>
-            <th>Học viên</th>
-            <th>Điện thoại</th>
-            <th>Học phí</th>
-            <th>Phí HLV</th>
-            <th>Ngày bất đầu</th>
-            <th>Tổng số buổi</th>
-            <th>HLV</th>
-            <th>Trạng thái</th>
-            <th>Thanh toán</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot>
-        <tr>
-            <th width="50px;">#</th>
-            <th>Tên lớp</th>
-            <th>Học viên</th>
-            <th>Điện thoại</th>
-            <th>Học phí</th>
-            <th>Phí HLV</th>
-            <th>Ngày bất đầu</th>
-            <th>Tổng số buổi</th>
-            <th>HLV</th>
-            <th>Trạng thái</th>
-            <th>Thanh toán</th>
-        </tr>
-    </tfoot>
-</table>
-  </div>
-  <div id="tab2" class="tab-pane fade">
-    <table id="dataTableExport" class="display">
-    <thead>
-        <tr>
-            <th width="50px;">#</th>
-            <th>Tên lớp</th>
-            <th>Học viên</th>
-            <th>Điện thoại</th>
-            <th>Học phí</th>
-            <th>Phí HLV</th>
-            <th>Ngày bất đầu</th>
-            <th>Tổng số buổi</th>
-            <th>HLV</th>
-            <th>Trạng thái</th>
-            <th>Thanh toán</th>
-        </tr>
-    </thead>
-    <tbody></tbody>
-    <tfoot>
-        <tr>
-            <th width="50px;">#</th>
-            <th>Tên lớp</th>
-            <th>Học viên</th>
-            <th>Điện thoại</th>
-            <th>Học phí</th>
-            <th>Phí HLV</th>
-            <th>Ngày bất đầu</th>
-            <th>Tổng số buổi</th>
-            <th>HLV</th>
-            <th>Trạng thái</th>
-            <th>Thanh toán</th>
-        </tr>
-    </tfoot>
-</table>
-  </div>
+    <div id="tab1" class="tab-pane fade in active">
+        <table id="dataTableImport" class="display">
+            <thead>
+                <tr>
+                    <th width="20px;">#</th>
+                    <th>Tên HV</th>
+                    <th>Phí/Buổi</th>
+                    <th>Số buổi</th>
+                    <th>Phí HLV/Buổi</th>
+                    <th>Tổng thu</th>
+                    <th>Tổng chi</th>
+                    <th>Số tiền còn</th>
+                    <th>Ngày thanh toán</th>
+                    <th>Ngày Thanh toán HLV</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Tên HV</th>
+                    <th>Phí/Buổi</th>
+                    <th>Số buổi</th>
+                    <th>Phí HLV/Buổi</th>
+                    <th>Tổng thu</th>
+                    <th>Tổng chi</th>
+                    <th>Số tiền còn</th>
+                    <th>Ngày thanh toán</th>
+                    <th>Ngày Thanh toán HLV</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <div id="tab2" class="tab-pane fade">
+        <table id="dataTableExport" class="display">
+            <thead>
+                <tr>
+                    <th width="20px;">#</th>
+                    <th>Nội dung</th>
+                    <th>Tổng tiền</th>
+                    <th>Ngày tạo</th>
+                    <th>Người chi</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Nội dung</th>
+                    <th>Tổng tiền</th>
+                    <th>Ngày tạo</th>
+                    <th>Người chi</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 </div>
 
 <script>
     $(document).ready(function () {
-
-        $('#dataTableImport').DataTable({
-            serverSide: false,
-            ajax: {
-                "url": getAjaxSource(),
-                "dataSrc": ""
-            },
-            "pageLength": 25,
-            columns: [
-                { "data": "ClassInfoId" },
-                { "data": "ClassName" },
-                { "data": "Customer.Name" },
-                { "data": "Customer.Phone" },
-                { "data": "Price" },
-                { "data": "TrainerPrice" },
-                { "data": "StartDate" },
-                { "data": "TotalDays" },
-                { "data": "Trainer.TrainerName" },
-                { "data": "Status.StatusName" },
-                { "data": "ClassInfoId" },
-            ],
-            fnPreDrawCallback: function (settings) {
-            },
-            fnDrawCallback: function (settings) {
-            },
-            fnRowCallback: function (nRow, aData) {
-                $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId));
-                $('td:eq(6)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
-                $('td:eq(10)', nRow).html(setIconShowPaymentList(aData.ClassInfoId, aData.CompletedPayment));
-                $('td:eq(4)', nRow).html($.number(aData.Price, 0));
-                $('td:eq(5)', nRow).html($.number(aData.TrainerPrice, 0));
-            },
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            if (target == '#tab1')
+                initTableImport();
+            else if (target == '#tab2')
+                initTableExport();
         });
 
-        $('#dataTableExport').DataTable({
-            serverSide: false,
-            ajax: {
-                "url": getAjaxSource(),
-                "dataSrc": ""
-            },
-            "pageLength": 25,
-            columns: [
-                { "data": "ClassInfoId" },
-                { "data": "ClassName" },
-                { "data": "Customer.Name" },
-                { "data": "Customer.Phone" },
-                { "data": "Price" },
-                { "data": "TrainerPrice" },
-                { "data": "StartDate" },
-                { "data": "TotalDays" },
-                { "data": "Trainer.TrainerName" },
-                { "data": "Status.StatusName" },
-                { "data": "ClassInfoId" },
-            ],
-            fnPreDrawCallback: function (settings) {
-            },
-            fnDrawCallback: function (settings) {
-            },
-            fnRowCallback: function (nRow, aData) {
-                $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId));
-                $('td:eq(6)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
-                $('td:eq(10)', nRow).html(setIconShowPaymentList(aData.ClassInfoId, aData.CompletedPayment));
-                $('td:eq(4)', nRow).html($.number(aData.Price, 0));
-                $('td:eq(5)', nRow).html($.number(aData.TrainerPrice, 0));
-            },
+        initTableImport();
+        function initTableImport() {
+            if (!$('#tab-import').hasClass('hadClick')) {
+                $('#tab-import').addClass('hadClick');
+                $('#dataTableImport').DataTable({
+                    serverSide: false,
+                    ajax: {
+                        "url": getAjaxSourceImport(),
+                        "dataSrc": ""
+                    },
+                    "pageLength": 25,
+                    columns: [
+                        { "data": "OrderId" },
+                        { "data": "CustomerName" },
+                        { "data": "Price" },
+                        { "data": "NumOfDays" },
+                        { "data": "PriceForTrainer" },
+                        { "data": "TotalPaid" },
+                        { "data": "TotalPaidForTrainer" },
+                        { "data": "Total" },
+                        { "data": "CreatedDate" },
+                        { "data": "PaymentDate" },
+                    ],
+                    fnPreDrawCallback: function (settings) {
+                    },
+                    fnDrawCallback: function (settings) {
+                    },
+                    fnRowCallback: function (nRow, aData) {
+                        $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
+                        $('td:eq(8)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                        $('td:eq(9)', nRow).html(formateDate(parseJsonDate(aData.PaymentDate)));
+                        $('td:eq(2)', nRow).html($.number(aData.Price, 0));
+                        $('td:eq(4)', nRow).html($.number(aData.PriceForTrainer, 0));
+                        $('td:eq(5)', nRow).html($.number(aData.TotalPaid, 0));
+                        $('td:eq(6)', nRow).html($.number(aData.TotalPaidForTrainer, 0));
+                        $('td:eq(7)', nRow).html($.number(aData.Total, 0));
+                    },
+                });
+            }
+            else {
+                reloadTableReportImport();
+            }
+        }
+
+        function initTableExport() {
+            if (!$('#tab-export').hasClass('hadClick')) {
+                $('#tab-export').addClass('hadClick');
+                $('#dataTableExport').DataTable({
+                    serverSide: false,
+                    ajax: {
+                        "url": getAjaxSourceExport(),
+                        "dataSrc": ""
+                    },
+                    "pageLength": 25,
+                    columns: [
+                        { "data": "OrderInternalId" },
+                        { "data": "Content" },
+                        { "data": "Total" },
+                        { "data": "CreatedDate" },
+                        { "data": "Payer" },
+                        { "data": "Note" },
+                    ],
+                    fnPreDrawCallback: function (settings) {
+                    },
+                    fnDrawCallback: function (settings) {
+                    },
+                    fnRowCallback: function (nRow, aData) {
+                        $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
+                        $('td:eq(3)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                        $('td:eq(2)', nRow).html($.number(aData.Total, 0));
+                    },
+                });
+            }
+            else {
+                reloadTableReportExport();
+            }
+        }
+
+        $('#FromDate').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        })
+        .on('changeDate', function (e) {
+            $('#ToDate').datepicker('setStartDate', e.date);
         });
+
+        $('#ToDate').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+
+        
+
+        
     });
 
+    function getReport() {
+        reloadTableReportImport();
+        reloadTableReportExport();
+    }
+
+    function reloadTableReportImport() {
+        var oTable = $('#dataTableImport').DataTable();
+        oTable.ajax.url(getAjaxSourceImport());
+        oTable.ajax.reload();
+    }
+
+    function reloadTableReportExport() {
+        var oTable = $('#dataTableExport').DataTable();
+        oTable.ajax.url(getAjaxSourceExport());
+        oTable.ajax.reload();
+    }
+
     function getAjaxSourceImport() {
-        return '/ClassInfo/GetList?trainerId=' + $('#trainerId').val() + '&customerName=' + $('#customerName').val();
+        return '/Report/GetImportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
+    }
+
+    function getAjaxSourceExport() {
+        return '/Report/GetExportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
     }
 </script>

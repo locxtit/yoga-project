@@ -44,6 +44,7 @@ namespace Yoga.Web.Controllers
         public ActionResult Edit(int? notifyId)
         {
             var notify = new Notify();
+            notify.StartDate = DateTime.Now;
             if (notifyId.HasValue)
                 notify = new NotifyBll().GetById(notifyId.Value);
             return PartialView("_EditNotify", notify);
