@@ -16,14 +16,14 @@
         </tr>
     </thead>
     <tbody></tbody>
-    <tfoot>
+    @*<tfoot>
         <tr>
             <th width="100px;">#</th>
             <th>Tên Dịch vụ</th>
             <th>Giá</th>
             <th>Trạng thái</th>
         </tr>
-    </tfoot>
+    </tfoot>*@
 </table>
 
 <script>
@@ -43,8 +43,10 @@
                 { "data": "Status.StatusName" },
             ],
             fnPreDrawCallback: function (settings) {
+                //showLoading();
             },
             fnDrawCallback: function (settings) {
+                //hideLoading();
             },
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.ServiceId));

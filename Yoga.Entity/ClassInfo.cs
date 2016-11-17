@@ -33,7 +33,7 @@ namespace Yoga.Entity
 
         public int NumDaysOfWeek { get; set; }
 
-        public int TotalDays { get; set; }
+        public int? TotalDays { get; set; }
 
         public int NumOfPaidDays { get; set; }
 

@@ -15,12 +15,12 @@
         </tr>
     </thead>
     <tbody></tbody>
-    <tfoot>
+    @*<tfoot>
         <tr>
             <th>#</th>
             <th>Tên tỉnh</th>
         </tr>
-    </tfoot>
+    </tfoot>*@
 </table>
 
 <script>
@@ -38,8 +38,10 @@
                 { "data": "ProvinceName" },
             ],
             fnPreDrawCallback: function (settings) {
+                //showLoading();
             },
             fnDrawCallback: function (settings) {
+                //hideLoading();
             },
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.ProvinceId));

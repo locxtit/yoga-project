@@ -116,6 +116,10 @@ section#footer {
     background-color:#337ab7;
 }
 
+table.dataTable.no-footer {
+    border-bottom: 1px solid #d2d6de;
+}
+
 .dataTables_wrapper .dataTables_paginate .paginate_button {
     padding: 0;
     border: 0 !important;

@@ -31,7 +31,7 @@ namespace Yoga.Bussiness
             }
             if (!string.IsNullOrEmpty(criteria.CustomerStatusId))
             {
-                query = query.Where(x => x.CustomerTypeId == criteria.CustomerStatusId);
+                query = query.Where(x => x.CustomerStatusId == criteria.CustomerStatusId);
             }
             if (!string.IsNullOrEmpty(criteria.CustomerTypeId))
             {

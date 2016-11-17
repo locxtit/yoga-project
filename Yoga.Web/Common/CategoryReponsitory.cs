@@ -277,5 +277,23 @@ namespace Yoga.Web.Common
                 });
             return new SelectList(selectListItems, "Value", "Text");
         }
+
+        public static SelectList GetBankSelectList(object selectedValue, string defaultOption)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (!string.IsNullOrEmpty(defaultOption))
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+            selectListItems.AddRange(CategoryBll.Banks.Select(x => new SelectListItem()
+            {
+                Value = x.BankId,
+                Text = string.Format("{0} - {1}",x.BankId,x.BankName)
+            }));
+
+            return new SelectList(selectListItems, "Value", "Text", selectedValue);
+        }
     }
 }

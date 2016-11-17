@@ -24,7 +24,7 @@ namespace Yoga.Bussiness
 
         public List<BankInfo> GetByTrainerId(int trainerId)
         {
-            return _context.BankInfos.Where(x=>x.TrainerId == trainerId).ToList();
+            return _context.BankInfos.Where(x => x.TrainerId == trainerId && x.StatusId != StatusEnum.DELETED.ToString()).ToList();
         }
 
         public bool Delete(int bankInfoId)

@@ -39,7 +39,7 @@
         </tr>
     </thead>
     <tbody></tbody>
-    <tfoot>
+    @*<tfoot>
         <tr>
             <th>#</th>
             <th>Người chi</th>
@@ -48,7 +48,7 @@
             <th>Nội dung</th>
             <th>Ghi chú</th>
         </tr>
-    </tfoot>
+    </tfoot>*@
 </table>
 
 <script>
@@ -75,8 +75,10 @@
                 { "data": "Note" },
             ],
             fnPreDrawCallback: function (settings) {
+                //showLoading();
             },
             fnDrawCallback: function (settings) {
+                //hideLoading();
             },
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.OrderInternalId));
@@ -87,7 +89,7 @@
     });
 
     function getAjaxSource() {
-        return '/OrderInternal/GetList?operatorId =' + $('#OperatorId').val();
+        return '/OrderInternal/GetList?operatorId=' + $('#OperatorId').val();
     }
 
     function reloadTableOrderInternal() {

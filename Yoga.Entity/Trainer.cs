@@ -33,7 +33,7 @@ namespace Yoga.Entity
         [StringLength(200)]
         public string Experience { get; set; }
 
-        [StringLength(20)]
+        [StringLength(200)]
         public string Subject { get; set; }
 
         [StringLength(50)]

@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
 using Yoga.Entity.Models;
+using Yoga.Web.Helpers;
 using Yoga.Web.Infrastructure.Extensions;
 
 namespace Yoga.Web.Controllers
@@ -109,9 +110,68 @@ namespace Yoga.Web.Controllers
         public ActionResult BankInfos(int trainerId)
         {
             var trainer = new TrainerBll().GetById(trainerId);
-            ViewBag.ClassInfo = trainer;
+            ViewBag.Trainer = trainer;
             var bankInfos = new BankInfoBll().GetByTrainerId(trainerId);
             return PartialView("_BankInfos", bankInfos);
+        }
+
+        public ActionResult EditBankInfo(int bankInfoId, int trainerId)
+        {
+            var trainer = new TrainerBll().GetById(trainerId);
+            var bankInfo = new BankInfoBll().GetById(bankInfoId);
+            if (bankInfo == null)
+                bankInfo = new BankInfo()
+                    {
+                        TrainerId = trainer.TrainerId
+                    };
+            return PartialView("_EditBankInfo", bankInfo);
+        }
+
+        [HttpPost]
+        public ActionResult SaveBankInfo(BankInfo model)
+        {
+            var errorMessage = new ErrorMessage()
+            {
+                Result = false,
+                ErrorString = "Cập nhật thất bại"
+            };
+            if (ModelState.IsValid)
+            {
+                var bankInfoBll = new BankInfoBll();
+                if (bankInfoBll.SaveOrUpdate(model))
+                {
+                    errorMessage.Result = true;
+                    errorMessage.ErrorString = "Cập nhật thành công";
+                }
+            }
+            else
+                errorMessage.ErrorString = Util.GetModelStateErrors(ModelState);
+            return Json(errorMessage, JsonRequestBehavior.AllowGet);
+        
+        }
+
+        [HttpPost]
+        public ActionResult DeleteBankInfo(int bankInfoId)
+        {
+            var response = new ErrorMessage()
+            {
+                Result = false,
+            };
+            var bankInfoBll = new BankInfoBll();
+            var bankInfo = bankInfoBll.GetById(bankInfoId);
+            if (bankInfo == null)
+            {
+                response.ErrorString = "Không tồn tại Thông tin ngân hàng";
+            }
+            else
+            {
+                response.Result = bankInfoBll.Delete(bankInfoId);
+                if (!response.Result)
+                    response.ErrorString = "Xóa thất bại";
+
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+
         }
 
     }

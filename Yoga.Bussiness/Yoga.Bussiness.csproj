@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Yoga.Bussiness</RootNamespace>
     <AssemblyName>Yoga.Bussiness</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -54,6 +54,7 @@
     <Compile Include="CategoryBll.cs" />
     <Compile Include="ClassInfoBll.cs" />
     <Compile Include="BankInfoBll.cs" />
+    <Compile Include="BankBll.cs" />
     <Compile Include="OrderStatusBll.cs" />
     <Compile Include="OrderBll.cs" />
     <Compile Include="NotifyBll.cs" />

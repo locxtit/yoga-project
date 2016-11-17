@@ -30,7 +30,7 @@ namespace Yoga.Entity
         [StringLength(50)]
         public string StatusId { get; set; }
 
-        public Status Status { get; set; }
+        public virtual Status Status { get; set; }
 
         [StringLength(50)]
         [Required]

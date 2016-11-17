@@ -176,5 +176,18 @@ namespace Yoga.Bussiness
                 return _orderStatus;
             }
         }
+
+        private static List<Bank> _banks;
+        public static List<Bank> Banks
+        {
+            get
+            {
+                if (_banks == null)
+                {
+                    _banks = new BankBll().GetAll();
+                }
+                return _banks;
+            }
+        }
     }
 }
