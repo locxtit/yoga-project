@@ -135,6 +135,10 @@
     <Compile Include="Migrations\201611170259193_Update ClassInfo 5.Designer.cs">
       <DependentUpon>201611170259193_Update ClassInfo 5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611171155464_Update DB 5.cs" />
+    <Compile Include="Migrations\201611171155464_Update DB 5.Designer.cs">
+      <DependentUpon>201611171155464_Update DB 5.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\EventJoinerViewModel.cs" />
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\SearchEventCriteriaModel.cs" />
@@ -431,6 +435,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611170259193_Update ClassInfo 5.resx">
       <DependentUpon>201611170259193_Update ClassInfo 5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611171155464_Update DB 5.resx">
+      <DependentUpon>201611171155464_Update DB 5.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

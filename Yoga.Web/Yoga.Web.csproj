@@ -127,6 +127,7 @@
     <Compile Include="Controllers\ClassInfoController.cs" />
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\EventController.cs" />
+    <Compile Include="Controllers\ExcelController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\NotifyController.cs" />
@@ -827,6 +828,7 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Event\_EditJoiner.cshtml" />
     <Content Include="Views\Trainer\_EditBankInfo.cshtml" />
+    <Content Include="Views\Notify\MyNotification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

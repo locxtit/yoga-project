@@ -14,11 +14,11 @@ namespace Yoga.Entity
         [Key]
         public int NotifyId { get; set; }
 
-        [StringLength(100)]
+        [StringLength(200)]
         [Required]
         public string Description { get; set; }
 
-        [StringLength(400)]
+        [StringLength(1000)]
         [Required]
         public string Content { get; set; }
 

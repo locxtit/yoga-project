@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
+using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
 using Yoga.Web.Helpers;
 
@@ -97,6 +98,38 @@ namespace Yoga.Web.Controllers
                 response.Result = NotifyBll.Delete(NotifyId);
                 if (!response.Result)
                     response.ErrorString = "Xóa thất bại";
+
+            }
+            return Json(response, JsonRequestBehavior.AllowGet);
+
+        }
+
+        public ActionResult MyNotification()
+        {
+            var model = new NotifyBll().GetForNotification(CurrentOperator.OperatorId);
+            return View(model);
+        }
+
+        public ActionResult Viewed(int notifyId)
+        {
+            var response = new ErrorMessage()
+            {
+                Result = false,
+            };
+            var notifyBll = new NotifyBll();
+            var notify = notifyBll.GetById(notifyId);
+            if (notify == null)
+            {
+                response.ErrorString = "Không tồn tại Thông tin sử dụng dịch vụ";
+            }
+            else
+            {
+                notify.StatusId = StatusEnum.INACTIVE.ToString();
+                response.Result = notifyBll.SaveOrUpdate(notify);
+                if (!response.Result)
+                {
+                    response.ErrorString = "Thất bại";
+                }
 
             }
             return Json(response, JsonRequestBehavior.AllowGet);

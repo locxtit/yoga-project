@@ -18,11 +18,11 @@
         @if (oper != null)
         {
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#" class="notification"><span class="fa fa-bullhorn"></span> @Support.GetNotificationCount()</a></li>
+                <li><a href="@Url.Action("MyNotification","Notify")" title="Danh sách thông báo" class="notification"><span class="fa fa-bullhorn"></span> @Support.GetNotificationCount()</a></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="fa fa-user-o"></span> @oper.OperatorName <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="@Url.Action("Profile", "Operator")">Thông tin cá nhân</a></li>
+                        <li><a href="@Url.Action("Profile", "Operator")" title="Thông tin cá nhân">Thông tin cá nhân</a></li>
                         <li><a href="/Login/Logout">Đăng xuất</a></li>
                     </ul>
                 </li>

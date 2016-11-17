@@ -20,7 +20,6 @@ namespace Yoga.Bussiness
             var query = _context.Notifies.Where(x =>
                 x.StatusId == StatusEnum.ACTIVE.ToString()
                 && (x.OperatorRecieptId == null || x.OperatorRecieptId == operatorId)
-                && x.StartDate >= date
                 && x.StartDate < toDate
                 );
             return query;
