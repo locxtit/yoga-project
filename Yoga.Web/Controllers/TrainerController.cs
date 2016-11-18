@@ -58,11 +58,16 @@ namespace Yoga.Web.Controllers
             };
             if (ModelState.IsValid)
             {
+                
                 errorMessage.Result = new TrainerBll().SaveOrUpdate(model);
                 if (errorMessage.Result)
                 {
                     errorMessage.ErrorString = "Cập nhật thành công";
                 }
+            }
+            else
+            {
+                errorMessage.ErrorString = Util.GetModelStateErrors(ModelState);
             }
             return Json(errorMessage, JsonRequestBehavior.AllowGet);
         }

@@ -21,10 +21,8 @@ namespace Yoga.Entity
         [RegularExpression(@"^(\d{10})$|^(\d{11})$", ErrorMessage = "Số điện thoại không hợp lệ")]
         public string Phone { get; set; }
 
-        [StringLength(100)]
-        [Required]
+        [StringLength(400)]
         [DataType(DataType.EmailAddress)]
-        [Index("IX_Email", 1, IsUnique = true)]
         public string Email { get; set; }
 
         [StringLength(200)]

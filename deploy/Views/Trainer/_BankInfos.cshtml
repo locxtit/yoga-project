@@ -5,11 +5,13 @@
     var trainer = (Trainer)ViewBag.Trainer;
     var index = 0;
 }
-
+<div class="clearfix">
+    <button type="button" class="btn btn-success dropdown-toggle pull-right" onclick="editBankInfo(0);"><i class="fa fa-plus-circle"></i>Thêm ngân hàng</button>
+</div>
 <table id="dataTableBankInfo" class="display">
     <thead>
         <tr>
-            <th width=20px;">#</th>
+            <th width="20px;">#</th>
             <th>Tài khoản</th>
             <th>Ngân hàng</th>
             <th>Chi nhánh</th>
@@ -20,14 +22,65 @@
         @foreach (var item in Model)
         {
             index++;
-            <td>@index</td>
-            <td>@item.BankNumber</td>
-            <td>@item.Bank.BankName</td>
-            <td>@item.BankBrand</td>
-            <td>@item.Status.StatusName</td>
+            <tr>
+                <td>
+                    <a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="editBankInfo('@item.BankInfoId');"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  
+                    <a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteBankInfo('@item.BankInfoId')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>
+                </td>
+                <td>@item.BankNumber</td>
+                <td>@item.Bank.BankName</td>
+                <td>@item.BankBrand</td>
+                <td>@item.Status.StatusName</td>
+            </tr>
         }
     </tbody>
 </table>
 <script>
     $('#dataTableBankInfo').DataTable();
+    function editBankInfo(id) {
+        hideModalCommon();
+        $.ajax({
+            url: '@Url.Action("EditBankInfo", "Trainer")/?trainerId=@trainer.TrainerId&bankInfoId=' + id,
+            type: 'POST',
+            success: function (data) {
+
+                showModalCommon("Cập nhật thông tin Ngân hàng", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function deleteBankInfo(id) {
+        swal({
+            title: "Bạn muốn xóa?",
+            text: "Bạn thực sự muốn xóa Thông tin này!",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Xóa!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            $.ajax({
+                url: '@Url.Action("DeleteBankInfo", "Trainer")?bankInfoId=' + id,
+                type: 'POST',
+                success: function (data) {
+                    if (data.Result) {
+                        swal("Thông báo", 'Xóa thành công', "success");
+                        viewBankInfo('@trainer.TrainerId');
+                    }
+                    else {
+                        swal("Thông báo", data.ErrorString, "error");
+                    }
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+                }
+            });
+        });
+
+    }
 </script>

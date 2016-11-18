@@ -27,34 +27,8 @@ var waitingDialog = waitingDialog || (function ($) {
 		 * 				  options.progressType - bootstrap postfix for progress bar type, e.g. "success", "warning".
 		 */
         show: function (message, options) {
-            // Assigning defaults
-            if (typeof options === 'undefined') {
-                options = {};
-            }
-            if (typeof message === 'undefined') {
-                message = 'Loading';
-            }
-            var settings = $.extend({
-                dialogSize: 'm',
-                progressType: '',
-                onHide: null // This callback runs after the dialog was hidden
-            }, options);
-
-            // Configuring dialog
-            $dialog.find('.modal-dialog').attr('class', 'modal-dialog').addClass('modal-' + settings.dialogSize);
-            $dialog.find('.progress-bar').attr('class', 'progress-bar');
-            if (settings.progressType) {
-                $dialog.find('.progress-bar').addClass('progress-bar-' + settings.progressType);
-            }
-            //$dialog.find('h3').text(message);
-            // Adding callbacks
-            if (typeof settings.onHide === 'function') {
-                $dialog.off('hidden.bs.modal').on('hidden.bs.modal', function (e) {
-                    settings.onHide.call($dialog);
-                });
-            }
             // Opening dialog
-            $dialog.modal();
+            $dialog.modal('show');
         },
         /**
 		 * Closes dialog

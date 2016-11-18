@@ -14,14 +14,8 @@
     </div>
     <div class="row">
         <div class="form-group col-md-6">
-            <label for="Email">Email (<span class="required">*</span>)</label>
-            @if (Model.TrainerId > 0)
-            {
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email", @readonly="readonly"})
-            }
-            else{
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email"})
-            }
+            <label for="Email">Email</label>
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
         </div>
         <div class="form-group col-md-6">
             <label for="Address">Địa chỉ</label>
@@ -79,10 +73,10 @@
             return;
         }
 
-        if (isBlank(email)) {
-            swal("Thông báo", "Vui lòng nhập Email", "warning");
-            return;
-        }
+        //if (isBlank(email)) {
+        //    swal("Thông báo", "Vui lòng nhập Email", "warning");
+        //    return;
+        //}
 
         if (isBlank(phone)) {
             swal("Thông báo", "Vui lòng nhập Số điện thoại", "warning");

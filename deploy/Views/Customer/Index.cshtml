@@ -52,7 +52,7 @@
         </tr>
     </thead>
     <tbody></tbody>
-    <tfoot>
+    @*<tfoot>
         <tr>
             <th>#</th>
             <th>Họ tên</th>
@@ -63,7 +63,7 @@
             <th>Trạng thái</th>
             <th>Ghi chú</th>
         </tr>
-    </tfoot>
+    </tfoot>*@
 </table>
 
 <script>
@@ -87,10 +87,10 @@
                 { "data": "Note" },
             ],
             fnPreDrawCallback: function (settings) {
-                showLoading();
+                //showLoading();
             },
             fnDrawCallback: function (settings) {
-                hideLoading();
+                //hideLoading();
             },
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.CustomerId));

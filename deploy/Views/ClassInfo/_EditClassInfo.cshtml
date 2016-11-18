@@ -42,7 +42,7 @@
             @Html.TextBoxFor(x => x.NumDaysOfWeek, new { @class = "form-control",@type="number", @placeholder = "Số điện thoại" })
         </div>
         <div class="form-group col-md-6">
-            <label for="Email">Tổng số buổi (<span class="required">*</span>)</label>
+            <label for="Email">Tổng số buổi</label>
             @Html.TextBoxFor(x => x.TotalDays, new { @class = "form-control", @type="number", @placeholder = "Tên lớp" })
         </div>
     </div>
@@ -110,10 +110,10 @@
             return;
         }
 
-        if (isBlank(totalDays)) {
-            swal("Thông báo", "Vui lòng nhập tổng số buổi", "warning");
-            return;
-        }
+        //if (isBlank(totalDays)) {
+        //    swal("Thông báo", "Vui lòng nhập tổng số buổi", "warning");
+        //    return;
+        //}
 
         if (isBlank(price)) {
             swal("Thông báo", "Vui lòng nhập Học phí", "warning");

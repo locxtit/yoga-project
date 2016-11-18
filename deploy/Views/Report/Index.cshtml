@@ -83,7 +83,7 @@
                 </tr>
             </thead>
             <tbody></tbody>
-            <tfoot>
+           @* <tfoot>
                 <tr>
                     <th>#</th>
                     <th>Tên HV</th>
@@ -96,7 +96,7 @@
                     <th>Ngày thanh toán</th>
                     <th>Ngày Thanh toán HLV</th>
                 </tr>
-            </tfoot>
+            </tfoot>*@
         </table>
     </div>
     <div id="tab2" class="tab-pane fade">
@@ -112,7 +112,7 @@
                 </tr>
             </thead>
             <tbody></tbody>
-            <tfoot>
+            @*<tfoot>
                 <tr>
                     <th>#</th>
                     <th>Nội dung</th>
@@ -121,7 +121,7 @@
                     <th>Người chi</th>
                     <th>Ghi chú</th>
                 </tr>
-            </tfoot>
+            </tfoot>*@
         </table>
     </div>
 </div>
@@ -133,8 +133,6 @@
 <script>
     var tabActive = "#tab1";
     $(document).ready(function () {
-
-        
 
         $('#TotalImport, #TotalExport, #SumTotal').number(true, 0);
 
@@ -171,9 +169,13 @@
                         { "data": "PaymentDate" },
                     ],
                     fnPreDrawCallback: function (settings) {
+                        //showLoading();
                     },
                     fnDrawCallback: function (settings) {
-                        getImportTatal()
+                        //hideLoading();
+                        if (settings.aoData.length > 0)
+                            getImportTotal();
+                        
                     },
                     fnRowCallback: function (nRow, aData) {
                         $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
@@ -211,9 +213,12 @@
                         { "data": "Note" },
                     ],
                     fnPreDrawCallback: function (settings) {
+                        //showLoading();
                     },
                     fnDrawCallback: function (settings) {
-                        getExportTatal()
+                        //hideLoading();
+                        if (settings.aoData.length > 0)
+                            getExportTotal();
                     },
                     fnRowCallback: function (nRow, aData) {
                         $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
@@ -272,13 +277,7 @@
         return '/Report/GetExportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
     }
 
-    function getImportTatal() {
-        var oTable = $('#dataTableImport').DataTable();
-        if (!oTable.data().count()) {
-            $('#TotalImport').val(0);
-            updateTotal();
-            return 0;
-        }
+    function getImportTotal() {
         $.ajax({
             url: '@Url.Action("GetTotalImportList","Report")',
             type: 'GET',
@@ -292,13 +291,7 @@
         });
     }
 
-    function getExportTatal() {
-        var oTable = $('#dataTableExport').DataTable();
-        if (!oTable.data().count()) {
-            $('#TotalExport').val(0);
-            updateTotal();
-            return 0;
-        }
+    function getExportTotal() {
         $.ajax({
             url: '@Url.Action("GetTotalExportList","Report")',
             type: 'GET',
