@@ -139,6 +139,14 @@
     <Compile Include="Migrations\201611171155464_Update DB 5.Designer.cs">
       <DependentUpon>201611171155464_Update DB 5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611180603266_Update DB 6.cs" />
+    <Compile Include="Migrations\201611180603266_Update DB 6.Designer.cs">
+      <DependentUpon>201611180603266_Update DB 6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611180653522_Update DB 7.cs" />
+    <Compile Include="Migrations\201611180653522_Update DB 7.Designer.cs">
+      <DependentUpon>201611180653522_Update DB 7.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\EventJoinerViewModel.cs" />
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\SearchEventCriteriaModel.cs" />
@@ -438,6 +446,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611171155464_Update DB 5.resx">
       <DependentUpon>201611171155464_Update DB 5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611180603266_Update DB 6.resx">
+      <DependentUpon>201611180603266_Update DB 6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611180653522_Update DB 7.resx">
+      <DependentUpon>201611180653522_Update DB 7.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

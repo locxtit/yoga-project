@@ -89,6 +89,7 @@ namespace Yoga.Bussiness
                     entity.StatusId = trainer.StatusId;
                 }
                 _context.SaveChanges();
+                
                 return true;
             }
             catch (Exception ex)

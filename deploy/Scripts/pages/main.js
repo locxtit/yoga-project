@@ -6,11 +6,11 @@
 }
 
 function showLoading() {
-    waitingDialog.show();
+    $('#modal-loading').modal('show');
 }
 
 function hideLoading() {
-    waitingDialog.hide();
+    $('#modal-loading').modal('hide');
 }
 
 function hideModalCommon() {

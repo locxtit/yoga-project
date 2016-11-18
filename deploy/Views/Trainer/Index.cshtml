@@ -40,7 +40,7 @@
 <table id="dataTable" class="display">
     <thead>
         <tr>
-            <th width="100px;">#</th>
+            <th width="40px;">#</th>
             <th>Họ & Tên</th>
             <th>Điện thoại</th>
             <th>Email</th>
@@ -51,7 +51,7 @@
         </tr>
     </thead>
     <tbody></tbody>
-    <tfoot>
+    @*<tfoot>
         <tr>
             <th>#</th>
             <th>Họ & Tên</th>
@@ -62,7 +62,7 @@
             <th>Chuyên môn</th>
             <th>Trạng thái</th>
         </tr>
-    </tfoot>
+    </tfoot>*@
 </table>
 
 <script>
@@ -85,8 +85,10 @@
                 { "data": "Status.StatusName" },
             ],
             fnPreDrawCallback: function (settings) {
+                //showLoading();
             },
             fnDrawCallback: function (settings) {
+                //hideLoading();
             },
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.TrainerId));
@@ -110,8 +112,9 @@
 
     function setIconVisibility(id) {
         var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateTrainer(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
-        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteTrainer(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
-        return editString + delString;
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteTrainer(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>  ';
+        var viewbankInfo = '<a class="action-icon" style="color:#337ab7" href= "javascript:void(0)" onclick="viewBankInfo(' + id + ')" ><span class="fa fa-bank" title="Ngân hàng"></span></a>';
+        return editString + delString + viewbankInfo;
     }
 
     function updateTrainer(id) {
@@ -120,6 +123,19 @@
             type: 'POST',
             success: function (data) {
                 showModalCommon("Thông tin Huấn luận viên", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function viewBankInfo(id) {
+        $.ajax({
+            url: '@Url.Action("BankInfos", "Trainer")/?trainerId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Danh sách ngân hàng", data);
             },
             error: function () {
                 swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");

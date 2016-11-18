@@ -18,7 +18,7 @@
         </tr>
     </thead>
     <tbody></tbody>
-    <tfoot>
+    @*<tfoot>
         <tr>
             <th width="100px;">#</th>
             <th>Email</th>
@@ -27,7 +27,7 @@
             <th>Cấp</th>
             <th>Trạng thái</th>
         </tr>
-    </tfoot>
+    </tfoot>*@
 </table>
 
 <script>
@@ -49,8 +49,10 @@
                 { "data": "Status.StatusName" },
             ],
             fnPreDrawCallback: function (settings) {
+                //showLoading();
             },
             fnDrawCallback: function (settings) {
+                //hideLoading();
             },
             fnRowCallback: function (nRow, aData) {
                 $('td:eq(0)', nRow).html(setIconVisibility(aData.OperatorId));

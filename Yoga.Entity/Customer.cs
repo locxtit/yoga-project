@@ -13,10 +13,8 @@ namespace Yoga.Entity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CustomerId { get; set; }
 
-        [Required]
         [StringLength(100)]
         [DataType(DataType.EmailAddress)]
-        [Index("IX_Email", 1, IsUnique = true)]
         public string Email { get; set; }
 
         [StringLength(12)]
