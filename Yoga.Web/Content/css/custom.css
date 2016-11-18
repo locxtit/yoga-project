@@ -263,3 +263,12 @@ button i.fa.fa-plus-circle {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
+.notify-item >.panel-heading {
+    position: relative;
+    padding-right: 75px;
+}
+.notify-item >.panel-heading .btn-viewed {
+    position: absolute;
+    top: 3px;
+    right: 15px;
+}

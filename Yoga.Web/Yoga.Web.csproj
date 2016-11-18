@@ -405,6 +405,7 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\images\login.jpg" />
     <Content Include="Content\select2\css\select2.css" />
     <Content Include="Content\select2\css\select2.min.css" />
     <Content Include="Content\select2\js\i18n\ar.js" />
@@ -832,7 +833,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
