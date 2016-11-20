@@ -87,6 +87,7 @@ namespace Yoga.Bussiness
                     entity.Experience = trainer.Experience;
                     entity.Subject = trainer.Subject;
                     entity.StatusId = trainer.StatusId;
+                    entity.Note = trainer.Note;
                 }
                 _context.SaveChanges();
                 

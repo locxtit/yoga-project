@@ -37,8 +37,13 @@ namespace Yoga.Entity
         [StringLength(50)]
         public string StatusId { get; set; }
 
+        [StringLength(4000)]
+        public string Note { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public virtual Status Status { get; set; }
+
+        public virtual ICollection<BankInfo> BankInfos { get; set; }
     }
 }

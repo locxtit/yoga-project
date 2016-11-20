@@ -5,15 +5,8 @@
 
     <div class="row">
         <div class="form-group col-md-6">
-            <label for="Email">Email (<span class="required">*</span>)</label>
-            @if (Model.CustomerId > 0)
-            {
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email", @readonly = "readonly" })
-            }
-            else
-            {
-                @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
-            }
+            <label for="Email">Email</label>
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
         </div>
         <div class="form-group col-md-6">
             <label for="Phone">Số điện thoại (<span class="required">*</span>)</label>
@@ -89,11 +82,11 @@
         var customerTypeId = $('#form-customer #CustomerTypeId').val();
         var customerStatusId = $('#form-customer #CustomerStatusId').val();
 
-        if (isBlank(email)) {
-            swal("Thông báo", "Vui lòng nhập Email", "warning");
-            $('#form-customer #Email').focus();
-            return;
-        }
+        //if (isBlank(email)) {
+        //    swal("Thông báo", "Vui lòng nhập Email", "warning");
+        //    $('#form-customer #Email').focus();
+        //    return;
+        //}
 
         if (isBlank(phone)) {
             swal("Thông báo", "Vui lòng nhập Số điện thoại", "warning");

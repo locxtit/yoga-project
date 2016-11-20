@@ -8,6 +8,7 @@ using Yoga.Entity;
 using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
 using Yoga.Web.Helpers;
+using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
 {
@@ -33,7 +34,24 @@ namespace Yoga.Web.Controllers
                 var classInfoBll = new ClassInfoBll();
                 var classInfos = classInfoBll.Search(criteria).OrderByDescending(x => x.CreatedDate);
 
-                return Json(classInfos, JsonRequestBehavior.AllowGet);
+                var model = classInfos.Select(x => new ClassInfoViewModel
+                {
+                    ClassInfoId = x.ClassInfoId,
+                    ClassName = x.ClassName,
+                    CompletedPayment = x.CompletedPayment,
+                    CreatedDate = x.CreatedDate,
+                    CustomerName = x.Customer.Name,
+                    CustomerPhone = x.Customer.Phone,
+                    NumOfPaidDays = x.NumOfPaidDays,
+                    Price = x.Price,
+                    StartDate = x.StartDate,
+                    StatusName = x.Status.StatusName,
+                    TotalDays = x.TotalDays,
+                    TrainerName = x.Trainer.TrainerName,
+                    TrainerPrice = x.TrainerPrice,
+                });
+
+                return Json(model, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)
             {

@@ -147,6 +147,22 @@
     <Compile Include="Migrations\201611180653522_Update DB 7.Designer.cs">
       <DependentUpon>201611180653522_Update DB 7.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611181042082_Update DB 8.cs" />
+    <Compile Include="Migrations\201611181042082_Update DB 8.Designer.cs">
+      <DependentUpon>201611181042082_Update DB 8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611181052463_Update DB 9.cs" />
+    <Compile Include="Migrations\201611181052463_Update DB 9.Designer.cs">
+      <DependentUpon>201611181052463_Update DB 9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611181128415_Update DB 10.cs" />
+    <Compile Include="Migrations\201611181128415_Update DB 10.Designer.cs">
+      <DependentUpon>201611181128415_Update DB 10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611201138360_Update DB 11.cs" />
+    <Compile Include="Migrations\201611201138360_Update DB 11.Designer.cs">
+      <DependentUpon>201611201138360_Update DB 11.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\EventJoinerViewModel.cs" />
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\SearchEventCriteriaModel.cs" />
@@ -452,6 +468,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611180653522_Update DB 7.resx">
       <DependentUpon>201611180653522_Update DB 7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611181042082_Update DB 8.resx">
+      <DependentUpon>201611181042082_Update DB 8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611181052463_Update DB 9.resx">
+      <DependentUpon>201611181052463_Update DB 9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611181128415_Update DB 10.resx">
+      <DependentUpon>201611181128415_Update DB 10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611201138360_Update DB 11.resx">
+      <DependentUpon>201611201138360_Update DB 11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

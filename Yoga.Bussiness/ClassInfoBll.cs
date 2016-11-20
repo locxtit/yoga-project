@@ -84,6 +84,11 @@ namespace Yoga.Bussiness
                     entity.TryLearnDate = classInfo.TryLearnDate;
                     entity.EndDate = classInfo.EndDate;
                     //entity.NumOfPaidDays = classInfo.NumOfPaidDays;
+                    entity.BillCompany = classInfo.BillCompany;
+                    entity.BillAddress = classInfo.BillAddress;
+                    entity.TaxCode = classInfo.TaxCode;
+                    entity.Note = classInfo.Note;
+                    entity.Reply = classInfo.Reply;
                 }
                 _context.SaveChanges();
                 return true;

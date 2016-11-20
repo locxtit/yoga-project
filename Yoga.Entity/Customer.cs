@@ -60,5 +60,7 @@ namespace Yoga.Entity
         public virtual CustomerType CustomerType { get; set; }
 
         public virtual Status Status { get; set; }
+
+        
     }
 }

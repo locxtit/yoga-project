@@ -31,6 +31,7 @@
                 <div class="form-group col-md-3">
                     <label style="display: block;">&nbsp;</label>
                     <button type="button" class="btn btn-primary" onclick="searchTrainer();" style="margin-right: 15px;"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    <button type="button" class="btn btn-primary" onclick="exportExcel();"><i class="fa fa-file-excel-o"></i> Export<//button>
                 </div>
             </div>
         </form>
@@ -111,10 +112,14 @@
     }
 
     function setIconVisibility(id) {
-        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateTrainer(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
-        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteTrainer(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>  ';
+        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateTrainer(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>   ';
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteTrainer(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>   ';
         var viewbankInfo = '<a class="action-icon" style="color:#337ab7" href= "javascript:void(0)" onclick="viewBankInfo(' + id + ')" ><span class="fa fa-bank" title="Ngân hàng"></span></a>';
         return editString + delString + viewbankInfo;
+    }
+
+    function exportExcel() {
+        location.href = '@Url.Action("TrainerExport","Excel")?email=' + $('#Email').val() + '&phone=' + $('#Phone').val() + '&trainerName=' + $('#TrainerName').val();
     }
 
     function updateTrainer(id) {

@@ -1,15 +1,23 @@
-﻿using System;
+﻿using ClosedXML.Excel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Yoga.Bussiness;
+using Yoga.Entity;
+using Yoga.Entity.Enums;
+using Yoga.Entity.Models;
+using Yoga.Web.Controls;
 using Yoga.Web.Infrastructure.Extensions;
+using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
 {
@@ -65,24 +73,162 @@ namespace Yoga.Web.Controllers
             }
 
         }
-        public ActionResult ExportToExcel()
-        {
-            var data = new[]{ 
-                               new{ Name="Ram", Email="ram@techbrij.com", Phone="111-222-3333" },
-                               new{ Name="Shyam", Email="shyam@techbrij.com", Phone="159-222-1596" },
-                               new{ Name="Mohan", Email="mohan@techbrij.com", Phone="456-222-4569" },
-                               new{ Name="Sohan", Email="sohan@techbrij.com", Phone="789-456-3333" },
-                               new{ Name="Karan", Email="karan@techbrij.com", Phone="111-222-1234" },
-                               new{ Name="Brij", Email="brij@techbrij.com", Phone="111-222-3333" }                       
-                      };
 
-            Response.ClearContent();
-            Response.AddHeader("content-disposition", "attachment;filename="+DateTime.Now.ToString("yyyyMMddHHmmss")+".xls");
-            Response.AddHeader("Content-Type", "application/ms-excel");
-            WriteHtmlTable(data, Response.Output);
-            Response.End();
+        public ActionResult ExportToExcel(DataTable data, string fileName, string sheetName)
+        {
+
+            using (MemoryStream mem = new MemoryStream())
+            {
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(data, sheetName);
+                    wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    wb.Style.Font.Bold = true;
+
+                    Response.Clear();
+                    Response.Buffer = true;
+                    Response.Charset = "";
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;filename= "+fileName + DateTime.Now.ToString("yyMMddHHmmss") +".xlsx");
+
+                    using (MemoryStream MyMemoryStream = new MemoryStream())
+                    {
+                        wb.SaveAs(MyMemoryStream);
+                        MyMemoryStream.WriteTo(Response.OutputStream);
+                        Response.Flush();
+                        Response.End();
+                    }
+                }  
+            }
 
             return View();
+        }
+
+        public static DataTable ToDataTable<T>(IEnumerable<T> data)
+        {
+            PropertyDescriptorCollection properties =
+                TypeDescriptor.GetProperties(typeof(T));
+            DataTable table = new DataTable();
+            var listColumnNames = new List<string>();
+            foreach (PropertyDescriptor prop in properties)
+            {
+                
+                MemberInfo property = typeof(T).GetProperty(prop.Name);
+                var attribute = property.GetCustomAttributes(typeof(DisplayNameAttribute), true)
+                    .Cast<DisplayNameAttribute>().Single();
+                string displayName = attribute.DisplayName;
+                table.Columns.Add(displayName, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
+                listColumnNames.Add(displayName);
+            }
+            foreach (T item in data)
+            {
+                DataRow row = table.NewRow();
+                var i = 0;
+                foreach (PropertyDescriptor prop in properties)
+                {
+                    row[listColumnNames[i]] = prop.GetValue(item) ?? DBNull.Value;
+                    i++;
+                }
+                table.Rows.Add(row);
+            }
+            return table;
+        }
+
+        public ActionResult TrainerExport(string email, string phone, string trainerName)
+        {
+            var criteria = new SearchTrainerCriteriaModel()
+            {
+                Email = email,
+                Phone = phone,
+                TrainerName = trainerName,
+            };
+            var trainerBll = new TrainerBll();
+            var trainers = trainerBll.Search(criteria).OrderByDescending(x => x.CreatedDate);
+            var model = new List<TrainerExportModel>();
+            foreach (var trainer in trainers)
+            {
+                var bankInfo = trainer.BankInfos.FirstOrDefault(x => x.StatusId == StatusEnum.ACTIVE.ToString());
+                var trainerExport = new TrainerExportModel
+                {
+                    Address = trainer.Address,
+                    Email = trainer.Email,
+                    Experience = trainer.Experience,
+                    Phone = trainer.Phone,
+                    Subject = trainer.Subject,
+                    TrainerName = trainer.TrainerName,
+                };
+                if (bankInfo != null)
+                {
+                    trainerExport.BankId = bankInfo.BankId;
+                    trainerExport.BankBrand = bankInfo.BankBrand;
+                    trainerExport.BankName = bankInfo.BankName;
+                    trainerExport.BankNumber = bankInfo.BankNumber;
+                }
+
+                model.Add(trainerExport);
+
+            }
+            return ExportToExcel(ToDataTable<TrainerExportModel>(model), "hlv-", "DS Huấn Luận Viên");
+        }
+
+        public ActionResult CustomerExport(string customerName, string phone, string customerTypeId, string customerStatusId)
+        {
+            SearchCustomerCriteriaModel criteria = new SearchCustomerCriteriaModel()
+            {
+                CustomerTypeId = customerTypeId,
+                CustomerStatusId = customerStatusId,
+                CustomerName = customerName,
+                Phone = phone
+            };
+            var customerBll = new CustomerBll();
+            var customers = customerBll.Search(criteria).OrderByDescending(x => x.CreatedDate);
+            var model = new List<CustomerExportModel>();
+            foreach (var customer in customers)
+            {
+                var customerExport = new CustomerExportModel
+                {
+                    Address = customer.Address,
+                    Email = customer.Email,
+                    Phone = customer.Phone,
+                    Name = customer.Name,
+                    ProvinceName = customer.Province.ProvinceName,
+                    StatusName = customer.Status.StatusName,
+                    CustomerStatusName = customer.CustomerStatus.CustomerStatusName,
+                    CustomerTypeName = customer.CustomerType.CustomerTypeName
+                };
+                model.Add(customerExport);
+            }
+            return ExportToExcel(ToDataTable<CustomerExportModel>(model), "hoc-ven-","DS Học viên");
+        }
+
+        public ActionResult ClassInfoExport(int? trainerId, string customerName)
+        {
+            SearchClassInfoCriteriaModel criteria = new SearchClassInfoCriteriaModel()
+            {
+                TrainerId = trainerId,
+                CustomerName = customerName,
+            };
+            var classInfoBll = new ClassInfoBll();
+            var classInfos = classInfoBll.Search(criteria).OrderByDescending(x => x.CreatedDate);
+            var model = new List<ClassInfoExportModel>();
+            foreach (var classInfo in classInfos)
+            {
+                var classInfoExport = new ClassInfoExportModel
+                {
+                    ClassName = classInfo.ClassName,
+                    CustomerName = classInfo.Customer.Name,
+                    CustomerPhone = classInfo.Customer.Phone,
+                    Note = classInfo.Note,
+                    Reply = classInfo.Reply,
+                    TotalDays = classInfo.TotalDays,
+                    TrainerName = classInfo.Trainer.TrainerName,
+                    StartDate = classInfo.StartDate.ToString("dd/MM/yyyy"),
+                    EndDate = classInfo.EndDate != null? classInfo.EndDate.Value.ToString("dd/MM/yyyy"):"",
+                    Price =  classInfo.Price
+                };
+                model.Add(classInfoExport);
+            }
+            return ExportToExcel(ToDataTable<ClassInfoExportModel>(model), "lop-", "DS Lớp");
         }
     }
 }

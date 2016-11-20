@@ -53,5 +53,16 @@ namespace Yoga.Entity
         {
             StartDate = DateTime.Now;
         }
+
+        public string TaxCode { get; set; }
+
+        public string BillCompany { get; set; }
+
+        public string BillAddress { get; set; }
+
+        public string Note { get; set; }
+
+        public string Reply { get; set; }
+
     }
 }
