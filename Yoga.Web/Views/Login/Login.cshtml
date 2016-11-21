@@ -61,7 +61,7 @@
                     type: 'POST',
                     success: function (data) {
                         if (!data.Result) {
-                            $('.message').html(data.ErrorString);
+                            swal("Thông báo", data.ErrorString, "error");
                         }
                         else {
                             if ('@ViewBag.RedirectUrl' != 'null' && '@ViewBag.RedirectUrl' != '')

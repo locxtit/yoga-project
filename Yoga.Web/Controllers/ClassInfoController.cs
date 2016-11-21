@@ -8,6 +8,7 @@ using Yoga.Entity;
 using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
 using Yoga.Web.Helpers;
+using Yoga.Web.Infrastructure.Extensions;
 using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
@@ -16,7 +17,7 @@ namespace Yoga.Web.Controllers
     {
         //
         // GET: /ClassInfo/
-
+        [Authorized]
         public ActionResult Index()
         {
             return View();

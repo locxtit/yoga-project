@@ -64,7 +64,7 @@ namespace Yoga.Bussiness
                 ClassInfo entity = _context.ClassInfos.SingleOrDefault(x => x.ClassInfoId == classInfo.ClassInfoId);
                 if (entity == null)
                 {
-                    entity.CompletedPayment = false;
+                    classInfo.CompletedPayment = false;
                     classInfo.NumOfPaidDays = 0;
                     classInfo.CreatedDate = DateTime.Now;
                     _context.ClassInfos.Add(classInfo);

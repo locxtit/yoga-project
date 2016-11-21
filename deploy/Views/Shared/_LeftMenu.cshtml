@@ -10,8 +10,6 @@
 
         <li role="presentation"><a href="@Url.Action("Index","Customer")">Khách hàng</a></li>
 
-        <li role="presentation"><a href="@Url.Action("Index","Province")">Danh mục Tỉnh</a></li>
-
         <li role="presentation"><a href="@Url.Action("Index", "Trainer")">Huấn luyện viên</a></li>
 
         if(operators.OperatorTypeId == OperatorTypeEnum.SUPERVISOR.ToString()){
@@ -33,5 +31,7 @@
         <li role="presentation"><a href="@Url.Action("Index", "Notify")">Quản lý Thông báo</a></li>
 
         <li role="presentation"><a href="@Url.Action("Index", "Report")">Báo cáo thu chi</a></li>
+        
+        <li role="presentation"><a href="@Url.Action("Index","Province")">Danh mục Tỉnh</a></li>
     }
 </ul>

@@ -39,11 +39,11 @@ namespace Yoga.Web.Controllers
             var response = new ErrorMessage()
             {
                 Result = false,
-                ErrorString = "Đăng nhập không thành công. Email hoặc mật khẩu không đúng"
+                ErrorString = "Đăng nhập không thành công. Email hoặc mật khẩu không đúng."
             };
             var operatorBll = new OperatorBll();
 
-            var oper = operatorBll.GetByEmail(model.Email);
+            var oper = operatorBll.Authenticate(model.Email, model.Password);
             if (oper != null)
             {
                 if (oper.StatusId == StatusEnum.INACTIVE.ToString())

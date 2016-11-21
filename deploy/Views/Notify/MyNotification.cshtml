@@ -30,7 +30,7 @@
             <div class="panel panel-default notify-item" id="notify-@item.NotifyId">
               <div class="panel-heading">
                   @item.Description
-                  <button class="btn btn-default pull-right" onclick="viewedNotify(@item.NotifyId);">Đã xem</button>
+                  <button class="btn btn-success dropdown-toggle btn-viewed" onclick="viewedNotify(@item.NotifyId);">Đã xem</button>
               </div>
               <div class="panel-body">
                   <p>Ngày đăng: @item.CreatedDate.ToString("dd-MM-yyyy HH:mm")</p>

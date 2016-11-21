@@ -15,7 +15,7 @@ namespace Yoga.Web.Controllers
     {
         //
         // GET: /Province/
-
+        [Authorized]
         public ActionResult Index()
         {
             return View();

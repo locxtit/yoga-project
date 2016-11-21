@@ -11,26 +11,26 @@
         <li role="presentation"><a href="@Url.Action("Index","Customer")">Khách hàng</a></li>
 
         <li role="presentation"><a href="@Url.Action("Index", "Trainer")">Huấn luyện viên</a></li>
+        
+        <li role="presentation"><a href="@Url.Action("Index", "ClassInfo")">Danh sách xếp lớp</a></li>
 
-        if(operators.OperatorTypeId == OperatorTypeEnum.SUPERVISOR.ToString()){
-            <li role="presentation"><a href="@Url.Action("Index", "Operator")">Quản lý người dùng</a></li>
-        }
-
+        <li role="presentation"><a href="@Url.Action("Index", "OrderInternal")">Chi tiêu nội bộ</a></li>
+        
+        <li role="presentation"><a href="@Url.Action("Index", "Report")">Báo cáo thu chi</a></li>
+        
         <li role="presentation"><a href="@Url.Action("Index", "Event", new { eventTypeId = EventTypeEnum.CENTRAL_ACTIVITY.ToString()})">Hoạt động trung tâm</a></li>
 
         <li role="presentation"><a href="@Url.Action("Index", "Event", new { eventTypeId = EventTypeEnum.COMMUNITY_ACTIVITY.ToString()})">Hoạt động Cộng đồng</a></li>
 
-        <li role="presentation"><a href="@Url.Action("Index", "ClassInfo")">Danh sách xếp lớp</a></li>
+        <li role="presentation"><a href="@Url.Action("Index", "Notify")">Quản lý Thông báo</a></li>
 
         <!--<li role="presentation"><a href="@Url.Action("Index", "Service")">Dịch vụ</a></li>
 
         <li role="presentation"><a href="@Url.Action("Index", "OrderService")">Hóa đơn dịch vụ</a></li>-->
 
-        <li role="presentation"><a href="@Url.Action("Index", "OrderInternal")">Chi tiêu nội bộ</a></li>
-
-        <li role="presentation"><a href="@Url.Action("Index", "Notify")">Quản lý Thông báo</a></li>
-
-        <li role="presentation"><a href="@Url.Action("Index", "Report")">Báo cáo thu chi</a></li>
+        if(operators.OperatorTypeId == OperatorTypeEnum.SUPERVISOR.ToString()){
+            <li role="presentation"><a href="@Url.Action("Index", "Operator")">Quản lý người dùng</a></li>
+        }
         
         <li role="presentation"><a href="@Url.Action("Index","Province")">Danh mục Tỉnh</a></li>
     }

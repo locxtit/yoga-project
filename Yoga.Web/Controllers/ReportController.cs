@@ -11,12 +11,12 @@ using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
 {
-    [Authorized]
     public class ReportController : Controller
     {
         //
         // GET: /Report/
 
+        [Authorized]
         public ActionResult Index()
         {
             return View();

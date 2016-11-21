@@ -54,7 +54,7 @@ namespace Yoga.Entity
 
         public int ClassInfoId { get; set; }
 
-        [StringLength(200)]
+        [StringLength(4000)]
         public string Note { get; set; }
 
         public virtual ClassInfo ClassInfo { get; set; }

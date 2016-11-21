@@ -7,12 +7,11 @@ using Yoga.Web.Infrastructure.Extensions;
 
 namespace Yoga.Web.Controllers
 {
-    [Authorized]
     public class HomeController : BaseController
     {
         //
         // GET: /Home/
-
+        [Authorized]
         public ActionResult Index()
         {
             if (CurrentOperator == null)

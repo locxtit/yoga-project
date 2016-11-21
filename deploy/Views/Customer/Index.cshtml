@@ -33,6 +33,7 @@
                 </div>
                 <div class="col-md-12">
                     <button type="button" class="btn btn-primary" onclick="searchCustomer();"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    <button type="button" class="btn btn-primary" onclick="exportExcel();"><i class="fa fa-file-excel-o"></i> Export<//button>
                 </div>
             </div>
         </form>
@@ -109,13 +110,17 @@
     }
 
     function setIconVisibility(id) {
-        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateCustomer(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
+        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateCustomer(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>   ';
         var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteCustomer(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
         return editString + delString;
     }
 
     function searchCustomer() {
         reloadTableCustomer();
+    }
+
+    function exportExcel() {
+        location.href = '@Url.Action("CustomerExport","Excel")?customerName=' + $('#CustomerName').val() + '&phone=' + $('#Phone').val() + '&customerTypeId=' + $('#CustomerTypeId').val() + '&customerStatusId=' + $('#CustomerStatusId').val();
     }
 
     function updateCustomer(id) {

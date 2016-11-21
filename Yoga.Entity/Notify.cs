@@ -18,7 +18,7 @@ namespace Yoga.Entity
         [Required]
         public string Description { get; set; }
 
-        [StringLength(1000)]
+        [StringLength(4000)]
         [Required]
         public string Content { get; set; }
 

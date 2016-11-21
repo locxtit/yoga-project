@@ -45,7 +45,6 @@
         </div>
     </div>
 
-
     <div class="form-group">
         <label for="Note">Ghi chú</label>
         @Html.TextAreaFor(x => x.Note, new { @class = "form-control", @placeholder = "", @rows = 3 })
@@ -59,7 +58,7 @@
 
     $(document).ready(function () {
         $('#form-customer #Email').blur(function () {
-            $.ajax({
+            @*$.ajax({
                 url: '@Url.Action("IsExistEmail", "Customer")?email=' + $('#form-customer #Email').val(),
                 type: 'POST',
                 success: function (data) {
@@ -70,7 +69,7 @@
                 error: function () {
                     swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "warning");
                 }
-            });
+            });*@
         });
     });
 

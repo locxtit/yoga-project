@@ -39,7 +39,7 @@ namespace Yoga.Entity
         [StringLength(100)]
         public string CustomerStatusId { get; set; }
 
-        [StringLength(400)]
+        [StringLength(4000)]
         public string Note { get; set; }
 
         [Required]

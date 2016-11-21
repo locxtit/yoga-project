@@ -34,10 +34,10 @@ namespace Yoga.Entity
         [StringLength(12)]
         public string OrganizerPhone { get; set; }
 
-        [StringLength(100)]
+        [StringLength(200)]
         public string OrganizerEmail { get; set; }
 
-        [StringLength(200)]
+        [StringLength(1000)]
         public string OrganizerAddress { get; set; }
 
         public int OperatorId { get; set; }

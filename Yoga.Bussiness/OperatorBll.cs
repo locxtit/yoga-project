@@ -34,6 +34,12 @@ namespace Yoga.Bussiness
             return oper;
         }
 
+        public Operator Authenticate(string email, string password)
+        {
+            var oper = _context.Operators.SingleOrDefault(x => x.Email == email && x.Password == password && x.StatusId != StatusEnum.DELETED.ToString());
+            return oper;
+        }
+
         public bool Delete(int operatorId)
         {
             try

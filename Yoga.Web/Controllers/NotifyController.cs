@@ -8,6 +8,7 @@ using Yoga.Entity;
 using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
 using Yoga.Web.Helpers;
+using Yoga.Web.Infrastructure.Extensions;
 
 namespace Yoga.Web.Controllers
 {
@@ -16,6 +17,7 @@ namespace Yoga.Web.Controllers
         //
         // GET: /Notify/
 
+        [Authorized]
         public ActionResult Index()
         {
             return View();
@@ -104,6 +106,7 @@ namespace Yoga.Web.Controllers
 
         }
 
+        [Authorized]
         public ActionResult MyNotification()
         {
             var model = new NotifyBll().GetForNotification(CurrentOperator.OperatorId);

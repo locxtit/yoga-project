@@ -12,12 +12,12 @@ using Yoga.Web.Infrastructure.Extensions;
 
 namespace Yoga.Web.Controllers
 {
-    [Authorized]
     public class OperatorController : BaseController
     {
         //
         // GET: /Operator/
 
+        [Authorized]
         public ActionResult Index()
         {
             return View();
@@ -127,6 +127,7 @@ namespace Yoga.Web.Controllers
             return Json(response, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorized]
         public ActionResult Profile()
         {
             if (CurrentOperator != null)
@@ -139,6 +140,7 @@ namespace Yoga.Web.Controllers
         }
 
         [HttpPost]
+        [Authorized]
         public ActionResult Profile(Operator model)
         {
             if (CurrentOperator != null)

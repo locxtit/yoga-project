@@ -11,12 +11,12 @@ using Yoga.Web.Infrastructure.Extensions;
 
 namespace Yoga.Web.Controllers
 {
-    [Authorized]
     public class OrderServiceController : BaseController
     {
         //
         // GET: /OrderService/
 
+        [Authorized]
         public ActionResult Index()
         {
             return View();

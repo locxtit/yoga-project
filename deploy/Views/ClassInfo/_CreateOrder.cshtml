@@ -15,15 +15,15 @@
     <div class="row">
         <div class="form-group col-md-6">
             <label for="NumOfDays">Số buổi (<span class="required">* & <= @(classInfo.TotalDays - classInfo.NumOfPaidDays)</span>)</label>
-            @Html.TextBoxFor(x => x.NumOfDays, new { @class = "form-control", @placeholder = "Số buổi thanh toán", @min = "0", @type = "number", @max = classInfo.TotalDays - classInfo.NumOfPaidDays})
+            @Html.TextBoxFor(x => x.NumOfDays, new { @class = "form-control", @placeholder = "Số buổi thanh toán", @min = "0", @type = "number", @max = classInfo.TotalDays - classInfo.NumOfPaidDays })
         </div>
         <div class="form-group col-md-3">
             <label for="Price">Học phí / buổi (<span class="required">*</span>)</label>
-            @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Số tiền trên buổi", @readonly="readonly" })
+            @Html.TextBoxFor(x => x.Price, new { @class = "form-control", @placeholder = "Số tiền trên buổi", @readonly = "readonly" })
         </div>
         <div class="form-group col-md-3">
             <label for="Price">Học phí HLV / buổi (<span class="required">*</span>)</label>
-            @Html.TextBoxFor(x => x.PriceForTrainer, new { @class = "form-control", @placeholder = "Số tiền trên buổi", @readonly="readonly" })
+            @Html.TextBoxFor(x => x.PriceForTrainer, new { @class = "form-control", @placeholder = "Số tiền trên buổi", @readonly = "readonly" })
         </div>
     </div>
     <div class="row">
@@ -57,20 +57,23 @@
             @Html.TextBoxFor(x => x.ContactAddress, new { @class = "form-control", @placeholder = "Địa chỉ" })
         </div>
     </div>
-    
     <div class="row">
         <div class="form-group col-md-12">
             <label for="Note">Ghi chú</label>
             @Html.TextAreaFor(x => x.Note, new { @class = "form-control", @rows = "3" })
         </div>
     </div>
-    @if(Model.OrderId <= 0){
+
+    @if (Model.OrderId <= 0)
+    {
         <button type="button" onclick="submitUpdateOrder('@OrderStatusEnum.WAITING.ToString()');" class="btn btn-primary">Chưa thanh toán</button>
     }
-    @if(Model.OrderId <= 0 || Model.OrderStatusId == OrderStatusEnum.WAITING.ToString()){
+    @if (Model.OrderId <= 0 || Model.OrderStatusId == OrderStatusEnum.WAITING.ToString())
+    {
         <button type="button" onclick="submitUpdateOrder('@OrderStatusEnum.PAID.ToString()');" class="btn btn-primary">Đã thanh toán</button>
     }
-    @if (Model.OrderId > 0 && Model.OrderStatusId == OrderStatusEnum.WAITING.ToString()){
+    @if (Model.OrderId > 0 && Model.OrderStatusId == OrderStatusEnum.WAITING.ToString())
+    {
         <button type="button" onclick="submitUpdateOrder('@OrderStatusEnum.CANCEL.ToString()');" class="btn btn-primary">Hủy hóa đơn</button>
     }
     <button type="button" data-dismiss="modal" class="btn btn-default">Hủy thao tác</button>
@@ -84,7 +87,7 @@
             updateTotalPrice();
         });
 
-       // $('#form-createorder #Price').val('@classInfo.Price');
+        // $('#form-createorder #Price').val('@classInfo.Price');
         updateTotalPrice();
     });
 
@@ -174,6 +177,6 @@
                 }
             });
         });
-        
+
     }
 </script>

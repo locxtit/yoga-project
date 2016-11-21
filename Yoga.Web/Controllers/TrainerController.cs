@@ -12,16 +12,16 @@ using Yoga.Web.Models;
 
 namespace Yoga.Web.Controllers
 {
-    [Authorized]
     public class TrainerController : Controller
     {
         //
         // GET: /Trainer/
-
+        [Authorized]
         public ActionResult Index()
         {
             return View();
         }
+
         public ActionResult GetList(string email, string phone, string trainerName)
         {
             try

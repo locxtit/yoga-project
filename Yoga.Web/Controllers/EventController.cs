@@ -11,12 +11,12 @@ using Yoga.Web.Infrastructure.Extensions;
 
 namespace Yoga.Web.Controllers
 {
-    [Authorized]
     public class EventController : BaseController
     {
         //
         // GET: /Event/
 
+        [Authorized]
         public ActionResult Index(string eventTypeId)
         {
             if (eventTypeId == EventTypeEnum.CENTRAL_ACTIVITY.ToString())
@@ -27,6 +27,7 @@ namespace Yoga.Web.Controllers
             return View();
         }
 
+        [Authorized]
         public ActionResult Edit(int? eventId, string eventTypeId)
         {
             var model = new Event();
@@ -148,6 +149,7 @@ namespace Yoga.Web.Controllers
 
         }
 
+        [Authorized]
         public ActionResult Joiners(int eventId)
         {
             var model = new EventBll().GetById(eventId);

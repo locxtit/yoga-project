@@ -25,7 +25,8 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label style="display: block;">&nbsp;</label>
-                    <button type="button" class="btn btn-primary" onclick="searchClassInfo();"><i class="fa fa-search"></i>Tìm kiếm</button>
+                    <button type="button" class="btn btn-primary" onclick="searchClassInfo();"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    <button type="button" class="btn btn-primary" onclick="exportExcel();"><i class="fa fa-file-excel-o"></i> Export<//button>
                 </div>
             </div>
         </form>
@@ -80,14 +81,14 @@
             columns: [
                 { "data": "ClassInfoId" },
                 { "data": "ClassName" },
-                { "data": "Customer.Name" },
-                { "data": "Customer.Phone" },
+                { "data": "CustomerName" },
+                { "data": "CustomerPhone" },
                 { "data": "Price" },
                 { "data": "TrainerPrice" },
                 { "data": "StartDate" },
                 { "data": "TotalDays" },
-                { "data": "Trainer.TrainerName" },
-                { "data": "Status.StatusName" },
+                { "data": "TrainerName" },
+                { "data": "StatusName" },
                 { "data": "ClassInfoId" },
             ],
             fnPreDrawCallback: function (settings) {
@@ -125,9 +126,9 @@
     }
 
     function setIconVisibility(id) {
-        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateClassInfo(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>  ';
-        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteClassInfo(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>  ';
-        var createOrderString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="creatOrder(' + id + ')"><span class="glyphicon glyphicon-edit" title="Tạo hóa đơn"></span></a>  ';
+        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateClassInfo(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>   ';
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteClassInfo(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>   ';
+        var createOrderString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="creatOrder(' + id + ')"><span class="fa fa-plus-circle" title="Tạo hóa đơn"></span></a>  ';
         return editString + delString + createOrderString;
     }
 
@@ -135,12 +136,16 @@
         reloadTableClassInfo();
     }
 
+    function exportExcel() {
+        location.href = '@Url.Action("ClassInfoExport","Excel")?trainerId=' + $('#trainerId').val() + '&customerName=' + $('#customerName').val();
+    }
+
     function updateClassInfo(id) {
         $.ajax({
             url: '@Url.Action("Edit", "ClassInfo")/?classInfoId=' + id,
             type: 'POST',
             success: function (data) {
-                showModalCommon("Thông tin Khách hàng", data);
+                showModalCommon("Thông tin Lớp", data);
             },
             error: function () {
                 swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
