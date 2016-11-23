@@ -61,6 +61,8 @@ namespace Yoga.Entity
 
         public virtual Status Status { get; set; }
 
+        public virtual ICollection<ClassInfo> ClassInfos { get; set; }
+
         
     }
 }

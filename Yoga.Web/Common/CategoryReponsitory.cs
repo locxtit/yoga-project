@@ -34,6 +34,47 @@ namespace Yoga.Web.Common
             return new SelectList(selectListItems, "Value", "Text");
         }
 
+        public static SelectList GetStatusForClassInfo(object selectedValue = null, string defaultOption = null)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (defaultOption != null)
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.CONSULTANT.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.CONSULTANT.ToString()).StatusName
+            });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.LEARN_TEST.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.LEARN_TEST.ToString()).StatusName
+            });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.LEARNING.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.LEARNING.ToString()).StatusName
+            });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.LEARN_COMPLETED.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.LEARN_COMPLETED.ToString()).StatusName
+            });
+            //selectListItems.Add(new SelectListItem()
+            //{
+            //    Value = StatusEnum.DELETED.ToString(),
+            //    Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.DELETED.ToString()).StatusName
+            //});
+            return new SelectList(selectListItems, "Value", "Text");
+        }
+
         public static SelectList GetCustomerTypeSelectList(object selectedValue, string defaultOption)
         {
             var selectListItems = new List<SelectListItem>();
@@ -219,35 +260,6 @@ namespace Yoga.Web.Common
             {
                 Value = OrderStatusEnum.CANCEL.ToString(),
                 Text = CategoryBll.OrderStatus.SingleOrDefault(x => x.OrderStatusId == OrderStatusEnum.CANCEL.ToString()).OrderStatusName
-            });
-            return new SelectList(selectListItems, "Value", "Text");
-        }
-
-        public static SelectList GetStatusForClassInfo(object selectedValue = null, string defaultOption = null)
-        {
-            var selectListItems = new List<SelectListItem>();
-            if (defaultOption != null)
-                selectListItems.Add(new SelectListItem()
-                {
-                    Value = "",
-                    Text = defaultOption
-                });
-
-            selectListItems.Add(new SelectListItem()
-            {
-                Value = StatusEnum.ACTIVE.ToString(),
-                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.ACTIVE.ToString()).StatusName
-            });
-
-            selectListItems.Add(new SelectListItem()
-            {
-                Value = StatusEnum.INACTIVE.ToString(),
-                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.INACTIVE.ToString()).StatusName
-            });
-            selectListItems.Add(new SelectListItem()
-            {
-                Value = StatusEnum.FINISHED.ToString(),
-                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.FINISHED.ToString()).StatusName
             });
             return new SelectList(selectListItems, "Value", "Text");
         }

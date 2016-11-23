@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using Yoga.Bussiness;
 using Yoga.Entity;
+using Yoga.Entity.Enums;
 using Yoga.Entity.Models;
 using Yoga.Web.Helpers;
 using Yoga.Web.Infrastructure.Extensions;
@@ -24,6 +25,22 @@ namespace Yoga.Web.Controllers
             return View();
         }
 
+        private string GetClassInfoName(ICollection<ClassInfo> classInfos)
+        {
+            if (classInfos != null)
+            {
+                var result = "";
+
+                var lst = classInfos.Where(x => x.StatusId == StatusEnum.CONSULTANT.ToString() || x.StatusId == StatusEnum.LEARN_TEST.ToString());
+                foreach (var item in lst)
+                {
+                    result += string.Format("{0} ({1})<br/>", item.ClassName, item.Status.StatusName);
+                }
+                return result;
+            }
+            return null;
+        }
+
         public ActionResult GetList(string customerName, string phone, string customerTypeId, string customerStatusId)
         {
             try
@@ -38,17 +55,17 @@ namespace Yoga.Web.Controllers
                 var customerBll = new CustomerBll();
                 var customers = customerBll.Search(criteria).OrderByDescending(x => x.CreatedDate);
                 var response = customers.Select(x => new CustomerViewModel
-                {
-                    CustomerId = x.CustomerId,
-                    Email = x.Email,
-                    Phone = x.Phone,
-                    CustomerStatusName = x.CustomerStatus.CustomerStatusName,
-                    CustomerTypeName = x.CustomerType.CustomerTypeName,
-                    StatusName = x.Status.StatusName,
-                    Name = x.Name,
-                    Note = x.Note
-                })
-                .ToList();
+                    {
+                        CustomerId = x.CustomerId,
+                        Email = x.Email,
+                        Phone = x.Phone,
+                        CustomerStatusName = x.CustomerStatus.CustomerStatusName,
+                        CustomerTypeName = x.CustomerType.CustomerTypeName,
+                        StatusName = x.Status.StatusName,
+                        Name = x.Name,
+                        Note = x.Note,
+                        ClassInfoNames = x.ClassInfos.Where(y => y.StatusId == StatusEnum.CONSULTANT.ToString() || y.StatusId == StatusEnum.LEARN_TEST.ToString()).Count().ToString()
+                    });
                 return Json(response, JsonRequestBehavior.AllowGet);
             }
             catch (Exception)

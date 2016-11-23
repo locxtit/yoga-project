@@ -45,6 +45,11 @@ namespace Yoga.Bussiness
             {
                 query = query.Where(x => x.Email == criteria.Email);
             }
+
+            if (criteria.ProvinceId.HasValue)
+            {
+                query = query.Where(x => x.ProvinceId == criteria.ProvinceId);
+            }
             return query;
         }
 
@@ -88,6 +93,7 @@ namespace Yoga.Bussiness
                     entity.Subject = trainer.Subject;
                     entity.StatusId = trainer.StatusId;
                     entity.Note = trainer.Note;
+                    entity.ProvinceId = trainer.ProvinceId;
                 }
                 _context.SaveChanges();
                 

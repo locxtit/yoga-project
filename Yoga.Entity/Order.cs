@@ -14,8 +14,7 @@ namespace Yoga.Entity
         public int OrderId { get; set; }
 
         [StringLength(15)]
-        [DataType(DataType.EmailAddress)]
-        [Index("IX_Email", 1, IsUnique = true)]
+        [Index("IX_OrderCode", 1, IsUnique = true)]
         public string OrderCode { get; set; }
 
         public DateTime CreatedDate { get; set; }
@@ -29,7 +28,7 @@ namespace Yoga.Entity
         public string ContactName { get; set; }
 
         [StringLength(100)]
-        [Required]
+        //[Required]
         public string ContactEmail { get; set; }
 
         [StringLength(12)]
@@ -62,5 +61,11 @@ namespace Yoga.Entity
         public virtual Operator Operator { get; set; }
 
         public virtual OrderStatus OrderStatus { get; set; }
+
+        public string TaxCode { get; set; }
+
+        public string BillCompany { get; set; }
+
+        public string BillAddress { get; set; }
     }
 }

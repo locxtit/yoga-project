@@ -1,9 +1,0 @@
-﻿@model Yoga.Entity.Models.ErrorMessage
-
-@if (Model != null)
-{
-    <div class="alert alert-@(Model.Result? "success" : "error") alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <strong>@Model.ErrorString</strong>
-    </div>
-}

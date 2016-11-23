@@ -22,7 +22,7 @@ namespace Yoga.Web.Controllers
             return View();
         }
 
-        public ActionResult GetList(string email, string phone, string trainerName)
+        public ActionResult GetList(string email, string phone, string trainerName, int? provinceId)
         {
             try
             {
@@ -64,6 +64,7 @@ namespace Yoga.Web.Controllers
             return PartialView("_EditTrainer", trainer);
         }
 
+        [HttpPost]
         public ActionResult Update(Trainer model)
         {
             var errorMessage = new ErrorMessage()
@@ -77,6 +78,7 @@ namespace Yoga.Web.Controllers
                 errorMessage.Result = new TrainerBll().SaveOrUpdate(model);
                 if (errorMessage.Result)
                 {
+                    CategoryBll.Trainers = null;
                     errorMessage.ErrorString = "Cập nhật thành công";
                 }
             }

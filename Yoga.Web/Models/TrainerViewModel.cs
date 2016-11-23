@@ -27,6 +27,10 @@ namespace Yoga.Web.Models
 
         public string Note { get; set; }
 
+        public int? ProvinceId { get; set; }
+
+        public string ProvinceName { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public virtual Status Status { get; set; }

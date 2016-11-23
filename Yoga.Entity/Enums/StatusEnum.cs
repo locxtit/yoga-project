@@ -11,6 +11,10 @@ namespace Yoga.Entity.Enums
         ACTIVE,
         DELETED,
         INACTIVE,
-        FINISHED
+        FINISHED,
+        CONSULTANT,
+        LEARN_COMPLETED,
+        LEARN_TEST,
+        LEARNING
     }
 }

@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label for="CustomerName">Tên học viên</label>
-                    <input type="text" class="form-control" id="customerName" placeholder="" name="Phone">
+                    <input type="text" class="form-control" id="customerName" placeholder="Tên học viên" name="Phone">
                 </div>
                 <div class="form-group col-md-3">
                     <label style="display: block;">&nbsp;</label>
@@ -35,7 +35,7 @@
 <table id="dataTable" class="display">
     <thead>
         <tr>
-            <th width="50px;">#</th>
+            <th width="40px;">#</th>
             <th>Tên lớp</th>
             <th>Học viên</th>
             <th>Điện thoại</th>
@@ -45,6 +45,7 @@
             <th>Tổng số buổi</th>
             <th>HLV</th>
             <th>Trạng thái</th>
+            
             <th>Thanh toán</th>
         </tr>
     </thead>
@@ -89,6 +90,7 @@
                 { "data": "TotalDays" },
                 { "data": "TrainerName" },
                 { "data": "StatusName" },
+                
                 { "data": "ClassInfoId" },
             ],
             fnPreDrawCallback: function (settings) {
@@ -117,7 +119,7 @@
         oTable.ajax.reload();
     }
 
-    function setIconShowPaymentList(id,completedpayment) {
+    function setIconShowPaymentList(id, completedpayment) {
         var editString = '<a class="action-icon" href= "javascript:void(0)" onclick="showPopupPayment(' + id + ')">Thanh toán</a>  ';
         if (completedpayment) {
             var editString = '<a class="action-icon" href= "javascript:void(0)" onclick="showPopupPayment(' + id + ')">Đã hoàn thành</a>  ';
@@ -137,7 +139,7 @@
     }
 
     function exportExcel() {
-        location.href = '@Url.Action("ClassInfoExport","Excel")?trainerId=' + $('#trainerId').val() + '&customerName=' + $('#customerName').val();
+        location.href = '@Url.Action("ClassInfoExport", "Excel")?trainerId=' + $('#trainerId').val() + '&customerName=' + $('#customerName').val();
     }
 
     function updateClassInfo(id) {

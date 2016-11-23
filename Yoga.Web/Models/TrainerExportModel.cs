@@ -41,5 +41,8 @@ namespace Yoga.Web.Models
         [DisplayName("Trạng thái")]
         public string StatusName { get; set; }
 
+        [DisplayName("Ghi chú")]
+        public string Note { get; set; }
+
     }
 }

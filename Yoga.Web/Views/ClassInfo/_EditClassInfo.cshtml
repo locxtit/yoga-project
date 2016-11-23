@@ -60,7 +60,7 @@
     <div class="row">
         <div class="form-group col-md-6">
             <label for="StatusId">Trạng thái</label>
-            @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForClassInfo(), new { @class = "form-control" })
+            @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForClassInfo(Model.StatusId, null), new { @class = "form-control" })
         </div>
     </div>
 

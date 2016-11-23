@@ -17,11 +17,11 @@
             <div class="row">
                 <div class="form-group col-md-3">
                     <label for="CustomerName">Tên khách hàng</label>
-                    <input type="text" class="form-control" id="CustomerName" placeholder="" name="CustomerName">
+                    <input type="text" class="form-control" id="CustomerName" placeholder="Tên khách hàng" name="CustomerName">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="Phone">Số điện thoại</label>
-                    <input type="tel" class="form-control" id="Phone" placeholder="" name="Phone">
+                    <input type="tel" class="form-control" id="Phone" placeholder="Số điện thoại" name="Phone">
                 </div>
                 <div class="form-group col-md-3">
                     <label for="CustomerTypeId">Loại đối tượng</label>
@@ -42,13 +42,14 @@
 <table id="dataTable" class="display">
     <thead>
         <tr>
-            <th width="50px;">#</th>
+            <th width="40px;">#</th>
             <th>Họ tên</th>
             <th>Phone</th>
             <th>Email</th>
             <th>Đối tượng</th>
             <th>Hiện trạng</th>
             <th>Trạng thái</th>
+            <th>Số Lớp đang chờ</th>
             <th>Ghi chú</th>
         </tr>
     </thead>
@@ -85,6 +86,7 @@
                 { "data": "CustomerTypeName" },
                 { "data": "CustomerStatusName" },
                 { "data": "StatusName" },
+                { "data": "ClassInfoNames"},
                 { "data": "Note" },
             ],
             fnPreDrawCallback: function (settings) {

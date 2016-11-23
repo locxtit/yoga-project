@@ -49,7 +49,7 @@
     </div>
     <div class="row">
         <div class="form-group col-md-6">
-            <label for="ContactEmail">Email (<span class="required">*</span>)</label>
+            <label for="ContactEmail">Email</label>
             @Html.TextBoxFor(x => x.ContactEmail, new { @class = "form-control", @placeholder = "Email" })
         </div>
         <div class="form-group col-md-6">
@@ -61,6 +61,22 @@
         <div class="form-group col-md-12">
             <label for="Note">Ghi chú</label>
             @Html.TextAreaFor(x => x.Note, new { @class = "form-control", @rows = "3" })
+        </div>
+    </div>
+
+     <h4>Thông tin hóa đơn</h4>
+    <div class="row">
+        <div class="form-group col-md-4">
+            <label for="ContactAddress">Công ty</label>
+            @Html.TextBoxFor(x => x.BillCompany, new { @class = "form-control", @placeholder = "Tên công ty" })
+        </div>
+        <div class="form-group col-md-4">
+            <label for="ContactEmail">Mã số thuế</label>
+            @Html.TextBoxFor(x => x.TaxCode, new { @class = "form-control", @placeholder = "Mã số thuế" })
+        </div>
+         <div class="form-group col-md-4">
+            <label for="ContactAddress">Địa chỉ xuất hóa đơn</label>
+            @Html.TextBoxFor(x => x.BillAddress, new { @class = "form-control", @placeholder = "Địa chỉ xuất hóa đơn" })
         </div>
     </div>
 
@@ -87,7 +103,6 @@
             updateTotalPrice();
         });
 
-        // $('#form-createorder #Price').val('@classInfo.Price');
         updateTotalPrice();
     });
 
@@ -133,10 +148,10 @@
             return;
         }
 
-        if (isBlank(contactEmail)) {
-            swal("Thông báo", "Vui lòng nhập Email liên hệ", "warning");
-            return;
-        }
+        //if (isBlank(contactEmail)) {
+        //    swal("Thông báo", "Vui lòng nhập Email liên hệ", "warning");
+        //    return;
+        //}
 
         var alertText = 'Hóa đơn sẽ ko cho phép cập nhật khi đã tạo. Bạn thực sự muốn tạo hóa đơn?';
         if (orderStatusId == 'CANCEL') {

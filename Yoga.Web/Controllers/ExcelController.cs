@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -156,6 +157,7 @@ namespace Yoga.Web.Controllers
                     Phone = trainer.Phone,
                     Subject = trainer.Subject,
                     TrainerName = trainer.TrainerName,
+                    Note = trainer.Note
                 };
                 if (bankInfo != null)
                 {
@@ -194,11 +196,12 @@ namespace Yoga.Web.Controllers
                     ProvinceName = customer.Province.ProvinceName,
                     StatusName = customer.Status.StatusName,
                     CustomerStatusName = customer.CustomerStatus.CustomerStatusName,
-                    CustomerTypeName = customer.CustomerType.CustomerTypeName
+                    CustomerTypeName = customer.CustomerType.CustomerTypeName,
+                    Note = customer.Note
                 };
                 model.Add(customerExport);
             }
-            return ExportToExcel(ToDataTable<CustomerExportModel>(model), "hoc-ven-","DS Học viên");
+            return ExportToExcel(ToDataTable<CustomerExportModel>(model), "hoc-vien-","DS Học viên");
         }
 
         public ActionResult ClassInfoExport(int? trainerId, string customerName)
@@ -229,6 +232,63 @@ namespace Yoga.Web.Controllers
                 model.Add(classInfoExport);
             }
             return ExportToExcel(ToDataTable<ClassInfoExportModel>(model), "lop-", "DS Lớp");
+        }
+
+        public ActionResult ReportExport(string fromDate, string toDate)
+        {
+            if (string.IsNullOrEmpty(fromDate) || string.IsNullOrEmpty(toDate))
+            {
+                return Json(new List<ReportImportModel>(), JsonRequestBehavior.AllowGet);
+            }
+            var importDatas = new OrderBll().GetList(DateTime.ParseExact(fromDate, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(toDate, "dd/MM/yyyy", CultureInfo.InvariantCulture));
+            var exportDatas = new OrderInternalBll().GetList(DateTime.ParseExact(fromDate, "dd/MM/yyyy", CultureInfo.InvariantCulture), DateTime.ParseExact(toDate, "dd/MM/yyyy", CultureInfo.InvariantCulture));
+
+            var imports = importDatas.Select(x => new ImportExportModel
+            {
+                PaymentDate = x.PaymentDate.HasValue? x.PaymentDate.Value.ToString("dd/MM/yyyy"): "",
+                Price = x.Price.ToString("N0"),
+                PriceForTrainer = x.PriceForTrainer.ToString("N0"),
+                TotalPaid = x.TotalPaid.ToString("N0"),
+                TotalPaidForTrainer = x.TotalPaidForTrainer.ToString("N0"),
+                NumOfDays = x.NumOfDays,
+                CreatedDate = x.CreatedDate.ToString("dd/MM/yyyy"),
+                CustomerName = x.ClassInfo.Customer.Name,
+                Total = (x.TotalPaid - x.TotalPaidForTrainer).ToString("N0")
+            });
+
+            var exports = exportDatas.Select(x => new ExportExportModel { 
+                Content = x.Content,
+                CreatedDate = x.CreatedDate.ToString("dd/MM/yyyy"),
+                Note = x.Note,
+                Payer = x.Payer,
+                Total = x.Total.ToString("N0")
+            });
+
+            using (MemoryStream mem = new MemoryStream())
+            {
+                using (XLWorkbook wb = new XLWorkbook())
+                {
+                    wb.Worksheets.Add(ToDataTable<ImportExportModel>(imports), "BÁO CÁO THU");
+                    wb.Worksheets.Add(ToDataTable<ExportExportModel>(exports), "BÁO CÁO CHI");
+                    wb.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center;
+                    wb.Style.Font.Bold = true;
+
+                    Response.Clear();
+                    Response.Buffer = true;
+                    Response.Charset = "";
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                    Response.AddHeader("content-disposition", "attachment;filename= " + "Báo cáo - " + DateTime.Now.ToString("yyMMddHHmmss") + ".xlsx");
+
+                    using (MemoryStream MyMemoryStream = new MemoryStream())
+                    {
+                        wb.SaveAs(MyMemoryStream);
+                        MyMemoryStream.WriteTo(Response.OutputStream);
+                        Response.Flush();
+                        Response.End();
+                    }
+                }
+            }
+            return View();
         }
     }
 }

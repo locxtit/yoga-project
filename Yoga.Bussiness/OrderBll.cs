@@ -70,6 +70,9 @@ namespace Yoga.Bussiness
                 {
                     entity.OrderStatusId = order.OrderStatusId;
                     entity.PaymentDate = order.PaymentDate;
+                    entity.TaxCode = order.TaxCode;
+                    entity.BillAddress = order.BillAddress;
+                    entity.BillCompany = order.BillCompany;
                 }
                 _context.SaveChanges();
                 return true;

@@ -159,8 +159,9 @@
     <Compile Include="Models\CustomerExportModel.cs" />
     <Compile Include="Models\CustomerModel.cs" />
     <Compile Include="Models\CustomerViewModel.cs" />
+    <Compile Include="Models\ExportExportModel.cs" />
+    <Compile Include="Models\ImportExportModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
-    <Compile Include="Models\ReportExportModel.cs" />
     <Compile Include="Models\ReportImportModel.cs" />
     <Compile Include="Models\TrainerExportModel.cs" />
     <Compile Include="Models\TrainerViewModel.cs" />
@@ -790,7 +791,9 @@
     <Content Include="Scripts\tinymce\themes\modern\theme.min.js" />
     <Content Include="Scripts\tinymce\tinymce.js" />
     <Content Include="Scripts\tinymce\tinymce.min.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

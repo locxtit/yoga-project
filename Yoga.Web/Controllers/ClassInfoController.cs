@@ -68,6 +68,7 @@ namespace Yoga.Web.Controllers
             return PartialView("_EditClassInfo", classInfo);
         }
 
+        [HttpPost]
         public ActionResult Update(ClassInfo model)
         {
             var errorMessage = new ErrorMessage()
@@ -126,6 +127,15 @@ namespace Yoga.Web.Controllers
             model.Price = classInfo.Price;
             model.PriceForTrainer = classInfo.TrainerPrice;
             model.ClassInfoId = classInfo.ClassInfoId;
+
+            model.ContactAddress = classInfo.Customer.Address;
+            model.ContactEmail = classInfo.Customer.Email;
+            model.ContactName = classInfo.Customer.Name;
+            model.CustomerPhone = classInfo.Customer.Phone;
+
+            model.BillAddress = classInfo.BillAddress;
+            model.BillCompany = classInfo.BillCompany;
+            model.TaxCode = classInfo.TaxCode;
 
             ViewBag.ClassInfo = classInfo;
             return PartialView("_CreateOrder", model);

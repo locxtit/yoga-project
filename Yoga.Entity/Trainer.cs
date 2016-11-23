@@ -34,6 +34,8 @@ namespace Yoga.Entity
         [StringLength(200)]
         public string Subject { get; set; }
 
+        public int? ProvinceId { get; set; }
+
         [StringLength(50)]
         public string StatusId { get; set; }
 
@@ -43,6 +45,8 @@ namespace Yoga.Entity
         public DateTime CreatedDate { get; set; }
 
         public virtual Status Status { get; set; }
+
+        public virtual Province Province { get; set; }
 
         public virtual ICollection<BankInfo> BankInfos { get; set; }
     }

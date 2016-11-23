@@ -15,5 +15,7 @@ namespace Yoga.Web.Models
         public string CustomerStatusName { get; set; }
         public string StatusName { get; set; }
         public string Note { get; set; }
+
+        public string ClassInfoNames { get; set; }
     }
 }

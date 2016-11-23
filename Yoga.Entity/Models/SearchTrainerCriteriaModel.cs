@@ -13,5 +13,7 @@ namespace Yoga.Entity.Models
         public string Phone { get; set; }
 
         public string TrainerName { get; set; }
+
+        public int? ProvinceId { get; set; }
     }
 }

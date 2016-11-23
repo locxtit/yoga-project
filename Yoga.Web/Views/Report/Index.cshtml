@@ -34,6 +34,7 @@
                 <div class="form-group col-md-3">
                     <label style="display: block;">&nbsp;</label>
                     <button type="button" class="btn btn-primary" onclick="getReport();"><i class="fa fa-search"></i> Lấy báo cáo</button>
+                    <button type="button" class="btn btn-primary" onclick="exportExcel();"><i class="fa fa-file-excel-o"></i> Export<//button>
                 </div>
             </div>
         </form>
@@ -249,6 +250,10 @@
 
 
     });
+
+    function exportExcel() {
+        location.href = '@Url.Action("ReportExport","Excel")?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
+    }
 
     function getReport() {
         if (tabActive == '#tab1')

@@ -15,7 +15,7 @@ namespace Yoga.Bussiness
 
         public List<ClassInfo> GetAll()
         {
-            return _context.ClassInfos.Where(x => x.StatusId == StatusEnum.ACTIVE.ToString()).ToList();
+            return _context.ClassInfos.Where(x => x.StatusId != StatusEnum.DELETED.ToString()).ToList();
         }
 
         public IEnumerable<ClassInfo> Search(SearchClassInfoCriteriaModel criteria)

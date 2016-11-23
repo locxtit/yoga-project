@@ -27,6 +27,10 @@
                     <label for="Email">Email</label>
                     <input type="tel" class="form-control" id="Email" placeholder="" name="Email">
                 </div>
+                <div class="form-group col-md-3">
+                    <label for="ProvinceId">Tỉnh</label>
+                    @Html.DropDownList("ProvinceId", CategoryReponsitory.GetProvinceSelectList("", "--- Chọn ---"), new { @class = "form-control" })
+                </div>
                 
                 <div class="form-group col-md-3">
                     <label style="display: block;">&nbsp;</label>
@@ -98,7 +102,7 @@
     });
 
     function getAjaxSource() {
-        return '/Trainer/GetList?email=' + $('#Email').val() + '&phone=' + $('#Phone').val() + '&trainerName=' + $('#TrainerName').val();
+        return '/Trainer/GetList?email=' + $('#Email').val() + '&phone=' + $('#Phone').val() + '&trainerName=' + $('#TrainerName').val() + '&provinceId=' + $('#ProvinceId').val();
     }
 
     function searchTrainer() {
