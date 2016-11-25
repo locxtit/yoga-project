@@ -50,6 +50,7 @@ namespace Yoga.Web.Controllers
                     TotalDays = x.TotalDays,
                     TrainerName = x.Trainer.TrainerName,
                     TrainerPrice = x.TrainerPrice,
+                    StatusId = x.StatusId
                 });
 
                 return Json(model, JsonRequestBehavior.AllowGet);
@@ -82,6 +83,25 @@ namespace Yoga.Web.Controllers
                 if (errorMessage.Result)
                 {
                     errorMessage.ErrorString = "Cập nhật thành công";
+                    var orderBll = new OrderBll();
+                    var orders = orderBll.GetByClassInfoId(model.ClassInfoId);
+                    if (model.StatusId == StatusEnum.LEARNING.ToString() && !orders.Any())
+                    {
+                        var trainer = new TrainerBll().GetById(model.TrainerId);
+                        var notify = new Notify
+                        {
+                            Content = string.Format("THANH TOÁN HÓA ĐƠN LỚP: {0} của HLV: {1}", model.ClassName, trainer.TrainerName),
+                            Description = string.Format("Thông báo đến thời gian thanh toán hóa đơn cho lớp: {0}", model.ClassName),
+                            StartDate = model.StartDate.AddDays(25),
+                            OperatorAddId = CurrentOperator.OperatorId,
+                            StatusId = StatusEnum.ACTIVE.ToString(),
+                        };
+                        if (new NotifyBll().SaveOrUpdate(notify))
+                        {
+                            model.NotifyId = notify.NotifyId;
+                            new ClassInfoBll().SaveOrUpdate(model);
+                        }
+                    }
                 }
             }
             else
@@ -200,7 +220,7 @@ namespace Yoga.Web.Controllers
                                 oldOrder.OrderStatusId = model.OrderStatusId;
                                 if (model.OrderStatusId == OrderStatusEnum.PAID.ToString())
                                 {
-                                    oldOrder.PaymentDate.ToString();
+                                    oldOrder.PaymentDate = DateTime.Now;
                                 }
                                 errorMessage.Result = orderBll.SaveOrUpdate(oldOrder);
                             }
@@ -212,8 +232,20 @@ namespace Yoga.Web.Controllers
                         if (model.OrderStatusId == OrderStatusEnum.PAID.ToString())
                         {
                             classInfoBll.UpdateByOrder(model);
+
+                            CreatNotify(model);
+                            errorMessage.ErrorString = "Thanh toán thành công";
                         }
-                        errorMessage.ErrorString = "Cập nhật thành công";
+                        else if (model.OrderStatusId == OrderStatusEnum.WAITING.ToString())
+                        {
+                            CreatNotify(model);
+                            errorMessage.ErrorString = "Tạo hóa đơn thành công";
+                        }
+
+                        else if (model.OrderStatusId == OrderStatusEnum.CANCEL.ToString())
+                        {
+                            errorMessage.ErrorString = "Hủy thành công";
+                        }
                     }
                 }
                 else
@@ -224,6 +256,57 @@ namespace Yoga.Web.Controllers
             else
                 errorMessage.ErrorString = Util.GetModelStateErrors(ModelState);
             return Json(errorMessage, JsonRequestBehavior.AllowGet);
+        }
+
+        private void CreatNotify(Order order)
+        {
+            var result = false;
+            order = new OrderBll().GetById(order.OrderId);
+            var notifyId = order.ClassInfo.NotifyId;
+            Notify notify = null;
+
+            var notifyBll = new NotifyBll();
+            if (order.OrderStatusId == OrderStatusEnum.PAID.ToString())
+            {
+                notify = new Notify
+                {
+                    Content = string.Format("THANH TOÁN HÓA ĐƠN LỚP: {0} của HLV: {1}", order.ClassInfo.ClassName, order.ClassInfo.Trainer.TrainerName),
+                    Description = string.Format("Thông báo đến thời gian thanh toán hóa đơn cho lớp: {0}", order.ClassInfo.ClassName),
+                    StartDate = order.CreatedDate.AddDays(25),
+                    OperatorAddId = CurrentOperator.OperatorId,
+                    StatusId = StatusEnum.ACTIVE.ToString(),
+                };
+            }
+            else if (order.OrderStatusId == OrderStatusEnum.WAITING.ToString())
+            {
+                notify = new Notify
+                {
+                    Content = string.Format("QUÁ HẠNG THU TIỀN HÓA ĐƠN: {0} của lớp: {1}", order.OrderCode, order.ClassInfo.ClassName),
+                    Description = string.Format("Thông báo đá quá hạng thu tiền cho hóa đơn: {0}", order.OrderCode),
+                    StartDate = order.CreatedDate.AddDays(15),
+                    OperatorAddId = CurrentOperator.OperatorId,
+                    StatusId = StatusEnum.ACTIVE.ToString(),
+                };
+            }
+
+            if (notify != null)
+            {
+                result = notifyBll.SaveOrUpdate(notify);
+            }
+
+            if (result)
+            {
+                var classInfoBll = new ClassInfoBll();
+                var classInfo = classInfoBll.GetById(order.ClassInfoId);
+                classInfo.NotifyId = notify.NotifyId;
+                classInfoBll.SaveOrUpdate(classInfo);
+                if (notifyId.HasValue)
+                {
+                    var oldNotify = notifyBll.GetById(notifyId.Value);
+                    oldNotify.StatusId = StatusEnum.INACTIVE.ToString();
+                    notifyBll.SaveOrUpdate(oldNotify);
+                }
+            }
         }
     }
 }

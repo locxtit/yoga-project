@@ -1,0 +1,63 @@
+﻿@using Yoga.Web.Common
+@model IEnumerable<Yoga.Entity.Notify>
+@{
+    ViewBag.Title = "Thông báo cho bạn";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="clearfix">
+	<h2 class="page-title pull-left">@ViewBag.Title</h2>
+</div>
+
+<div>
+    @if (Model.Count() <= 0)
+    {
+        <div class="alert alert-warning alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Không có thông báo nào!
+        </div>
+    }
+    else
+    {
+        
+        <div id="no-notify" class="alert alert-warning alert-dismissible hide" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          Không có thông báo nào!
+        </div>
+        
+        foreach (var item in Model)
+        {
+            <div class="panel panel-default notify-item" id="notify-@item.NotifyId">
+              <div class="panel-heading">
+                  @item.Description
+                  <button class="btn btn-success dropdown-toggle btn-viewed" onclick="viewedNotify(@item.NotifyId);">Đã xem</button>
+              </div>
+              <div class="panel-body">
+                  <p>Ngày đăng: @item.CreatedDate.ToString("dd-MM-yyyy HH:mm")</p>
+                  <p>@item.Content</p>
+              </div>
+            </div>
+        }
+    }
+</div>
+
+<script>
+    function viewedNotify(id) {
+
+        $.ajax({
+            url: '@Url.Action("Viewed", "Notify")?notifyId=' + id,
+            type: 'POST',
+            success: function (data) {
+                if (data.Result) {
+                    location.reload();
+                }
+                else {
+                    swal("Thông báo", data.ErrorString, "error");
+                }
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+</script>

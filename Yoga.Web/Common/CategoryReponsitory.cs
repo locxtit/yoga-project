@@ -307,5 +307,29 @@ namespace Yoga.Web.Common
 
             return new SelectList(selectListItems, "Value", "Text", selectedValue);
         }
+
+        public static SelectList GetNotifyTypeSelectList(object selectedValue = null, string defaultOption = null)
+        {
+            var selectListItems = new List<SelectListItem>();
+            if (defaultOption != null)
+                selectListItems.Add(new SelectListItem()
+                {
+                    Value = "",
+                    Text = defaultOption
+                });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.ACTIVE.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.ACTIVE.ToString()).StatusName
+            });
+
+            selectListItems.Add(new SelectListItem()
+            {
+                Value = StatusEnum.INACTIVE.ToString(),
+                Text = CategoryBll.Statuses.SingleOrDefault(x => x.StatusId == StatusEnum.INACTIVE.ToString()).StatusName
+            });
+            return new SelectList(selectListItems, "Value", "Text");
+        }
     }
 }

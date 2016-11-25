@@ -179,6 +179,10 @@
     <Compile Include="Migrations\201611231324011_Update DB 15.Designer.cs">
       <DependentUpon>201611231324011_Update DB 15.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611250302279_UpdateDB16.cs" />
+    <Compile Include="Migrations\201611250302279_UpdateDB16.Designer.cs">
+      <DependentUpon>201611250302279_UpdateDB16.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\EventJoinerViewModel.cs" />
     <Compile Include="Models\EventViewModel.cs" />
     <Compile Include="Models\SearchEventCriteriaModel.cs" />
@@ -508,6 +512,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201611231324011_Update DB 15.resx">
       <DependentUpon>201611231324011_Update DB 15.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611250302279_UpdateDB16.resx">
+      <DependentUpon>201611250302279_UpdateDB16.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

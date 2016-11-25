@@ -41,5 +41,7 @@ namespace Yoga.Entity
         public virtual Operator OperatorReciept { get; set; }
 
         public virtual Status Status {get;set;}
+
+
     }
 }

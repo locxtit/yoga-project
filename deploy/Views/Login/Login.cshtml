@@ -1,0 +1,84 @@
+﻿<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập hệ thống</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+    <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-sweetalert/dist/sweetalert.css" rel="stylesheet" />
+    <link href="~/Content/css/custom.css?id=20161118" rel="stylesheet" />
+    <link href="~/Content/css/login.css?id=20161118" rel="stylesheet" />
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Content/bootstrap-sweetalert/dist/sweetalert.min.js"></script>
+    <script src="~/Scripts/pages/main.js"></script>
+
+</head>
+<body>
+    <div class="container main">
+        <div class="login-page">
+            <div class="form">
+                <form class="login-form">
+                    <ul>
+                        <li>
+                            <i class="fa fa-user"></i>
+                            <input type="text" id="email" placeholder="Email" value=""/>
+                        </li>
+                        <li>
+                            <i class="fa fa-lock"></i>
+                            <input type="password" id="password" placeholder="Mật khẩu" value=""/>
+                        </li>
+                        <li>
+                            <button type="button" class="btn btn-primary" data-loading-text="<i class='fa fa-spinner fa-spin'></i> Đăng nhập" id="btnLogin">Đăng nhập</button>
+                        </li>
+                    </ul>
+                    <p class="message"></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+
+            $("#password, #email").keyup(function (e) {
+                var code = e.which;
+                if (code == 13) {
+                    $('#btnLogin').click();
+                }
+            });
+
+            $('#btnLogin').click(function () {
+
+                var email = $('#email').val();
+                var password = $('#password').val();
+                $('#btnLogin').button('loading');
+                $.ajax({
+                    url: '@Url.Action("DoLogin", "Login")',
+                    data:{Email:email,Password:password},
+                    type: 'POST',
+                    success: function (data) {
+                        if (!data.Result) {
+                            swal("Thông báo", data.ErrorString, "error");
+                        }
+                        else {
+                            if ('@ViewBag.RedirectUrl' != 'null' && '@ViewBag.RedirectUrl' != '')
+                                location.href = '@ViewBag.RedirectUrl';
+                            else
+                                location.href = '/Home/Index';
+                        }
+                    },
+                    error: function () {
+                        swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "warning");
+                    },
+                    complete: function () {
+                        $('#btnLogin').button('reset');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

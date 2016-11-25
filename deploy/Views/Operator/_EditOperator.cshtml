@@ -1,0 +1,102 @@
+﻿@using Yoga.Web.Common
+@model Yoga.Entity.Operator
+<form id="form-operator">
+    <input type="hidden" name="OperatorId" value="@Model.OperatorId" />
+    <div class="form-group">
+        <label for="Email">Email (<span class="required">*</span>)</label>
+        @if (Model.OperatorId == 0)
+        {
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
+        }
+        else
+        {
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email", @readonly = "readonly" })
+        }
+    </div>
+    <div class="form-group">
+        <label for="Password">Mật khẩu (<span class="required">*</span>)</label>
+        @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "Mật khẩu" })
+    </div>
+    
+     
+    <div class="form-group">
+        <label for="Phone">Số điện thoại</label>
+        @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+    </div>
+    <div class="form-group">
+        <label for="OperatorName">Họ và tên</label>
+        @Html.TextBoxFor(x => x.OperatorName, new { @class = "form-control", @placeholder = "Họ và tên" })
+    </div>
+    <div class="form-group">
+        <label for="OperatorTypeId">Cấp</label>
+        @Html.DropDownListFor(x => x.OperatorTypeId, CategoryReponsitory.GetOperatorTypeSelectList(), new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        <label for="StatusId">Trạng thái</label>
+        @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
+    </div>
+    <div class="form-group-modal">
+        <button type="button" onclick="submitUpdateOperator();" class="btn btn-primary">Lưu</button>
+        <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        $('#form-operator #Email').blur(function () {
+            $.ajax({
+                url: '@Url.Action("IsExistEmail", "Operator")?email=' + $('#form-operator #Email').val(),
+                type: 'POST',
+                success: function (data) {
+                    if (!data.Result) {
+                        swal("Thông báo", data.ErrorString, "error");
+                    } 
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "warning");
+                }
+            });
+        });
+    });
+    function submitUpdateOperator() {
+        var email = $('#form-operator #Email').val();
+        var phone = $('#form-operator #Phone').val();
+        var password = $('#form-operator #Password').val();
+
+        if (isBlank(email)) {
+            swal("Thông báo", "Vui lòng nhập Email", "warning");
+            $('#form-operator #Email').focus();
+            return;
+        }
+
+        if ('@Model.OperatorId' == '0' && isBlank(password)) {
+            swal("Thông báo", "Vui lòng nhập mật khẩu", "warning");
+            $('#form-customer #Password').focus();
+            return;
+        }
+
+        if (isBlank(phone)) {
+            swal("Thông báo", "Vui lòng nhập Số điện thoại", "warning");
+            $('#form-operator #Phone').focus();
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("Update", "Operator")',
+            data: $('#form-operator').serialize(),
+            type: 'POST',
+            success: function (data) {
+                if (data.Result) {
+                    reloadTableOperator();
+                    swal("Thông báo", "Cập nhật thành công", "success");
+                    hideModalCommon();
+                }
+                else
+                    swal("Thông báo", data.ErrorString, "error");
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+</script>

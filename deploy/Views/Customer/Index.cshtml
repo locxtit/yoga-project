@@ -1,0 +1,174 @@
+﻿@using Yoga.Web.Common
+@{
+    ViewBag.Title = "Quản lý Khách hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="clearfix">
+	<h2 class="page-title pull-left">@ViewBag.Title</h2>
+	<button type="button" class="btn btn-success dropdown-toggle pull-right" onclick="updateCustomer();"><i class="fa fa-plus-circle"></i> Thêm Khách hàng</button>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Thông tin tìm kiếm</h3>
+    </div>
+    <div class="panel-body">
+        <form>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="CustomerName">Tên khách hàng</label>
+                    <input type="text" class="form-control" id="CustomerName" placeholder="Tên khách hàng" name="CustomerName">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Phone">Số điện thoại</label>
+                    <input type="tel" class="form-control" id="Phone" placeholder="Số điện thoại" name="Phone">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="CustomerTypeId">Loại đối tượng</label>
+                    @Html.DropDownList("CustomerTypeId", CategoryReponsitory.GetCustomerTypeSelectList(null,"--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="CustomerStatusId">Hiện trạng khách hàng</label>
+                    @Html.DropDownList("CustomerStatusId", CategoryReponsitory.GetCustomerStatusSelectList(null,"--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="col-md-12">
+                    <button type="button" class="btn btn-primary" onclick="searchCustomer();"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    <button type="button" class="btn btn-primary" onclick="exportExcel();"><i class="fa fa-file-excel-o"></i> Export<//button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<table id="dataTable" class="display">
+    <thead>
+        <tr>
+            <th width="40px;">#</th>
+            <th>Họ tên</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Đối tượng</th>
+            <th>Hiện trạng</th>
+            <th>Trạng thái</th>
+            <th>Số Lớp đang chờ</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    @*<tfoot>
+        <tr>
+            <th>#</th>
+            <th>Họ tên</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th>Đối tượng</th>
+            <th>Hiện trạng</th>
+            <th>Trạng thái</th>
+            <th>Ghi chú</th>
+        </tr>
+    </tfoot>*@
+</table>
+
+<script>
+    $(document).ready(function () {
+
+        $('#dataTable').DataTable({
+            serverSide: false,
+            ajax: {
+                "url": getAjaxSource(),
+                "dataSrc": ""
+            },
+            "pageLength": 25,
+            columns: [
+                { "data": "CustomerId" },
+                { "data": "Name" },
+                { "data": "Phone" },
+                { "data": "Email" },
+                { "data": "CustomerTypeName" },
+                { "data": "CustomerStatusName" },
+                { "data": "StatusName" },
+                { "data": "ClassInfoNames"},
+                { "data": "Note" },
+            ],
+            fnPreDrawCallback: function (settings) {
+                //showLoading();
+            },
+            fnDrawCallback: function (settings) {
+                //hideLoading();
+            },
+            fnRowCallback: function (nRow, aData) {
+                $('td:eq(0)', nRow).html(setIconVisibility(aData.CustomerId));
+            },
+        });
+    });
+
+    function getAjaxSource() {
+        return '/Customer/GetList?customerName=' + $('#CustomerName').val() + '&phone=' + $('#Phone').val() + '&customerTypeId=' + $('#CustomerTypeId').val() + '&customerStatusId=' + $('#CustomerStatusId').val();
+    }
+
+    function reloadTableCustomer() {
+        var oTable = $('#dataTable').DataTable();
+        oTable.ajax.url(getAjaxSource());
+        oTable.ajax.reload();
+    }
+
+    function setIconVisibility(id) {
+        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateCustomer(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>   ';
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteCustomer(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
+        return editString + delString;
+    }
+
+    function searchCustomer() {
+        reloadTableCustomer();
+    }
+
+    function exportExcel() {
+        location.href = '@Url.Action("CustomerExport","Excel")?customerName=' + $('#CustomerName').val() + '&phone=' + $('#Phone').val() + '&customerTypeId=' + $('#CustomerTypeId').val() + '&customerStatusId=' + $('#CustomerStatusId').val();
+    }
+
+    function updateCustomer(id) {
+
+        $.ajax({
+            url: '@Url.Action("Edit", "Customer")/?customerId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Thông tin Khách hàng", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function deleteCustomer(id) {
+        swal({
+            title: "Bạn muốn xóa?",
+            text: "Bạn thực sự muốn xóa Thông tin này!",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Xóa!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            $.ajax({
+                url: '@Url.Action("Delete", "Customer")?customerId=' + id,
+                type: 'POST',
+                success: function (data) {
+                    if (data.Result) {
+                        swal("Thông báo", 'Xóa thành công', "success");
+                        reloadTableCustomer();
+                    }
+                    else {
+                        swal("Thông báo", data.ErrorString, "error");
+                    }
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+                }
+            });
+        });
+
+    }
+
+</script>

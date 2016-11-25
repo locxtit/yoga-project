@@ -64,5 +64,8 @@ namespace Yoga.Entity
 
         public string Reply { get; set; }
 
+        public int? NotifyId { get; set; }
+
+        public virtual Notify Notify { get; set; }
     }
 }

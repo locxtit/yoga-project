@@ -1,0 +1,114 @@
+﻿@using Yoga.Web.Common
+@model Yoga.Entity.Trainer
+<form id="form-trainer">
+    <input type="hidden" name="TrainerId" value="@Model.TrainerId" />
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="TrainerName">Họ và tên (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.TrainerName, new { @class = "form-control", @placeholder = "Tên Huấn luận viên" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Phone">Số điện thoại (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Email">Email</label>
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Address">Địa chỉ</label>
+            @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Địa chỉ" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Experience">Kinh nghiệm</label>
+            @Html.TextBoxFor(x => x.Experience, new { @class = "form-control", @placeholder = "Kinh nghiệm" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Subject">Chuyên môn</label>
+            @Html.TextBoxFor(x => x.Subject, new { @class = "form-control", @placeholder = "Chuyên môn" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Status">Tỉnh</label>
+            @Html.DropDownListFor(x => x.ProvinceId, CategoryReponsitory.GetProvinceSelectList(Model.ProvinceId, "--- Chọn ---"), new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Status">Trạng thái</label>
+            @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-12">
+            <label for="Status">Ghi chú</label>
+            @Html.TextAreaFor(x => x.Note, new { @class = "form-control", @rows = "4" })
+        </div>
+        <div class="form-group col-md-6">
+        </div>
+    </div>
+    <div class="form-group-modal">
+        <button type="button" onclick="submitUpdate();" class="btn btn-primary">Cập nhật</button>
+    </div>
+</form>
+
+<script>
+
+    $(document).ready(function () {
+        $('#form-trainer #Email').blur(function () {
+            $.ajax({
+                url: '@Url.Action("IsExistEmail", "Trainer")?email=' + $('#form-trainer #Email').val(),
+                type: 'POST',
+                success: function (data) {
+                    if (!data.Result) {
+                        swal("Thông báo", data.ErrorString, "error");
+                    }
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "warning");
+                }
+            });
+        });
+    });
+
+    function submitUpdate() {
+        var trainerName = $('#form-trainer #TrainerName').val();
+        var email = $('#form-trainer #Email').val();
+        var phone = $('#form-trainer #Phone').val();
+        if (isBlank(trainerName)) {
+            swal("Thông báo", "Vui lòng nhập tên Huấn luận viên", "warning");
+            return;
+        }
+
+        //if (isBlank(email)) {
+        //    swal("Thông báo", "Vui lòng nhập Email", "warning");
+        //    return;
+        //}
+
+        if (isBlank(phone)) {
+            swal("Thông báo", "Vui lòng nhập Số điện thoại", "warning");
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("Update", "Trainer")',
+            data: $('#form-trainer').serialize(),
+            type: 'POST',
+            success: function (data) {
+                if (data.Result) {
+                    reloadTableTrainer();
+                    swal("Thông báo", "Cập nhật thành công", "success");
+                    hideModalCommon();
+                }
+                else
+                    swal("Thông báo", data.ErrorString, "error");
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+</script>

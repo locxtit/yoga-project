@@ -1,0 +1,59 @@
+﻿@using Yoga.Entity
+@using Yoga.Entity.Enums
+@model List<Order>
+
+@{
+    var classInfo = (ClassInfo)ViewBag.ClassInfo;
+    var index = 0;
+}
+
+<table id="dataTablePayment" class="display">
+    <thead>
+        <tr>
+            <th width="20px;">#</th>
+            <th>Mã hóa đơn</th>
+            <th>Ngày tạo</th>
+            <th>Email</th>
+            <th>Tổng tiền phải trả</th>
+            <th>Trạng thái</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            index++;
+            <tr>
+                <td>@index</td>
+                <td>@item.OrderCode</td>
+                <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                <td>@item.ContactEmail</td>
+                <td>@item.TotalPaid.ToString("N0")</td>
+                <td>@item.OrderStatus.OrderStatusName</td>
+                <td>
+                    @if(item.OrderStatusId == OrderStatusEnum.WAITING.ToString())
+                    {
+                        <a onclick="editOrder('@item.OrderId');">Cập nhật</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $('#dataTablePayment').DataTable();
+    function editOrder(id) {
+        hideModalCommon();
+        $.ajax({
+            url: '@Url.Action("EditOrder", "ClassInfo")/?orderId=' + id,
+            type: 'POST',
+            success: function (data) {
+                
+                showModalCommon("Tạo hóa đơn", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+</script>

@@ -53,6 +53,7 @@ namespace Yoga.Web.Controllers
             return PartialView("_EditNotify", notify);
         }
 
+        [HttpPost]
         public ActionResult Update(Notify model)
         {
             var errorMessage = new ErrorMessage()

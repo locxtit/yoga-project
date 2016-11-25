@@ -1,0 +1,216 @@
+﻿@using Yoga.Web.Common
+@{
+    ViewBag.Title = "Quản lý Danh sách lớp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="clearfix">
+	<h2 class="page-title pull-left">@ViewBag.Title</h2>
+	<button type="button" class="btn btn-success dropdown-toggle pull-right" onclick="updateClassInfo();"><i class="fa fa-plus-circle"></i>Thêm Lớp mới</button>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Thông tin tìm kiếm</h3>
+    </div>
+    <div class="panel-body" style="padding-bottom: 0;">
+        <form>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="TrainerId">Tên Huấn luận viên</label>
+                    @Html.DropDownList("trainerId", CategoryReponsitory.GetTrainerSelectList(null, "--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="CustomerName">Tên học viên</label>
+                    <input type="text" class="form-control" id="customerName" placeholder="Tên học viên" name="Phone">
+                </div>
+                <div class="form-group col-md-3">
+                    <label style="display: block;">&nbsp;</label>
+                    <button type="button" class="btn btn-primary" onclick="searchClassInfo();"><i class="fa fa-search"></i> Tìm kiếm</button>
+                    <button type="button" class="btn btn-primary" onclick="exportExcel();"><i class="fa fa-file-excel-o"></i> Export<//button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<table id="dataTable" class="display">
+    <thead>
+        <tr>
+            <th width="40px;">#</th>
+            <th>Tên lớp</th>
+            <th>Học viên</th>
+            <th>Điện thoại</th>
+            <th>Học phí</th>
+            <th>Phí HLV</th>
+            <th>Ngày bất đầu</th>
+            <th>Tổng số buổi</th>
+            <th>HLV</th>
+            <th>Trạng thái</th>
+            
+            <th>Thanh toán</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+   @* <tfoot>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Tên lớp</th>
+            <th>Học viên</th>
+            <th>Điện thoại</th>
+            <th>Học phí</th>
+            <th>Phí HLV</th>
+            <th>Ngày bất đầu</th>
+            <th>Tổng số buổi</th>
+            <th>HLV</th>
+            <th>Trạng thái</th>
+            <th>Thanh toán</th>
+        </tr>
+    </tfoot>*@
+</table>
+
+<script>
+    $(document).ready(function () {
+
+        $("#trainerId").select2();
+
+        $('#dataTable').DataTable({
+            serverSide: false,
+            ajax: {
+                "url": getAjaxSource(),
+                "dataSrc": ""
+            },
+            "pageLength": 25,
+            columns: [
+                { "data": "ClassInfoId" },
+                { "data": "ClassName" },
+                { "data": "CustomerName" },
+                { "data": "CustomerPhone" },
+                { "data": "Price" },
+                { "data": "TrainerPrice" },
+                { "data": "StartDate" },
+                { "data": "TotalDays" },
+                { "data": "TrainerName" },
+                { "data": "StatusName" },
+                
+                { "data": "ClassInfoId" },
+            ],
+            fnPreDrawCallback: function (settings) {
+                //showLoading();
+            },
+            fnDrawCallback: function (settings) {
+                //hideLoading();
+            },
+            fnRowCallback: function (nRow, aData) {
+                $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId));
+                $('td:eq(6)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
+                $('td:eq(10)', nRow).html(setIconShowPaymentList(aData.ClassInfoId, aData.CompletedPayment));
+                $('td:eq(4)', nRow).html($.number(aData.Price, 0));
+                $('td:eq(5)', nRow).html($.number(aData.TrainerPrice, 0));
+            },
+        });
+    });
+
+    function getAjaxSource() {
+        return '/ClassInfo/GetList?trainerId=' + $('#trainerId').val() + '&customerName=' + $('#customerName').val();
+    }
+
+    function reloadTableClassInfo() {
+        var oTable = $('#dataTable').DataTable();
+        oTable.ajax.url(getAjaxSource());
+        oTable.ajax.reload();
+    }
+
+    function setIconShowPaymentList(id, completedpayment) {
+        var editString = '<a class="action-icon" href= "javascript:void(0)" onclick="showPopupPayment(' + id + ')">Thanh toán</a>  ';
+        if (completedpayment) {
+            var editString = '<a class="action-icon" href= "javascript:void(0)" onclick="showPopupPayment(' + id + ')">Đã hoàn thành</a>  ';
+        }
+        return editString;
+    }
+
+    function setIconVisibility(id) {
+        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateClassInfo(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>   ';
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteClassInfo(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>   ';
+        var createOrderString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="creatOrder(' + id + ')"><span class="fa fa-plus-circle" title="Tạo hóa đơn"></span></a>  ';
+        return editString + delString + createOrderString;
+    }
+
+    function searchClassInfo() {
+        reloadTableClassInfo();
+    }
+
+    function exportExcel() {
+        location.href = '@Url.Action("ClassInfoExport", "Excel")?trainerId=' + $('#trainerId').val() + '&customerName=' + $('#customerName').val();
+    }
+
+    function updateClassInfo(id) {
+        $.ajax({
+            url: '@Url.Action("Edit", "ClassInfo")/?classInfoId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Thông tin Lớp", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function creatOrder(id) {
+        $.ajax({
+            url: '@Url.Action("CreateOrder", "ClassInfo")/?classInfoId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Tạo hóa đơn", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function showPopupPayment(id) {
+        $.ajax({
+            url: '@Url.Action("PaymentList", "ClassInfo")/?classInfoId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Thông tin thanh toán", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function deleteClassInfo(id) {
+        swal({
+            title: "Bạn muốn xóa?",
+            text: "Bạn thực sự muốn xóa Thông tin này!",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Xóa!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            $.ajax({
+                url: '@Url.Action("Delete", "ClassInfo")?classInfoId=' + id,
+                type: 'POST',
+                success: function (data) {
+                    if (data.Result) {
+                        swal("Thông báo", 'Xóa thành công', "success");
+                        reloadTableClassInfo();
+                    }
+                    else {
+                        swal("Thông báo", data.ErrorString, "error");
+                    }
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+                }
+            });
+        });
+
+    }
+
+</script>

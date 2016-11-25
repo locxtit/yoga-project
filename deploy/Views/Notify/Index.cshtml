@@ -1,0 +1,168 @@
+﻿@using Yoga.Web.Common
+@{
+    ViewBag.Title = "Quản lý Hóa đơn trung tâm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="clearfix">
+	<h2 class="page-title pull-left">@ViewBag.Title</h2>
+	<button type="button" class="btn btn-success dropdown-toggle pull-right" onclick="updateNotify();"><i class="fa fa-plus-circle"></i>Thêm thông báo</button>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Thông tin tìm kiếm</h3>
+    </div>
+    <div class="panel-body" style="padding-bottom: 0;">
+        <form>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="OperatorAddId">Người tạo</label>
+                    @Html.DropDownList("OperatorAddId", CategoryReponsitory.GetOperatorSelectList("", "--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="OperatorRecieptId">Người nhận</label>
+                    @Html.DropDownList("OperatorRecieptId", CategoryReponsitory.GetOperatorSelectList("", "--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="OperatorRecieptId">Trạng thái</label>
+                    @Html.DropDownList("StatusId", CategoryReponsitory.GetStatusForProvinces("","--- Chọn ---"), new { @class = "form-control" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label style="display: block;">&nbsp;</label>
+                    <button type="button" class="btn btn-primary" onclick="searchNotify();"><i class="fa fa-search"></i>Tìm kiếm</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<table id="dataTable" class="display">
+    <thead>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Người tạo</th>
+            <th>Người nhận</th>
+            <th>Ngày tạo</th>
+            <th>Ngày bắt đầu</th>
+            <th>Mô tả</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+    @*<tfoot>
+        <tr>
+            <th width="50px;">#</th>
+            <th>Người tạo</th>
+            <th>Người nhận</th>
+            <th>Ngày tạo</th>
+            <th>Ngày bắt đầu</th>
+            <th>Mô tả</th>
+            <th>Trạng thái</th>
+        </tr>
+    </tfoot>*@
+</table>
+
+<script>
+
+    $(document).ready(function () {
+        $("#OperatorAddId").select2();
+        $("#OperatorRecieptId").select2();
+    });
+
+    $(document).ready(function () {
+
+        $('#dataTable').DataTable({
+            serverSide: false,
+            ajax: {
+                "url": getAjaxSource(),
+                "dataSrc": ""
+            },
+            "pageLength": 25,
+            columns: [
+                { "data": "NotifyId" },
+                { "data": "OperatorAdd.OperatorName" },
+                { "data": "OperatorReciept.OperatorName" },
+                { "data": "CreatedDate" },
+                { "data": "StartDate" },
+                { "data": "Description" },
+                { "data": "Status.StatusName" },
+            ],
+            fnPreDrawCallback: function (settings) {
+                //showLoading();
+            },
+            fnDrawCallback: function (settings) {
+                //hideLoading();
+            },
+            fnRowCallback: function (nRow, aData) {
+                $('td:eq(0)', nRow).html(setIconVisibility(aData.NotifyId));
+                $('td:eq(3)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                $('td:eq(4)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
+            },
+        });
+    });
+
+    function getAjaxSource() {
+        return '/Notify/GetList?operatorAddId =' + $('#OperatorAddId').val() + '&operatorRecieptId=' + $('#OperatorRecieptId').val() + '&statusId=' + $('#StatusId').val();
+    }
+
+    function reloadTableNotify() {
+        var oTable = $('#dataTable').DataTable();
+        oTable.ajax.url(getAjaxSource());
+        oTable.ajax.reload();
+    }
+
+    function setIconVisibility(id) {
+        var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateNotify(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>   ';
+        var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteNotify(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>';
+        return editString + delString;
+    }
+
+    function searchNotify() {
+        reloadTableNotify();
+    }
+
+    function updateNotify(id) {
+        $.ajax({
+            url: '@Url.Action("Edit", "Notify")/?notifyId=' + id,
+            type: 'POST',
+            success: function (data) {
+                showModalCommon("Thông tin Hóa đơn trung tâm", data);
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function deleteNotify(id) {
+        swal({
+            title: "Bạn muốn xóa?",
+            text: "Bạn thực sự muốn xóa Thông tin này!",
+            type: "info",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Xóa!",
+            closeOnConfirm: false,
+            showLoaderOnConfirm: true,
+        },
+        function () {
+            $.ajax({
+                url: '@Url.Action("Delete", "Notify")?notifyId=' + id,
+                type: 'POST',
+                success: function (data) {
+                    if (data.Result) {
+                        swal("Thông báo", 'Xóa thành công', "success");
+                        reloadTableNotify();
+                    }
+                    else {
+                        swal("Thông báo", data.ErrorString, "error");
+                    }
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+                }
+            });
+        });
+
+    }
+
+</script>

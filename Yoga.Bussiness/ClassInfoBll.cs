@@ -89,6 +89,7 @@ namespace Yoga.Bussiness
                     entity.TaxCode = classInfo.TaxCode;
                     entity.Note = classInfo.Note;
                     entity.Reply = classInfo.Reply;
+                    entity.NotifyId = classInfo.NotifyId;
                 }
                 _context.SaveChanges();
                 return true;

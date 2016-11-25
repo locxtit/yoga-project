@@ -1,4 +1,5 @@
 ﻿@using Yoga.Web.Common
+@using Yoga.Entity.Enums
 @{
     ViewBag.Title = "Quản lý Danh sách lớp";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -41,7 +42,7 @@
             <th>Điện thoại</th>
             <th>Học phí</th>
             <th>Phí HLV</th>
-            <th>Ngày bất đầu</th>
+            <th>Ngày bắt đầu</th>
             <th>Tổng số buổi</th>
             <th>HLV</th>
             <th>Trạng thái</th>
@@ -100,7 +101,7 @@
                 //hideLoading();
             },
             fnRowCallback: function (nRow, aData) {
-                $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId));
+                $('td:eq(0)', nRow).html(setIconVisibility(aData.ClassInfoId, aData.StatusId));
                 $('td:eq(6)', nRow).html(formateDate(parseJsonDate(aData.StartDate)));
                 $('td:eq(10)', nRow).html(setIconShowPaymentList(aData.ClassInfoId, aData.CompletedPayment));
                 $('td:eq(4)', nRow).html($.number(aData.Price, 0));
@@ -127,10 +128,14 @@
         return editString;
     }
 
-    function setIconVisibility(id) {
+    function setIconVisibility(id, statusId) {
         var editString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="updateClassInfo(' + id + ')"><span class="glyphicon glyphicon-edit" title="Sửa"></span></a>   ';
         var delString = '<a class="action-icon" style="color:#E91E63" href= "javascript:void(0)" onclick="deleteClassInfo(' + id + ')" ><span class="glyphicon glyphicon-remove-circle" title="Xóa"></span></a>   ';
-        var createOrderString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="creatOrder(' + id + ')"><span class="fa fa-plus-circle" title="Tạo hóa đơn"></span></a>  ';
+        var createOrderString = '';
+
+        if (statusId == '@StatusEnum.LEARNING.ToString()' || statusId == '@StatusEnum.LEARN_COMPLETED.ToString()') {
+            createOrderString = '<a class="action-icon" style="color:#07078C" href= "javascript:void(0)" onclick="creatOrder(' + id + ')"><span class="fa fa-plus-circle" title="Tạo hóa đơn"></span></a>  ';
+        }
         return editString + delString + createOrderString;
     }
 

@@ -12,6 +12,8 @@ namespace Yoga.Web.Models
 
         public string ClassName { get; set; }
 
+        public string StatusId { get; set; }
+
         public string StatusName { get; set; }
 
         public double TrainerPrice { get; set; }

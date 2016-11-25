@@ -1,4 +1,5 @@
 ﻿@using Yoga.Web.Common
+@using Yoga.Entity.Enums
 @model Yoga.Entity.ClassInfo
 <form id="form-classinfo">
     <input type="hidden" id="ClassInfoId" name="ClassInfoId" value="@Model.ClassInfoId" />
@@ -10,40 +11,40 @@
         </div>
         <div class="form-group col-md-6">
             <label for="Phone">Học viên (<span class="required">*</span>)</label>
-            @Html.DropDownListFor(x => x.CustomerId,CategoryReponsitory.GetCustomerSelectList(Model.CustomerId,"--- Chọn ---"), new { @class = "form-control" })
+            @Html.DropDownListFor(x => x.CustomerId, CategoryReponsitory.GetCustomerSelectList(Model.CustomerId, "--- Chọn ---"), new { @class = "form-control" })
         </div>
-        
+
     </div>
     <div class="row">
         <div class="form-group col-md-6">
             <label for="Phone">Huấn luận viên (<span class="required">*</span>)</label>
-            @Html.DropDownListFor(x => x.TrainerId ,CategoryReponsitory.GetTrainerSelectList(Model.TrainerId,"--- Chọn huấn luận viên ---"), new { @class = "form-control" })
+            @Html.DropDownListFor(x => x.TrainerId, CategoryReponsitory.GetTrainerSelectList(Model.TrainerId, "--- Chọn huấn luận viên ---"), new { @class = "form-control" })
         </div>
         <div class="form-group col-md-6">
             <label for="Email">Ngày bắt đầu (<span class="required">*</span>)</label>
-            @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control", @placeholder = "Ngày bắt đầu", @value=Model.StartDate == DateTime.MinValue? "" : Model.StartDate.ToString("dd/MM/yyyy") })
+            @Html.TextBoxFor(x => x.StartDate, new { @class = "form-control", @placeholder = "Ngày bắt đầu", @readonly = "readonly" })
         </div>
     </div>
 
     <div class="row">
         <div class="form-group col-md-6">
             <label for="Phone">Ngày học thử</label>
-            @Html.TextBoxFor(x => x.TryLearnDate, new { @class = "form-control", @value=Model.TryLearnDate.HasValue?  Model.TryLearnDate.Value.ToString("dd/MM/yyyy") : ""})
+            @Html.TextBoxFor(x => x.TryLearnDate, new { @class = "form-control", @readonly = "readonly", @placeholder = "Ngày học thử" })
         </div>
         <div class="form-group col-md-6">
             <label for="Email">Ngày kết thúc</label>
-            @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control", @placeholder = "Ngày bắt đầu", @value=Model.EndDate.HasValue?  Model.EndDate.Value.ToString("dd/MM/yyyy") : "" })
+            @Html.TextBoxFor(x => x.EndDate, new { @class = "form-control", @placeholder = "Ngày kết thúc", @readonly = "readonly" })
         </div>
     </div>
 
     <div class="row">
         <div class="form-group col-md-6">
             <label for="Phone">Số buổi/tuần (<span class="required">*</span>)</label>
-            @Html.TextBoxFor(x => x.NumDaysOfWeek, new { @class = "form-control",@type="number", @placeholder = "Số điện thoại" })
+            @Html.TextBoxFor(x => x.NumDaysOfWeek, new { @class = "form-control", @type = "number", @placeholder = "Số điện thoại" })
         </div>
         <div class="form-group col-md-6">
             <label for="Email">Tổng số buổi</label>
-            @Html.TextBoxFor(x => x.TotalDays, new { @class = "form-control", @type="number", @placeholder = "Tổng số buổi" })
+            @Html.TextBoxFor(x => x.TotalDays, new { @class = "form-control", @type = "number", @placeholder = "Tổng số buổi" })
         </div>
     </div>
     <div class="row">
@@ -55,7 +56,7 @@
             <label for="Name">Phí huấn luận viên/buổi học (<span class="required">*</span>)</label>
             @Html.TextBoxFor(x => x.TrainerPrice, new { @class = "form-control", @placeholder = "Phí huấn luận viên" })
         </div>
-        
+
     </div>
     <div class="row">
         <div class="form-group col-md-6">
@@ -74,7 +75,7 @@
             <label for="ContactEmail">Mã số thuế</label>
             @Html.TextBoxFor(x => x.TaxCode, new { @class = "form-control", @placeholder = "Mã số thuế" })
         </div>
-         <div class="form-group col-md-4">
+        <div class="form-group col-md-4">
             <label for="ContactAddress">Địa chỉ xuất hóa đơn</label>
             @Html.TextBoxFor(x => x.BillAddress, new { @class = "form-control", @placeholder = "Địa chỉ xuất hóa đơn" })
         </div>
@@ -98,6 +99,25 @@
     </div>
 </form>
 
+@if (Model.TryLearnDate.HasValue)
+{
+
+    <script>
+        $(document).ready(function () {
+            $("#TryLearnDate").val('@Model.TryLearnDate.Value.ToString("dd/MM/yyyy")');
+        });
+    </script>
+}
+
+@if (Model.EndDate.HasValue)
+{
+    <script>
+        $(document).ready(function () {
+            $("#EndDate").val('@Model.EndDate.Value.ToString("dd/MM/yyyy")');
+        });
+    </script>
+}
+
 <script>
     $(document).ready(function () {
         $("#TrainerId").select2();
@@ -108,9 +128,11 @@
             autoClose: true
         });
 
+        $("#StartDate").val('@Model.StartDate.ToString("dd/MM/yyyy")');
+
         $("#form-classinfo #Price, #form-classinfo #TrainerPrice").number(true, 0);
     });
-    
+
     function submitUpdateCustomer() {
         var className = $('#form-classinfo #ClassName').val();
         var customerId = $('#form-classinfo #CustomerId').val();
@@ -119,6 +141,7 @@
         var totalDays = $('#form-classinfo #TotalDays').val();
         var price = $('#form-classinfo #Price').val();
         var trainerPrice = $('#form-classinfo #TrainerPrice').val();
+        var statusId = $('#form-classinfo #StatusId').val();
 
         if (isBlank(className)) {
             swal("Thông báo", "Vui lòng nhập Tên lớp", "warning");
@@ -153,6 +176,15 @@
         if (isBlank(trainerPrice)) {
             swal("Thông báo", "Vui lòng nhập nhập phí Huấn luận viên", "warning");
             return;
+        }
+
+        if (statusId == '@StatusEnum.LEARNING.ToString()') {
+            var endDate = $('#form-classinfo #EndDate').val();
+
+            if (isBlank(endDate)) {
+                swal("Thông báo", "Vui lòng nhập Ngày kết thúc", "warning");
+                return;
+            }
         }
 
         $.ajax({

@@ -1,0 +1,319 @@
+﻿@using Yoga.Web.Common
+@{
+    ViewBag.Title = "Báo cáo thu chi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="page-title">@ViewBag.Title</h2>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Thông tin báo cáo</h3>
+    </div>
+    <div class="panel-body" style="padding-bottom: 0;">
+        <form>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label for="Year">Từ ngày</label>
+                    <div class="input-group date">
+                        <input type="text" name="FromDate" id="FromDate" class="form-control" placeholder="Từ ngày" value="">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Month">Đến ngày</label>
+                    <div class="input-group date">
+                        <input type="text" name="ToDate" id="ToDate" class="form-control" placeholder="Đến ngày" value="">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label style="display: block;">&nbsp;</label>
+                    <button type="button" class="btn btn-primary" onclick="getReport();"><i class="fa fa-search"></i> Lấy báo cáo</button>
+                    <button type="button" class="btn btn-primary" onclick="exportExcel();"><i class="fa fa-file-excel-o"></i> Export<//button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Doanh thu</h3>
+    </div>
+    <div class="panel-body" style="padding-bottom: 0;">
+        <div class="form-group col-md-4">
+            <label for="ProvinceName">Tổng thu</label>
+            @Html.TextBox("TotalImport", "0", new { @class = "form-control", @placeholder = "Tổng thu" , @readonly="readonly"})
+        </div>
+        <div class="form-group col-md-4">
+            <label for="Status">Tổng chi:</label>
+            @Html.TextBox("TotalExport", "0", new { @class = "form-control", @placeholder = "Tổng chi" , @readonly="readonly"})
+        </div>
+            <div class="form-group col-md-4">
+            <label for="Status">Tổng lợi nhuận:</label>
+            @Html.TextBox("SumTotal", "0", new { @class = "form-control", @placeholder = "Tổng lợi nhuận" , @readonly="readonly"})
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs">
+    <li class="active"><a data-toggle="tab" id="tab-import" href="#tab1">Báo cáo thu</a></li>
+    <li><a data-toggle="tab" href="#tab2" id="tab-export">Báo cáo chi</a></li>
+</ul>
+
+<div class="tab-content">
+    <div id="tab1" class="tab-pane fade in active">
+        <table id="dataTableImport" class="display">
+            <thead>
+                <tr>
+                    <th width="20px;">#</th>
+                    <th>Tên HV</th>
+                    <th>Phí/Buổi</th>
+                    <th>Số buổi</th>
+                    <th>Phí HLV/Buổi</th>
+                    <th>Tổng thu</th>
+                    <th>Tổng chi</th>
+                    <th>Số tiền còn</th>
+                    <th>Ngày thanh toán</th>
+                    <th>Ngày Thanh toán HLV</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+           @* <tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Tên HV</th>
+                    <th>Phí/Buổi</th>
+                    <th>Số buổi</th>
+                    <th>Phí HLV/Buổi</th>
+                    <th>Tổng thu</th>
+                    <th>Tổng chi</th>
+                    <th>Số tiền còn</th>
+                    <th>Ngày thanh toán</th>
+                    <th>Ngày Thanh toán HLV</th>
+                </tr>
+            </tfoot>*@
+        </table>
+    </div>
+    <div id="tab2" class="tab-pane fade">
+        <table id="dataTableExport" class="display">
+            <thead>
+                <tr>
+                    <th width="20px;">#</th>
+                    <th>Nội dung</th>
+                    <th>Tổng tiền</th>
+                    <th>Ngày tạo</th>
+                    <th>Người chi</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+            @*<tfoot>
+                <tr>
+                    <th>#</th>
+                    <th>Nội dung</th>
+                    <th>Tổng tiền</th>
+                    <th>Ngày tạo</th>
+                    <th>Người chi</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </tfoot>*@
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<script>
+    var tabActive = "#tab1";
+    $(document).ready(function () {
+
+        $('#TotalImport, #TotalExport, #SumTotal').number(true, 0);
+
+        $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+            var target = $(e.target).attr("href") // activated tab
+            tabActive = target;
+            if (target == '#tab1')
+                initTableImport();
+            else if (target == '#tab2')
+                initTableExport();
+        });
+
+        initTableImport();
+        function initTableImport() {
+            if (!$('#tab-import').hasClass('hadClick')) {
+                $('#tab-import').addClass('hadClick');
+                $('#dataTableImport').DataTable({
+                    serverSide: false,
+                    ajax: {
+                        "url": getAjaxSourceImport(),
+                        "dataSrc": ""
+                    },
+                    "pageLength": 25,
+                    columns: [
+                        { "data": "OrderId" },
+                        { "data": "CustomerName" },
+                        { "data": "Price" },
+                        { "data": "NumOfDays" },
+                        { "data": "PriceForTrainer" },
+                        { "data": "TotalPaid" },
+                        { "data": "TotalPaidForTrainer" },
+                        { "data": "Total" },
+                        { "data": "CreatedDate" },
+                        { "data": "PaymentDate" },
+                    ],
+                    fnPreDrawCallback: function (settings) {
+                        //showLoading();
+                    },
+                    fnDrawCallback: function (settings) {
+                        //hideLoading();
+                        if (settings.aoData.length > 0)
+                            getImportTotal();
+                        
+                    },
+                    fnRowCallback: function (nRow, aData) {
+                        $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
+                        $('td:eq(8)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                        $('td:eq(9)', nRow).html(formateDate(parseJsonDate(aData.PaymentDate)));
+                        $('td:eq(2)', nRow).html($.number(aData.Price, 0));
+                        $('td:eq(4)', nRow).html($.number(aData.PriceForTrainer, 0));
+                        $('td:eq(5)', nRow).html($.number(aData.TotalPaid, 0));
+                        $('td:eq(6)', nRow).html($.number(aData.TotalPaidForTrainer, 0));
+                        $('td:eq(7)', nRow).html($.number(aData.Total, 0));
+                    },
+                });
+            }
+            else {
+                reloadTableReportImport();
+            }
+        }
+
+        function initTableExport() {
+            if (!$('#tab-export').hasClass('hadClick')) {
+                $('#tab-export').addClass('hadClick');
+                $('#dataTableExport').DataTable({
+                    serverSide: false,
+                    ajax: {
+                        "url": getAjaxSourceExport(),
+                        "dataSrc": ""
+                    },
+                    "pageLength": 25,
+                    columns: [
+                        { "data": "OrderInternalId" },
+                        { "data": "Content" },
+                        { "data": "Total" },
+                        { "data": "CreatedDate" },
+                        { "data": "Payer" },
+                        { "data": "Note" },
+                    ],
+                    fnPreDrawCallback: function (settings) {
+                        //showLoading();
+                    },
+                    fnDrawCallback: function (settings) {
+                        //hideLoading();
+                        if (settings.aoData.length > 0)
+                            getExportTotal();
+                    },
+                    fnRowCallback: function (nRow, aData) {
+                        $('td:eq(0)', nRow).html(nRow._DT_RowIndex + 1);
+                        $('td:eq(3)', nRow).html(formateDate(parseJsonDate(aData.CreatedDate)));
+                        $('td:eq(2)', nRow).html($.number(aData.Total, 0));
+                    },
+                });
+            }
+            else {
+                reloadTableReportExport();
+            }
+        }
+
+        $('#FromDate').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        })
+        .on('changeDate', function (e) {
+            $('#ToDate').datepicker('setStartDate', e.date);
+        });
+
+        $('#ToDate').datepicker({
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+
+
+
+
+    });
+
+    function exportExcel() {
+        location.href = '@Url.Action("ReportExport","Excel")?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
+    }
+
+    function getReport() {
+        if (tabActive == '#tab1')
+            reloadTableReportImport();
+        else
+            reloadTableReportExport();
+    }
+
+    function reloadTableReportImport() {
+        var oTable = $('#dataTableImport').DataTable();
+        oTable.ajax.url(getAjaxSourceImport());
+        oTable.ajax.reload();
+    }
+
+    function reloadTableReportExport() {
+        var oTable = $('#dataTableExport').DataTable();
+        oTable.ajax.url(getAjaxSourceExport());
+        oTable.ajax.reload();
+    }
+
+    function getAjaxSourceImport() {
+        return '/Report/GetImportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
+    }
+
+    function getAjaxSourceExport() {
+        return '/Report/GetExportList?fromDate=' + $('#FromDate').val() + '&toDate=' + $('#ToDate').val();
+    }
+
+    function getImportTotal() {
+        $.ajax({
+            url: '@Url.Action("GetTotalImportList","Report")',
+            type: 'GET',
+            success: function (data) {
+                $('#TotalImport').val(data);
+                updateTotal();
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function getExportTotal() {
+        $.ajax({
+            url: '@Url.Action("GetTotalExportList","Report")',
+            type: 'GET',
+            success: function (data) {
+                $('#TotalExport').val(data);
+                updateTotal()
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+
+    function updateTotal() {
+        var totalImport = $('#TotalImport').val();
+        var totalExport = $('#TotalExport').val();
+        var total = totalImport - totalExport;
+        $('#SumTotal').val(total)
+    }
+</script>

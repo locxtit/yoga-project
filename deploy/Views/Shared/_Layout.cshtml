@@ -1,0 +1,54 @@
+﻿<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title</title>
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+        
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/css/jquery.dataTables.css" rel="stylesheet" />
+        <link href="~/Content/DataTables/css/dataTables.bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap-sweetalert/dist/sweetalert.css" rel="stylesheet" />
+        <link href="~/Content/select2/css/select2.min.css" rel="stylesheet" />
+        
+        <link href="~/Content/bootstrap-datepicker/css/bootstrap-datepicker.css" rel="stylesheet" />
+        <link href="~/Content/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+
+        <link href="~/Content/css/custom.css" rel="stylesheet" />
+
+        <script src="~/Scripts/jquery-3.1.1.js"></script>
+        <script src="~/Scripts/DataTables/jquery.dataTables.js"></script>
+        <script src="~/Scripts/DataTables/dataTables.bootstrap.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Content/bootstrap-sweetalert/dist/sweetalert.min.js"></script>
+        <script src="~/Content/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+        <script src="~/Scripts/pages/main.js?id=20161117"></script>
+        <script src="~/Scripts/kendo.all.min.js"></script>
+        <script src="~/Content/select2/js/select2.min.js"></script>
+        <script src="~/Scripts/jquery.number.min.js"></script>
+        <script src="~/Scripts/loadingmodal.js"></script>
+        
+    </head>
+    <body>
+        <div class="container main">
+            <section id="header">
+                @Html.Partial("_Header")
+            </section>
+            <section id="main" class="row">
+                <div class="left-menu left_col">
+                    @Html.Partial("_LeftMenu")
+                </div>
+                <div class="right_col">
+                    @RenderBody()
+                </div>
+                
+            </section>
+             @Html.Partial("_Footer")
+            @*<section id="footer">
+                @Html.Partial("_Footer")
+            </section>*@
+        </div>
+
+        @RenderSection("scripts", required: false)
+    </body>
+</html>

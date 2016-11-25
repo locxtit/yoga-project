@@ -1,0 +1,138 @@
+﻿@using Yoga.Web.Common
+@model Yoga.Entity.Customer
+<form id="form-customer">
+    <input type="hidden" id="CustomerId" name="CustomerId" value="@Model.CustomerId" />
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Email">Email</label>
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Phone">Số điện thoại (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.Phone, new { @class = "form-control", @placeholder = "Số điện thoại" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Name">Họ và tên</label>
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", @placeholder = "Họ và tên" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="StatusId">Trạng thái</label>
+            @Html.DropDownListFor(x => x.StatusId, CategoryReponsitory.GetStatusForProvinces(), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="ProvinceId">Tỉnh/Thành phố (<span class="required">*</span>)</label>
+            @Html.DropDownListFor(x => x.ProvinceId, CategoryReponsitory.GetProvinceSelectList(Model.ProvinceId, "--- Chọn ---"), new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="Address">Địa chỉ (<span class="required">*</span>)</label>
+            @Html.TextBoxFor(x => x.Address, new { @class = "form-control", @placeholder = "Địa chỉ" })
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="CustomerStatusId">Đối tượng (<span class="required">*</span>)</label>
+            @Html.DropDownListFor(x => x.CustomerTypeId, CategoryReponsitory.GetCustomerTypeSelectList(Model.CustomerStatusId, "--- Chọn ---"), new { @class = "form-control" })
+        </div>
+        <div class="form-group col-md-6">
+            <label for="CustomerStatusId">Hiện trạng (<span class="required">*</span>)</label>
+            @Html.DropDownListFor(x => x.CustomerStatusId, CategoryReponsitory.GetCustomerStatusSelectList(Model.CustomerTypeId, "--- Chọn ---"), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Note">Ghi chú</label>
+        @Html.TextAreaFor(x => x.Note, new { @class = "form-control", @placeholder = "", @rows = 3 })
+    </div>
+
+    <button type="button" onclick="submitUpdateCustomer();" class="btn btn-primary">Lưu</button>
+    <button type="button" data-dismiss="modal" class="btn btn-default">Hủy bỏ</button>
+</form>
+
+<script>
+
+    $(document).ready(function () {
+        $('#form-customer #Email').blur(function () {
+            @*$.ajax({
+                url: '@Url.Action("IsExistEmail", "Customer")?email=' + $('#form-customer #Email').val(),
+                type: 'POST',
+                success: function (data) {
+                    if (!data.Result) {
+                        swal("Thông báo", data.ErrorString, "error");
+                    }
+                },
+                error: function () {
+                    swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "warning");
+                }
+            });*@
+        });
+    });
+
+    function submitUpdateCustomer() {
+        var email = $('#form-customer #Email').val();
+        var phone = $('#form-customer #Phone').val();
+        var address = $('#form-customer #Address').val();
+        var province = $('#form-customer #ProvinceId').val();
+        var customerTypeId = $('#form-customer #CustomerTypeId').val();
+        var customerStatusId = $('#form-customer #CustomerStatusId').val();
+
+        //if (isBlank(email)) {
+        //    swal("Thông báo", "Vui lòng nhập Email", "warning");
+        //    $('#form-customer #Email').focus();
+        //    return;
+        //}
+
+        if (isBlank(phone)) {
+            swal("Thông báo", "Vui lòng nhập Số điện thoại", "warning");
+            $('#form-customer #Phone').focus();
+            return;
+        }
+
+        if (isBlank(address)) {
+            swal("Thông báo", "Vui lòng nhập Địa chỉ", "warning");
+            $('#form-customer #Address').focus();
+            return;
+        }
+
+        if (isBlank(province)) {
+            swal("Thông báo", "Vui lòng chọn Tỉnh", "warning");
+            $('#form-customer #ProvinceId').focus();
+            return;
+        }
+
+        if (isBlank(customerTypeId)) {
+            swal("Thông báo", "Vui lòng chọn Đối tượng khách hàng", "warning");
+            $('#form-customer #CustomerTypeId').focus();
+            return;
+        }
+
+        if (isBlank(customerStatusId)) {
+            swal("Thông báo", "Vui lòng nhập Chọn Hiện trạng khách hàng", "warning");
+            $('#form-customer #CustomerStatusId').focus();
+            return;
+        }
+
+        $.ajax({
+            url: '@Url.Action("Update", "Customer")',
+            data: $('#form-customer').serialize(),
+            type: 'POST',
+            success: function (data) {
+                if (data.Result) {
+                    reloadTableCustomer();
+                    swal("Thông báo", "Cập nhật thành công", "success");
+                    hideModalCommon();
+                }
+                else
+                    swal("Thông báo", data.ErrorString, "error");
+            },
+            error: function () {
+                swal("Rất tiếc", "Vui lòng kiểm tra Internet!", "error");
+            }
+        });
+    }
+</script>
